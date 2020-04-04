@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "8818743647",
+    "firebase_url": "https://ecoleenligne-1015c.firebaseio.com",
+    "project_id": "ecoleenligne-1015c",
+    "storage_bucket": "ecoleenligne-1015c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:8818743647:android:e4a8515e21af5076cebeea",
+        "android_client_info": {
+          "package_name": "com.example.ecoleenligne"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "8818743647-8ogc82o67jp17emo00t1beg0489c7f0l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.ecoleenligne",
+            "certificate_hash": "98dda0a397db917850cce2c3143bf8d5de0d10a7"
+          }
+        },
+        {
+          "client_id": "8818743647-1gon036jvrms1dgmi7sp01s5m4qvotp7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCz18DIY_G911AyEQUAOKLCXKnc-wYQVew"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "8818743647-1gon036jvrms1dgmi7sp01s5m4qvotp7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

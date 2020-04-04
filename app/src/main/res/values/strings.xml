@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Ecole En Ligne</string>
+    <string name="btn_register_text">Register now</string>
+    <string name="login_activity_header">Create your account</string>
+    <string name="already_accont_text">Do you have already an account? Login here</string>
+    <string name="edt_email_hint">Your email address</string>
+    <string name="edt_pwd_hint">Your password</string>
+    <string name="title_activity_home">Home Activity</string>
+    <string name="welcome_text">Hello!</string>
+</resources>

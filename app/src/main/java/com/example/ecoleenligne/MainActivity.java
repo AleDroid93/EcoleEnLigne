@@ -273,23 +273,7 @@ public class MainActivity extends AppCompatActivity{
         updateUI(null);
     }
 
-    /*
-    @Override
-    public void onClick(View v) {
-        int i = v.getId();
-        if (i == R.id.button) {
 
-        } else if (i == R.id.button_already_account) {
-
-        } else if (i == R.id.signOutButton) {
-            signOut();
-        } else if (i == R.id.verifyEmailButton) {
-            sendEmailVerification();
-        } else if (i == R.id.reloadButton) {
-            reload();
-        }
-    }
-    */
 
     // TODO - inserire questi metodi e la ProgressBar in una superclasse BaseActivity,
     //  in modo che tutte le successive activities possono ereditare.
@@ -329,7 +313,7 @@ public class MainActivity extends AppCompatActivity{
     @Override
     public void onStop() {
         super.onStop();
-        //hideProgressBar();
+        hideProgressBar();
     }
 
     // fino qui

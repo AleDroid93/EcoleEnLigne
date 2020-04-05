@@ -1,5 +1,7 @@
-package com.example.ecoleenligne;
+package com.example.ecoleenligne.remote;
 
+
+import com.example.ecoleenligne.models.UserInfo;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

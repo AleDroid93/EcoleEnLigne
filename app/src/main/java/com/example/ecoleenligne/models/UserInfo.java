@@ -1,9 +1,12 @@
-package com.example.ecoleenligne;
+package com.example.ecoleenligne.models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-class UserInfo {
+/**
+ * Model class for the API response
+ */
+public class UserInfo {
     @SerializedName("email")
     @Expose
     private String email;

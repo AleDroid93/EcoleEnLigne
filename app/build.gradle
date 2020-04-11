@@ -34,6 +34,10 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
     annotationProcessor 'androidx.lifecycle:lifecycle-compiler:2.0.0'
     implementation 'com.google.firebase:firebase-auth:16.0.5'
+    // google sign-in dependency
+    implementation 'com.google.android.gms:play-services-auth:18.0.0'
+    // Facebook sign-in dependency
+    implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
 
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.google.android.material:material:1.0.0'

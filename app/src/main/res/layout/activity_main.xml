@@ -5,16 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    tools:context=".MainActivity">
+    tools:context=".RegistrationActivity">
 
-    <ProgressBar
-        android:id="@+id/progressBar"
+    <TextView
+        android:id="@+id/tv"
         style="?android:attr/progressBarStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:elevation="26dp"
         android:indeterminate="true"
-        android:visibility="gone"
+        android:text="Registration Activity"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -29,7 +29,6 @@
         android:layout_marginRight="32dp"
         app:layout_constraintBottom_toTopOf="@+id/main_layout"
         app:layout_constraintTop_toTopOf="parent">
-        <!--  !-->
 
 
         <TextView
@@ -38,6 +37,7 @@
             android:layout_height="wrap_content"
             android:text="@string/login_activity_header"
             android:textSize="20sp"
+            android:textColor="#29b6f6"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -48,34 +48,12 @@
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
            android:layout_marginTop="16dp"
-           
+
            app:layout_constraintEnd_toEndOf="@+id/textView"
            app:layout_constraintStart_toStartOf="@+id/textView"
            app:layout_constraintTop_toBottomOf="@+id/textView"  />
 
-        <!--
-       <Button
-           android:id="@+id/btn_google_login"
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:layout_marginTop="16dp"
-           android:background="@drawable/button_google"
-           android:drawableLeft="@mipmap/google_24"
-           android:drawableStart="@mipmap/google_24"
-           android:paddingLeft="16dp"
-           android:paddingStart="16dp"
-           android:minWidth="0dp"
-           android:textAllCaps="false"
-           android:minHeight="40dp"
-           android:text="@string/google"
-           android:textColor="#fff"
-           android:textSize="14sp"
-           app:fontFamily="@font/opensans_bold"
-           app:layout_constraintEnd_toEndOf="@+id/textView"
-           app:layout_constraintStart_toStartOf="@+id/textView"
-           app:layout_constraintTop_toBottomOf="@+id/textView"
-           />
-        !-->
+
        <com.facebook.login.widget.LoginButton
            android:id="@+id/btn_fb_login"
            android:layout_width="match_parent"
@@ -153,14 +131,14 @@
            app:layout_constraintTop_toBottomOf="@+id/edtEmail" />
 
        <Button
-           android:id="@+id/button"
+           android:id="@+id/btn_email_signin"
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
            android:layout_marginTop="16dp"
            android:background="@drawable/button_rounded_corners"
            android:minWidth="0dp"
            android:minHeight="40dp"
-           android:text="@string/btn_register_text"
+           android:text="@string/btn_login_txt"
            android:textColor="@android:color/white"
            android:textSize="14sp"
            app:fontFamily="@font/opensans_bold"
@@ -168,17 +146,32 @@
            app:layout_constraintStart_toStartOf="@+id/edtPassword"
            app:layout_constraintTop_toBottomOf="@+id/edtPassword" />
 
-       <Button
-           android:id="@+id/button_already_account"
+       <TextView
+           android:id="@+id/tv_register_invite"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            android:layout_marginTop="8dp"
-           android:minWidth="0dp"
-           android:minHeight="0dp"
-           android:text="@string/already_accont_text"
-           app:layout_constraintEnd_toEndOf="@+id/button"
-           app:layout_constraintStart_toStartOf="@+id/button"
-           app:layout_constraintTop_toBottomOf="@+id/button" />
+           android:text="@string/register_invite"
+           android:textColor="@android:color/black"
+           app:fontFamily="@font/opensans_regular"
+           app:layout_constraintTop_toBottomOf="@id/btn_email_signin"
+           app:layout_constraintBottom_toBottomOf="parent"
+           app:layout_constraintEnd_toStartOf="@+id/tv_register_now"
+           app:layout_constraintStart_toStartOf="@+id/btn_email_signin" />
+
+       <TextView
+           android:id="@+id/tv_register_now"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginTop="8dp"
+           android:text="@string/create_account_link"
+           android:textColor="@android:color/black"
+           app:fontFamily="@font/opensans_regular"
+           app:layout_constraintTop_toBottomOf="@id/btn_email_signin"
+           app:layout_constraintEnd_toEndOf="@+id/btn_email_signin"
+           app:layout_constraintStart_toEndOf="@+id/tv_register_invite"
+           app:layout_constraintBottom_toBottomOf="parent"/>
+
 
    </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -122,6 +122,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         });
 
         mBtnSignIn = findViewById(R.id.btn_email_signin);
+
         mBtnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -133,7 +134,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         SpannableString content = new SpannableString(getString(R.string.create_account_link));
         content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
         mRegistrationLink.setText(content);
-
+        mRegistrationLink.setOnClickListener(LoginActivity.this);
         mAuth = FirebaseAuth.getInstance();
         mAuth.getInstance().signOut();
         findViewById(R.id.btn_google_login).setOnClickListener(this);
@@ -386,6 +387,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.btn_fb_login:
                 signInByFacebook();
+                break;
+            case R.id.tv_register_now:
+                Log.i("LoginActivity", "swith to RegisterActivity!");
         }
     }
 

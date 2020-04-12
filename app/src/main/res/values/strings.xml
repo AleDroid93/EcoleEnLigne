@@ -9,7 +9,7 @@
     <string name="title_activity_home">Home Activity</string>
     <string name="welcome_text">Hello %s!</string>
     <string name="fb">Facebook</string>
-    <string name="google">Google</string>
+    <string name="google">Continue with Google</string>
     <string name="facebook_app_id">538090253543897</string>
     <string name="fb_login_protocol_scheme">fb538090253543897</string>
     <string name="title_activity_registration">Sign Up</string>

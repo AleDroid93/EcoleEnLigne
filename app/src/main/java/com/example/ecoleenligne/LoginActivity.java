@@ -7,6 +7,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.TextUtils;
@@ -111,6 +112,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mEditTextEmail = findViewById(R.id.edtEmail);
         mEditTextPassword = findViewById(R.id.edtPassword);
         mGoogleSignIn = findViewById(R.id.btn_google_login);
+        setGooglePlusButtonText(mGoogleSignIn, getString(R.string.google));
         mBtnSignUp = findViewById(R.id.btn_email_signin);
 
         mBtnSignUp.setOnClickListener(new View.OnClickListener() {
@@ -199,6 +201,28 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         */
     }
 
+
+    protected void setGooglePlusButtonText(SignInButton signInButton, String buttonText) {
+        // Find the TextView that is inside of the SignInButton and set its text
+        int length = signInButton.getChildCount();
+        for (int i = 0; i < length; i++) {
+            View v = signInButton.getChildAt(i);
+            if (v instanceof TextView) {
+                TextView tv = (TextView) v;
+                tv.setText(buttonText);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    tv.setBackground(getDrawable(R.drawable.button_google));
+                    tv.setCompoundDrawablesWithIntrinsicBounds(getDrawable(R.drawable.google_24),
+                            null, null, null);
+                    tv.setCompoundDrawablePadding(0);
+                    Log.i("LoginActivity", "padding logo-testo: "+ tv.getCompoundDrawablePadding());
+                }
+                return;
+            }else{
+                Log.d("LoginActivity", "view: "+ v.getClass().getName());
+            }
+        }
+    }
 
 
     private void signInAlreadyAccount(String email, String password) {

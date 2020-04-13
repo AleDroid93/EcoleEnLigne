@@ -14,7 +14,6 @@
         <activity android:name=".RootActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -23,11 +22,11 @@
             android:label="Sign Up" />
         <activity android:name=".views.HomeActivity" />
         <activity android:name=".LoginActivity">
-            <intent-filter>
+            <!--<intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
-                <!--<category android:name="android.intent.category.LAUNCHER" />!-->
-            </intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>!-->
         </activity>
 
         <meta-data

@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".SignUpFragment">
-
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -16,26 +16,24 @@
         android:layout_marginLeft="32dp"
         android:layout_marginRight="32dp"
         android:layout_marginBottom="16dp"
-        android:elevation="10dp"
         android:background="@drawable/login_box"
-        app:layout_constraintTop_toTopOf="parent"
+        android:elevation="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintVertical_bias=".25">
-
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <EditText
             android:id="@+id/edtEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/edit_text_rounded_corners"
+            android:fontFamily="@font/opensans_regular"
             android:hint="@string/edt_email_hint"
+            android:imeOptions="actionDone"
             android:importantForAutofill="no"
             android:inputType="textEmailAddress"
             android:textSize="16sp"
-            android:fontFamily="@font/opensans_regular"
-            android:imeOptions="actionDone"
             app:layout_constraintEnd_toEndOf="@+id/main_layout"
             app:layout_constraintStart_toStartOf="@+id/main_layout"
             app:layout_constraintTop_toTopOf="parent" />
@@ -46,12 +44,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:background="@drawable/edit_text_rounded_corners"
+            android:fontFamily="@font/opensans_regular"
             android:hint="@string/edt_pwd_hint"
+            android:imeOptions="actionDone"
             android:importantForAutofill="no"
             android:inputType="textPassword"
             android:textSize="16sp"
-            android:fontFamily="@font/opensans_regular"
-            android:imeOptions="actionDone"
             app:layout_constraintEnd_toEndOf="@+id/edtEmail"
             app:layout_constraintStart_toStartOf="@+id/edtEmail"
             app:layout_constraintTop_toBottomOf="@+id/edtEmail" />
@@ -64,7 +62,7 @@
             android:background="@drawable/button_rounded_corners"
             android:minWidth="0dp"
             android:minHeight="40dp"
-            android:text="@string/btn_login_txt"
+            android:text="@string/btn_register_text"
             android:textColor="@android:color/white"
             android:textSize="14sp"
             app:fontFamily="@font/opensans_bold"
@@ -73,20 +71,17 @@
             app:layout_constraintTop_toBottomOf="@+id/edtPassword" />
 
         <Button
-            android:id="@+id/signin_btn"
+            android:id="@+id/back_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="or sign in"
+            android:text="back"
             android:textSize="14sp"
             app:fontFamily="@font/opensans_bold"
-            app:layout_constraintTop_toBottomOf="@id/signup_btn"
             app:layout_constraintEnd_toEndOf="@+id/signup_btn"
             app:layout_constraintStart_toStartOf="@+id/signup_btn"
-            />
+            app:layout_constraintTop_toBottomOf="@id/signup_btn" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,8 +3,14 @@ package com.example.ecoleenligne;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +19,8 @@ import android.view.ViewGroup;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SignUpFragment extends Fragment {
-
+public class SignUpFragment extends Fragment implements View.OnClickListener{
+    private NavController navController;
 
     public SignUpFragment() {
         // Required empty public constructor
@@ -28,4 +34,33 @@ public class SignUpFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_sign_up, container, false);
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        navController = Navigation.findNavController(view);
+        view.findViewById(R.id.signup_btn).setOnClickListener(SignUpFragment.this);
+        view.findViewById(R.id.back_btn).setOnClickListener(SignUpFragment.this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(navController == null){
+            Log.w("SignupFragment", "onClick: Attenzione, Navigation Controller null!");
+            return;
+        }
+        if(v != null){
+            switch(v.getId()){
+                case R.id.signup_btn:
+                    navController.navigate(R.id.action_signUpFragment_to_chooseProfileFragment);
+                    break;
+                case R.id.back_btn:
+                    FragmentActivity activity = getActivity();
+                    if(activity != null)
+                        activity.onBackPressed();
+                    else
+                        Log.w("SignupFragment", "onClick: Attenzione, FragmentActivity null!");
+                    break;
+            }
+        }
+    }
 }

@@ -33,12 +33,20 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel:2.0.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
     implementation 'androidx.annotation:annotation:1.1.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     annotationProcessor 'androidx.lifecycle:lifecycle-compiler:2.0.0'
     implementation 'com.google.firebase:firebase-auth:16.0.5'
-    // google sign-in dependency
+    // Google sign-in dependency
     implementation 'com.google.android.gms:play-services-auth:18.0.0'
     // Facebook sign-in dependency
     implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
+
+    // Navigation dependencies
+    def nav_version = "2.3.0-alpha04"
+    implementation "androidx.navigation:navigation-fragment:$nav_version"
+    implementation "androidx.navigation:navigation-ui:$nav_version"
+    implementation "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
+
 
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.google.android.material:material:1.0.0'

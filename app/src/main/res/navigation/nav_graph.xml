@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/nav_graph"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
     app:startDestination="@id/entryFragment">
 
     <fragment
@@ -13,27 +14,30 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"/>
+            app:exitAnim="@anim/slide_out_left" />
         <action
             android:id="@+id/action_entryFragment_to_signUpFragment"
             app:destination="@id/signUpFragment"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"/>
+            app:exitAnim="@anim/slide_out_left" />
+
     </fragment>
 
     <fragment
         android:id="@+id/signUpFragment"
         android:name="com.example.ecoleenligne.SignUpFragment"
         android:label="SignUpFragment" >
+        <argument android:name="user"
+            app:argType="com.example.ecoleenligne.models.UserInfo"/>
         <action
             android:id="@+id/action_signUpFragment_to_chooseProfileFragment"
             app:destination="@id/chooseProfileFragment"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"/>
+            app:exitAnim="@anim/slide_out_left" />
     </fragment>
 
     <fragment
@@ -48,44 +52,54 @@
         android:id="@+id/chooseProfileFragment"
         android:name="com.example.ecoleenligne.ChooseProfileFragment"
         android:label="ChooseProfileFragment" >
+        <argument android:name="user"
+            app:argType="com.example.ecoleenligne.models.UserInfo"/>
         <action
             android:id="@+id/action_chooseProfileFragment_to_personalInfoFragment"
             app:destination="@id/personalInfoFragment"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"/>
+            app:exitAnim="@anim/slide_out_left" />
         <action
-            android:id="@+id/action_chooseProfileFragment_to_chooseClassFragment2"
+            android:id="@+id/action_chooseProfileFragment_to_chooseClassFragment"
             app:destination="@id/chooseClassFragment"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"/>
+            app:exitAnim="@anim/slide_out_left" />
     </fragment>
 
     <fragment
         android:id="@+id/personalInfoFragment"
         android:name="com.example.ecoleenligne.PersonalInfoFragment"
         android:label="PersonalInfoFragment" >
+        <argument android:name="user"
+            app:argType="com.example.ecoleenligne.models.UserInfo"/>
         <action
             android:id="@+id/action_personalInfoFragment_to_dashboardFragment"
             app:destination="@id/dashboardFragment"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"/>
+            app:exitAnim="@anim/slide_out_left"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true"
+            />
     </fragment>
+
     <fragment
         android:id="@+id/chooseClassFragment"
         android:name="com.example.ecoleenligne.ChooseClassFragment"
         android:label="ChooseClassFragment" >
+        <argument android:name="user"
+            app:argType="com.example.ecoleenligne.models.UserInfo"/>
         <action
             android:id="@+id/action_chooseClassFragment_to_personalInfoFragment"
             app:destination="@id/personalInfoFragment"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"/>
+            app:exitAnim="@anim/slide_out_left" />
     </fragment>
 </navigation>

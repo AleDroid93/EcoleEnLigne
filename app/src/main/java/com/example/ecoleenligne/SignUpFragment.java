@@ -10,10 +10,14 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+
+import com.example.ecoleenligne.models.UserInfo;
 
 
 /**
@@ -21,6 +25,8 @@ import android.view.ViewGroup;
  */
 public class SignUpFragment extends Fragment implements View.OnClickListener{
     private NavController navController;
+    private EditText mEdtEmail;
+    private EditText mEdtPassword;
 
     public SignUpFragment() {
         // Required empty public constructor
@@ -40,6 +46,8 @@ public class SignUpFragment extends Fragment implements View.OnClickListener{
         navController = Navigation.findNavController(view);
         view.findViewById(R.id.signup_btn).setOnClickListener(SignUpFragment.this);
         view.findViewById(R.id.back_btn).setOnClickListener(SignUpFragment.this);
+        mEdtEmail = view.findViewById(R.id.edtEmail);
+        mEdtPassword = view.findViewById(R.id.edtPassword);
     }
 
     @Override
@@ -51,7 +59,18 @@ public class SignUpFragment extends Fragment implements View.OnClickListener{
         if(v != null){
             switch(v.getId()){
                 case R.id.signup_btn:
-                    navController.navigate(R.id.action_signUpFragment_to_chooseProfileFragment);
+                    String email = mEdtEmail.getText().toString();
+                    String password = mEdtPassword.getText().toString();
+                    boolean pwdOk = password.length() >= 8;
+                    Bundle bundle = null;
+                    if(!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password) && pwdOk){
+                        bundle = new Bundle();
+                        UserInfo user = new UserInfo();
+                        user.setEmail(email);
+                        user.setPassword(password);
+                        bundle.putParcelable("user", user);
+                    }
+                    navController.navigate(R.id.action_signUpFragment_to_chooseProfileFragment, bundle);
                     break;
                 case R.id.back_btn:
                     FragmentActivity activity = getActivity();

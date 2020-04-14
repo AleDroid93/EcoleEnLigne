@@ -23,6 +23,11 @@ public class UserInfoViewModel extends ViewModel {
         mutableLiveData = userInfoRepository.getUserInfo(uid);
     }
 
+    public void createUser(String uid, UserInfo user){
+        userInfoRepository = UserInfoRepository.getInstance();
+        userInfoRepository.createUser(uid, user);
+    }
+
     public LiveData<UserInfo> getUserInfoRepository() {
         return mutableLiveData;
     }

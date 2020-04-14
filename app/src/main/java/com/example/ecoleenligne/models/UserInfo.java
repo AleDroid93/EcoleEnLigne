@@ -1,15 +1,39 @@
 package com.example.ecoleenligne.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 /**
  * Model class for the API response
  */
-public class UserInfo {
+
+public class UserInfo implements Parcelable {
+
+    public static final Creator<UserInfo> CREATOR = new Creator<UserInfo>() {
+        @Override
+        public UserInfo createFromParcel(Parcel in) {
+            return new UserInfo(in);
+        }
+
+        @Override
+        public UserInfo[] newArray(int size) {
+            return new UserInfo[size];
+        }
+    };
+
+
     @SerializedName("email")
     @Expose
     private String email;
+    @SerializedName("password")
+    @Expose
+    private String password;
+    @SerializedName("uid")
+    @Expose
+    private String uid;
     @SerializedName("name")
     @Expose
     private String name;
@@ -22,17 +46,68 @@ public class UserInfo {
     @SerializedName("uclass")
     @Expose
     private String uclass;
+    @SerializedName("gender")
+    @Expose
+    private String gender;
+    @SerializedName("age")
+    @Expose
+    private Integer age;
 
-    public UserInfo(String email, String name, String role, String surname, String uclass) {
+    public UserInfo() {
+        this.email = "";
+        this.password = "";
+        this.uid = "";
+        this.name = "";
+        this.role = "";
+        this.surname = "";
+        this.uclass = "";
+        this.gender = "";
+        this.age = 0;
+    }
+
+    public UserInfo(String email, String password, String name, String role, String surname, String uclass, String gender, Integer age) {
         this.email = email;
+        this.password = password;
+        this.uid = "";
         this.name = name;
         this.role = role;
         this.surname = surname;
         this.uclass = uclass;
+        this.gender = gender;
+        this.age = age;
     }
+
+    protected UserInfo(Parcel in) {
+        email = in.readString();
+        password = in.readString();
+        uid = in.readString();
+        name = in.readString();
+        role = in.readString();
+        surname = in.readString();
+        uclass = in.readString();
+        gender = in.readString();
+        age = in.readInt();
+    }
+
 
     public String getEmail() {
         return email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getName() {
@@ -71,6 +146,22 @@ public class UserInfo {
         this.uclass = uclass;
     }
 
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
     @Override
     public String toString() {
         return "UserInfo{" +
@@ -79,6 +170,26 @@ public class UserInfo {
                 ", role:'" + role + '\'' +
                 ", surname:'" + surname + '\'' +
                 ", class:'" + uclass + '\'' +
+                ", gender:'" + gender + '\'' +
+                ", age:'" + age + '\'' +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(email);
+        dest.writeString(password);
+        dest.writeString(uid);
+        dest.writeString(name);
+        dest.writeString(role);
+        dest.writeString(surname);
+        dest.writeString(uclass);
+        dest.writeString(gender);
+        dest.writeInt(age);
     }
 }

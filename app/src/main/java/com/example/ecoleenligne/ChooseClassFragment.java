@@ -3,7 +3,12 @@ package com.example.ecoleenligne;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,6 +24,7 @@ import android.widget.Spinner;
  */
 public class ChooseClassFragment extends Fragment implements AdapterView.OnItemSelectedListener, View.OnClickListener{
     private Spinner mSpinnerClass;
+    private NavController navController;
 
 
     public ChooseClassFragment() {
@@ -54,16 +60,36 @@ public class ChooseClassFragment extends Fragment implements AdapterView.OnItemS
 
     }
 
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        navController = Navigation.findNavController(view);
+        view.findViewById(R.id.next_btn).setOnClickListener(ChooseClassFragment.this);
+        view.findViewById(R.id.back_btn).setOnClickListener(ChooseClassFragment.this);
+    }
+
+
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.next_btn:
-                Log.d("ChooseClassFragment", "onClick: next pressed!");
-
-                break;
-            case R.id.back_btn:
-                Log.d("ChooseClassFragment", "onClick: back pressed!");
-                break;
+        if(navController == null){
+            Log.w("ChooseClassFragment", "onClick: Attenzione, Navigation Controller null!");
+            return;
+        }
+        if(v != null) {
+            switch (v.getId()) {
+                case R.id.next_btn:
+                    Log.d("ChooseClassFragment", "onClick: next pressed!");
+                    navController.navigate(R.id.action_chooseClassFragment_to_personalInfoFragment);
+                    break;
+                case R.id.back_btn:
+                    FragmentActivity activity = getActivity();
+                    if(activity != null)
+                        activity.onBackPressed();
+                    else
+                        Log.w("ChooseClassFragment", "onClick: Attenzione, FragmentActivity null!");
+                    break;
+            }
         }
     }
 

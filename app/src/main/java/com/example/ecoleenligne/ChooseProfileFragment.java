@@ -1,9 +1,13 @@
 package com.example.ecoleenligne;
 
-
+import com.example.ecoleenligne.models.UserInfo;
 import android.os.Bundle;
-
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,6 +24,8 @@ import com.example.ecoleenligne.R;
  */
 public class ChooseProfileFragment extends Fragment implements AdapterView.OnItemSelectedListener, View.OnClickListener {
     private Spinner mSpinnerProfile;
+    private NavController navController;
+    private UserInfo incomingUser;
 
     public ChooseProfileFragment() {
         // Required empty public constructor
@@ -55,15 +61,42 @@ public class ChooseProfileFragment extends Fragment implements AdapterView.OnIte
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.next_btn:
-                Log.d("ChooseProfileFragment", "onClick: next pressed!");
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        navController = Navigation.findNavController(view);
+        view.findViewById(R.id.next_btn).setOnClickListener(ChooseProfileFragment.this);
+        view.findViewById(R.id.back_btn).setOnClickListener(ChooseProfileFragment.this);
+        incomingUser = getArguments().getParcelable("user");
+    }
 
-                break;
-            case R.id.back_btn:
-                Log.d("ChooseProfileFragment", "onClick: back pressed!");
-                break;
+
+    @Override
+    public void onClick(View v) {
+        if(navController == null){
+            Log.w("ChooseProfileFragment", "onClick: Attenzione, Navigation Controller null!");
+            return;
+        }
+        if(v != null) {
+            switch (v.getId()) {
+                case R.id.next_btn:
+                    Log.d("ChooseProfileFragment", "onClick: next pressed!");
+                    String profile = mSpinnerProfile.getSelectedItem().toString();
+                    incomingUser.setRole(profile);
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable("user",incomingUser);
+                    if(profile.equalsIgnoreCase("student"))
+                        navController.navigate(R.id.action_chooseProfileFragment_to_chooseClassFragment, bundle);
+                    else
+                        navController.navigate(R.id.action_chooseProfileFragment_to_personalInfoFragment, bundle);
+                    break;
+                case R.id.back_btn:
+                    FragmentActivity activity = getActivity();
+                    if(activity != null)
+                        activity.onBackPressed();
+                    else
+                        Log.w("ChooseProfileFragment", "onClick: Attenzione, FragmentActivity null!");
+                    break;
+            }
         }
     }
 }

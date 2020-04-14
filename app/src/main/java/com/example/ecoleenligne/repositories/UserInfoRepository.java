@@ -1,13 +1,16 @@
 package com.example.ecoleenligne.repositories;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.ecoleenligne.data.NetworkMessage;
 import com.example.ecoleenligne.models.UserInfo;
 import com.example.ecoleenligne.remote.FirebaseClient;
 import com.example.ecoleenligne.remote.ServiceGenerator;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -51,5 +54,28 @@ public class UserInfoRepository {
             }
         });
         return userInfo;
+    }
+
+
+    public NetworkMessage createUser(String uid, UserInfo user){
+        NetworkMessage message = new NetworkMessage();
+        firebaseAPI.createUser(uid, user).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Log.d("UserInfoRepository","onCreate call success: ");
+                if (response.isSuccessful())
+                    message.setMessage("success");
+                else
+                    message.setMessage("not success");
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                String callInfo = call.request().url().toString();
+                Log.d("UserInfoRepository","onCreate: Network failure on url "+ callInfo);
+                message.setMessage("fail");
+            }
+        });
+        return message;
     }
 }

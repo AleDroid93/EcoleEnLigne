@@ -21,7 +21,6 @@ import com.example.ecoleenligne.models.UserInfo;
  * A simple {@link Fragment} subclass.
  */
 public class DashboardFragment extends Fragment {
-    private NavController navController;
     private UserInfo currentUser;
 
     public DashboardFragment() {
@@ -39,7 +38,6 @@ public class DashboardFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        navController = Navigation.findNavController(view);
         currentUser = getArguments().getParcelable("user");
         TextView tv = view.findViewById(R.id.welcome_text_view);
         tv.setText("Hello\n"+ currentUser.toString());

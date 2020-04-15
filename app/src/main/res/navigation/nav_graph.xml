@@ -49,11 +49,6 @@
     </fragment>
 
     <fragment
-        android:id="@+id/dashboardFragment"
-        android:name="com.example.ecoleenligne.DashboardFragment"
-        android:label="DashboardFragment" />
-
-    <fragment
         android:id="@+id/chooseProfileFragment"
         android:name="com.example.ecoleenligne.ChooseProfileFragment"
         android:label="ChooseProfileFragment" >
@@ -82,15 +77,8 @@
         <argument android:name="user"
             app:argType="com.example.ecoleenligne.models.UserInfo"/>
         <action
-            android:id="@+id/action_personalInfoFragment_to_dashboardFragment"
-            app:destination="@id/dashboardFragment"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popUpTo="@id/nav_graph"
-            app:popUpToInclusive="true"
-            />
+            android:id="@+id/action_parentInfoFragment_to_homeActivity2"
+            app:destination="@id/homeActivity2" />
     </fragment>
 
     <fragment
@@ -100,12 +88,8 @@
         <argument android:name="user"
             app:argType="com.example.ecoleenligne.models.UserInfo"/>
         <action
-            android:id="@+id/action_chooseClassFragment_to_dashboardFragment"
-            app:destination="@id/dashboardFragment"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"/>
+            android:id="@+id/action_studentInfoFragment_to_homeActivity2"
+            app:destination="@id/homeActivity2" />
 
     </fragment>
 
@@ -114,15 +98,6 @@
         android:name="com.example.ecoleenligne.SignInFragment"
         android:label="SignInFragment" >
         <action
-            android:id="@+id/action_signInFragment_to_dashboardFragment"
-            app:destination="@id/dashboardFragment"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popUpTo="@id/nav_graph"
-            app:popUpToInclusive="true"/>
-        <action
             android:id="@+id/action_signInFragment_to_signUpFragment"
             app:destination="@id/signUpFragment"
             app:popEnterAnim="@anim/slide_in_left"
@@ -130,5 +105,15 @@
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popUpTo="@id/entryFragment"/>
+        <action
+            android:id="@+id/action_signInFragment_to_homeActivity2"
+            app:destination="@id/homeActivity2" />
     </fragment>
+    <activity
+        android:id="@+id/homeActivity2"
+        android:name="com.example.ecoleenligne.HomeActivity2"
+        android:label="HomeActivity2">
+        <argument android:name="user"
+            app:argType="com.example.ecoleenligne.models.UserInfo"/>
+    </activity>
 </navigation>

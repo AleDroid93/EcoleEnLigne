@@ -1,6 +1,7 @@
 package com.example.ecoleenligne;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -148,10 +149,14 @@ public class ParentInfoFragment extends Fragment implements View.OnClickListener
                                 bundle.putParcelable("user", user);
                                 userInfoRepository = UserInfoRepository.getInstance();
                                 NetworkMessage message = userInfoRepository.createUser(fuser.getUid(), user);
-                                if(message.getMessage().equals("success"))
-                                    navController.navigate(R.id.action_personalInfoFragment_to_dashboardFragment, bundle);
-                                else
+                                if(message.getMessage().equals("success")) {
+                                    Intent intent = new Intent(getActivity(), HomeActivity2.class);
+                                    intent.putExtra("user", user);
+                                    startActivity(intent);
+                                    //navController.navigate(R.id.action_parentInfoFragment_to_homeActivity2, bundle);
+                                }else {
                                     Toast.makeText(getActivity(), "User creation failed.", Toast.LENGTH_SHORT).show();
+                                }
                             } else {
                                 Log.w("ParentInfoFragment", "createUserWithEmail:failure", task.getException());
                                 String message = task.getException().getMessage();

@@ -40,16 +40,19 @@ public class UserInfoRepository {
         firebaseAPI.getUserInfo(uid).enqueue(new Callback<UserInfo>() {
             @Override
             public void onResponse(Call<UserInfo> call, Response<UserInfo> response) {
-                Log.d("HomeActivity","onCreate call success: ");
-                if (response.isSuccessful()) {
+
+                if (response.isSuccessful()) {Log.d("UserInfoRepository","onCreate call success: "+response.message());
                     userInfo.setValue(response.body());
+                }else{
+                    Log.d("UserInfoRepository","onCreate call: "+response.message());
                 }
             }
 
             @Override
             public void onFailure(Call<UserInfo> call, Throwable t) {
                 String callInfo = call.request().url().toString();
-                Log.d("HomeActivity","onCreate: Network failure on url "+ callInfo);
+
+                Log.d("UserInfoRepository","onCreate: Network failure on url "+ callInfo);
                 userInfo.setValue(null);
             }
         });

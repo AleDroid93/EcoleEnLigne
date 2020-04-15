@@ -23,6 +23,7 @@ import com.example.ecoleenligne.models.UserInfo;
 public class DashboardFragment extends Fragment {
     private NavController navController;
     private UserInfo currentUser;
+
     public DashboardFragment() {
         // Required empty public constructor
     }

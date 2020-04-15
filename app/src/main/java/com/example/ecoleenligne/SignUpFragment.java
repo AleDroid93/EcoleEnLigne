@@ -10,12 +10,15 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import android.text.SpannableString;
 import android.text.TextUtils;
+import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.ecoleenligne.models.UserInfo;
 
@@ -27,6 +30,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener{
     private NavController navController;
     private EditText mEdtEmail;
     private EditText mEdtPassword;
+    private TextView mLoginLink;
 
     public SignUpFragment() {
         // Required empty public constructor
@@ -48,6 +52,11 @@ public class SignUpFragment extends Fragment implements View.OnClickListener{
         view.findViewById(R.id.back_btn).setOnClickListener(SignUpFragment.this);
         mEdtEmail = view.findViewById(R.id.edtEmail);
         mEdtPassword = view.findViewById(R.id.edtPassword);
+        mLoginLink = view.findViewById(R.id.tv_login_now);
+        SpannableString content = new SpannableString(getString(R.string.signin_account_link));
+        content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
+        mLoginLink.setText(content);
+        mLoginLink.setOnClickListener(SignUpFragment.this);
     }
 
     @Override
@@ -79,6 +88,8 @@ public class SignUpFragment extends Fragment implements View.OnClickListener{
                     else
                         Log.w("SignupFragment", "onClick: Attenzione, FragmentActivity null!");
                     break;
+                case R.id.tv_login_now:
+                    navController.navigate(R.id.action_signUpFragment_to_signInFragment);
             }
         }
     }

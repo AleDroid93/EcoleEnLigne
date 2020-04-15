@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/background"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".PersonalInfoFragment">
+    tools:context=".StudentInfoFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/main_layout"
@@ -23,15 +23,54 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/tv_resp_info"
+            android:id="@+id/tv_student_info"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/resp_legal_text"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/opensans_bold"
+            android:text="@string/student_info_text"
+            android:textColor="#1976d2"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"  />
+
+        <TextView
+            android:id="@+id/tv_choose_class"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/opensans_bold"
+            android:text="Choose your course class:"
+            android:textColor="@android:color/black"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_student_info"  />
+
+
+        <Spinner
+            android:id="@+id/class_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="@+id/main_layout"
+            app:layout_constraintStart_toStartOf="@+id/main_layout"
+            app:layout_constraintTop_toBottomOf="@id/tv_choose_class" />
+
+
+        <TextView
+            android:id="@+id/tv_student_genre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/student_genre_text"
             android:fontFamily="@font/opensans_bold"
             android:textColor="@android:color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/class_spinner" />
+
+
 
         <RadioGroup
             android:id="@+id/gender_options"
@@ -41,30 +80,32 @@
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_resp_info"
+            app:layout_constraintTop_toBottomOf="@id/tv_student_genre"
             >
 
             <RadioButton
-                android:id="@+id/opt_mother"
+                android:id="@+id/opt_female"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Mother" />
+                android:text="@string/student_female_text" />
 
             <RadioButton
-                android:id="@+id/opt_father"
+                android:id="@+id/opt_male"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Father" />
+                android:text="@string/student_male_text" />
 
             <RadioButton
-                android:id="@+id/opt_other"
+                android:id="@+id/opt_otherg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Other" />
+                android:text="@string/student_othergen_text" />
         </RadioGroup>
+
+
 
         <TextView
             android:id="@+id/tv_name"
@@ -124,14 +165,14 @@
 
         <Button
             android:id="@+id/signup_btn"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:background="@drawable/button_rounded_corners"
             android:minWidth="0dp"
             android:minHeight="40dp"
-            android:paddingLeft="16dp"
             android:paddingStart="16dp"
+            android:paddingLeft="16dp"
             android:paddingEnd="16dp"
             android:paddingRight="16dp"
             android:text="@string/complete_signup"
@@ -139,6 +180,7 @@
             android:textSize="14sp"
             app:fontFamily="@font/opensans_bold"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/edtName"
             app:layout_constraintTop_toBottomOf="@+id/edtName" />
 
         <Button
@@ -151,9 +193,8 @@
             android:text="back"
             android:textSize="14sp"
             app:fontFamily="@font/opensans_bold"
-            app:layout_constraintEnd_toStartOf="@+id/signup_btn"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edtName" />
+            app:layout_constraintStart_toStartOf="@+id/signup_btn"
+            app:layout_constraintTop_toBottomOf="@+id/signup_btn" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

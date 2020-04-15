@@ -23,6 +23,8 @@
     <string name="login_failed">"Login failed"</string>
     <string name="btn_login_txt">sign in</string>
     <string name="register_invite">Not registered yet? </string>
+    <string name="login_invite">Do you have already an account?</string>
+    <string name="signin_account_link">Sign in here</string>
     <string name="create_account_link">Register here</string>
     <string name="or">or</string>
     <string name="surname_text">Surname:</string>
@@ -40,6 +42,15 @@
         <item>Student</item>
     </string-array>
 
+    <string name="parent_role_mother">Mother</string>
+    <string name="parent_role_father">Father</string>
+    <string name="parent_role_other">Other</string>
+    <string name="student_genre_text">Genre:</string>
+    <string name="student_male_text">Male</string>
+    <string name="student_female_text">Female</string>
+    <string name="student_othergen_text">Other</string>
+    <string name="student_info_text">Student personal information:</string>
+    <string name="parent_info_text">Parent personal information:</string>
     <string-array name="class_type">
         <item>First</item>
         <item>Second</item>

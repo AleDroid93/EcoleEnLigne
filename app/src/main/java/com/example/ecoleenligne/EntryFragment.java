@@ -56,7 +56,7 @@ public class EntryFragment extends Fragment implements View.OnClickListener{
                     navController.navigate(R.id.action_entryFragment_to_signUpFragment);
                     break;
                 case R.id.signin_btn:
-                    navController.navigate(R.id.action_entryFragment_to_loginActivity);
+                    navController.navigate(R.id.action_entryFragment_to_signInFragment);
                     break;
             }
         }

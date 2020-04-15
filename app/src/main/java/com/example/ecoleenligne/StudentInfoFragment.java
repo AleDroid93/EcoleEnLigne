@@ -15,15 +15,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.ecoleenligne.data.NetworkMessage;
 import com.example.ecoleenligne.models.UserInfo;
 import com.example.ecoleenligne.repositories.UserInfoRepository;
-import com.example.ecoleenligne.viewmodels.UserInfoViewModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -34,18 +35,17 @@ import com.google.firebase.auth.FirebaseUser;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PersonalInfoFragment extends Fragment implements View.OnClickListener {
+public class StudentInfoFragment extends Fragment implements AdapterView.OnItemSelectedListener, View.OnClickListener{
+    private Spinner mSpinnerClass;
     private NavController navController;
     private EditText mEdtName;
     private EditText mEdtSurname;
     private RadioButton genderButton;
     private UserInfo incomingUser;
     private FirebaseAuth mAuth;
-
     private UserInfoRepository userInfoRepository;
 
-
-    public PersonalInfoFragment() {
+    public StudentInfoFragment() {
         // Required empty public constructor
     }
 
@@ -53,34 +53,29 @@ public class PersonalInfoFragment extends Fragment implements View.OnClickListen
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_student_info, container, false);
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_personal_info, container, false);
+        mSpinnerClass = view.findViewById(R.id.class_spinner);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
+                R.array.class_type, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        mSpinnerClass.setAdapter(adapter);
+        mSpinnerClass.setOnItemSelectedListener(this);
+        return view;
     }
 
-    public String onRadioButtonClicked(View view) {
-        // Is the button now checked?
-        boolean checked = ((RadioButton) view).isChecked();
-        genderButton = (RadioButton) view;
-        String gender = "";
-        // Check which radio button was clicked
-        switch(view.getId()) {
-            case R.id.opt_mother:
-                if (checked)
-                    Log.d("PersonalInfoFragment","onRadioButtonClicked: you are mother");
-                    gender = "mother";
-                    break;
-            case R.id.opt_father:
-                if (checked)
-                    Log.d("PersonalInfoFragment","onRadioButtonClicked: you are father");
-                    gender = "father";
-                    break;
-            case R.id.opt_other:
-                if (checked)
-                    Log.d("PersonalInfoFragment","onRadioButtonClicked: you are other");
-                    gender = "other";
-                    break;
-        }
-        return gender;
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        Log.d("StudentInfoFragment", "onItemSelected: hai scelto " +
+                parent.getItemAtPosition(position).toString());
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 
 
@@ -89,8 +84,8 @@ public class PersonalInfoFragment extends Fragment implements View.OnClickListen
         super.onViewCreated(view, savedInstanceState);
         navController = Navigation.findNavController(view);
         incomingUser = getArguments().getParcelable("user");
-        view.findViewById(R.id.signup_btn).setOnClickListener(PersonalInfoFragment.this);
-        view.findViewById(R.id.back_btn).setOnClickListener(PersonalInfoFragment.this);
+        view.findViewById(R.id.signup_btn).setOnClickListener(StudentInfoFragment.this);
+        view.findViewById(R.id.back_btn).setOnClickListener(StudentInfoFragment.this);
         mEdtName = view.findViewById(R.id.edtName);
         mEdtSurname = view.findViewById(R.id.edtSurname);
         genderButton = null;
@@ -98,10 +93,36 @@ public class PersonalInfoFragment extends Fragment implements View.OnClickListen
     }
 
 
+    public String onRadioButtonClicked(View view) {
+        // Is the button now checked?
+        boolean checked = ((RadioButton) view).isChecked();
+        genderButton = (RadioButton) view;
+        String gender = "";
+        // Check which radio button was clicked
+        switch(view.getId()) {
+            case R.id.opt_female:
+                if (checked)
+                    Log.d("StudentInfoFragment","onRadioButtonClicked: you are female");
+                gender = "female";
+                break;
+            case R.id.opt_male:
+                if (checked)
+                    Log.d("StudentInfoFragment","onRadioButtonClicked: you are father");
+                gender = "male";
+                break;
+            case R.id.opt_otherg:
+                if (checked)
+                    Log.d("ParentInfoFragment","onRadioButtonClicked: you are other");
+                gender = "other";
+                break;
+        }
+        return gender;
+    }
+
     @Override
     public void onClick(View v) {
         if(navController == null){
-            Log.w("PersonalInfoFragment", "onClick: Attenzione, Navigation Controller null!");
+            Log.w("StudentInfoFragment", "onClick: Attenzione, Navigation Controller null!");
             return;
         }
         if(v != null) {
@@ -111,7 +132,7 @@ public class PersonalInfoFragment extends Fragment implements View.OnClickListen
             }
             switch (v.getId()) {
                 case R.id.signup_btn:
-                    Log.d("PersonalInfoFragment", "onClick: next pressed!");
+                    Log.d("StudentInfoFragment", "onClick: next pressed!");
                     String name = mEdtName.getText().toString();
                     String surname = mEdtSurname.getText().toString();
 
@@ -127,14 +148,14 @@ public class PersonalInfoFragment extends Fragment implements View.OnClickListen
                     if(activity != null)
                         activity.onBackPressed();
                     else
-                        Log.w("PersonalInfoFragment", "onClick: Attenzione, FragmentActivity null!");
+                        Log.w("StudentInfoFragment", "onClick: Attenzione, FragmentActivity null!");
                     break;
             }
         }
     }
 
     private void createNewUser(UserInfo user) {
-        Log.d("PersonalInfoFragment", "createAccount:" + user.getEmail());
+        Log.d("StudentInfoFragment", "createAccount:" + user.getEmail());
         //showProgressBar();
         if(mAuth != null) {
             mAuth.createUserWithEmailAndPassword(user.getEmail(), user.getPassword())
@@ -143,7 +164,7 @@ public class PersonalInfoFragment extends Fragment implements View.OnClickListen
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
 
-                                Log.d("PersonalInfoFragment", "createUserWithEmail:success");
+                                Log.d("StudentInfoFragment", "createUserWithEmail:success");
                                 FirebaseUser fuser = mAuth.getCurrentUser();
                                 user.setUid(fuser.getUid());
                                 Bundle bundle = new Bundle();
@@ -151,11 +172,11 @@ public class PersonalInfoFragment extends Fragment implements View.OnClickListen
                                 userInfoRepository = UserInfoRepository.getInstance();
                                 NetworkMessage message = userInfoRepository.createUser(fuser.getUid(), user);
                                 if(message.getMessage().equals("success"))
-                                    navController.navigate(R.id.action_personalInfoFragment_to_dashboardFragment, bundle);
+                                    navController.navigate(R.id.action_chooseClassFragment_to_dashboardFragment, bundle);
                                 else
                                     Toast.makeText(getActivity(), "User creation failed.", Toast.LENGTH_SHORT).show();
                             } else {
-                                Log.w("PersonalInfoFragment", "createUserWithEmail:failure", task.getException());
+                                Log.w("StudentInfoFragment", "createUserWithEmail:failure", task.getException());
                                 String message = task.getException().getMessage();
                                 Toast.makeText(getActivity(), "Registration failed. "+ message,
                                         Toast.LENGTH_SHORT).show();
@@ -166,4 +187,5 @@ public class PersonalInfoFragment extends Fragment implements View.OnClickListen
                     });
         }
     }
+
 }

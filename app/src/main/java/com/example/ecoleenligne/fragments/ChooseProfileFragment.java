@@ -1,4 +1,4 @@
-package com.example.ecoleenligne;
+package com.example.ecoleenligne.fragments;
 
 import com.example.ecoleenligne.models.UserInfo;
 import android.os.Bundle;

@@ -1,4 +1,4 @@
-package com.example.ecoleenligne;
+package com.example.ecoleenligne.fragments;
 
 
 import android.content.Intent;
@@ -24,6 +24,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ecoleenligne.HomeActivity2;
+import com.example.ecoleenligne.R;
 import com.example.ecoleenligne.models.UserInfo;
 import com.example.ecoleenligne.repositories.UserInfoRepository;
 import com.example.ecoleenligne.viewmodels.UserInfoViewModel;

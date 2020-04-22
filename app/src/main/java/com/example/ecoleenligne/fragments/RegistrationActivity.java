@@ -1,8 +1,10 @@
-package com.example.ecoleenligne;
+package com.example.ecoleenligne.fragments;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.ecoleenligne.R;
 
 public class RegistrationActivity extends AppCompatActivity {
 

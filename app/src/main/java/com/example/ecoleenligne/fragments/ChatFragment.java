@@ -1,4 +1,4 @@
-package com.example.ecoleenligne;
+package com.example.ecoleenligne.fragments;
 
 
 import android.os.Bundle;
@@ -10,13 +10,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.ecoleenligne.R;
+
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ClassroomFragment extends Fragment {
+public class ChatFragment extends Fragment {
 
 
-    public ClassroomFragment() {
+    public ChatFragment() {
         // Required empty public constructor
     }
 
@@ -24,7 +26,7 @@ public class ClassroomFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_class, container, false);
+        return inflater.inflate(R.layout.fragment_chat, container, false);
     }
 
 }

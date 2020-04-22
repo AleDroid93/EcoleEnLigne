@@ -6,6 +6,8 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+
 /**
  * Model class for the API response
  */
@@ -46,12 +48,21 @@ public class UserInfo implements Parcelable {
     @SerializedName("uclass")
     @Expose
     private String uclass;
+
+    @SerializedName("offlineLearning")
+    @Expose
+    private Boolean offlineLearning;
+
     @SerializedName("gender")
     @Expose
     private String gender;
     @SerializedName("age")
     @Expose
     private Integer age;
+
+    @SerializedName("children")
+    @Expose
+    private ArrayList<Child> children;
 
     public UserInfo() {
         this.email = "";
@@ -63,6 +74,8 @@ public class UserInfo implements Parcelable {
         this.uclass = "";
         this.gender = "";
         this.age = 0;
+        this.offlineLearning = false;
+        this.children = new ArrayList<Child>();
     }
 
     public UserInfo(String email, String password, String name, String role, String surname, String uclass, String gender, Integer age) {
@@ -75,6 +88,8 @@ public class UserInfo implements Parcelable {
         this.uclass = uclass;
         this.gender = gender;
         this.age = age;
+        this.offlineLearning = false;
+        this.children = new ArrayList<Child>();
     }
 
     protected UserInfo(Parcel in) {
@@ -85,10 +100,31 @@ public class UserInfo implements Parcelable {
         role = in.readString();
         surname = in.readString();
         uclass = in.readString();
+        offlineLearning = in.readByte() != 0;
         gender = in.readString();
         age = in.readInt();
+        children = in.readArrayList(Child.class.getClassLoader());
     }
 
+    public String getUclass() {
+        return uclass;
+    }
+
+    public boolean getOfflineLearning() {
+        return offlineLearning;
+    }
+
+    public void setOfflineLearning(boolean offlineLearning) {
+        this.offlineLearning = offlineLearning;
+    }
+
+    public void addChild(Child child){
+        this.children.add(child);
+    }
+
+    public void removeChild(Child child){
+        this.children.remove(child);
+    }
 
     public String getEmail() {
         return email;
@@ -162,6 +198,10 @@ public class UserInfo implements Parcelable {
         this.age = age;
     }
 
+    public ArrayList<Child> getChildren(){
+        return this.children;
+    }
+
     @Override
     public String toString() {
         return "UserInfo{" +
@@ -170,8 +210,10 @@ public class UserInfo implements Parcelable {
                 ", role:'" + role + '\'' +
                 ", surname:'" + surname + '\'' +
                 ", class:'" + uclass + '\'' +
+                ", learn mode:'" + offlineLearning + '\'' +
                 ", gender:'" + gender + '\'' +
                 ", age:'" + age + '\'' +
+                ", children: [\n" + children.toString() + "\n ] ,"+
                 '}';
     }
 
@@ -189,7 +231,9 @@ public class UserInfo implements Parcelable {
         dest.writeString(role);
         dest.writeString(surname);
         dest.writeString(uclass);
+        dest.writeValue(offlineLearning);
         dest.writeString(gender);
         dest.writeInt(age);
+        dest.writeList(children);
     }
 }

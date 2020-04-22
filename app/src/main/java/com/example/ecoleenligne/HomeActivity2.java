@@ -9,6 +9,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 
+import com.example.ecoleenligne.fragments.ChatFragment;
+import com.example.ecoleenligne.fragments.ClassroomFragment;
+import com.example.ecoleenligne.fragments.DashboardFragment;
+import com.example.ecoleenligne.fragments.SavedItemsFragment;
 import com.example.ecoleenligne.models.UserInfo;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 

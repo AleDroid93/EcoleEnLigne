@@ -1,4 +1,4 @@
-package com.example.ecoleenligne;
+package com.example.ecoleenligne.fragments;
 
 
 import android.os.Bundle;
@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.ecoleenligne.R;
 import com.example.ecoleenligne.models.UserInfo;
 
 

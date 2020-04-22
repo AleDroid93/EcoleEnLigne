@@ -7,7 +7,8 @@ import androidx.fragment.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 
-import java.util.ArrayList;
+import com.example.ecoleenligne.fragments.SignInFragment;
+
 import java.util.List;
 
 public class RootActivity extends AppCompatActivity {

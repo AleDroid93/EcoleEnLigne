@@ -1,4 +1,4 @@
-package com.example.ecoleenligne;
+package com.example.ecoleenligne.fragments;
 
 
 import android.content.Intent;
@@ -16,11 +16,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.Switch;
 import android.widget.Toast;
 
+import com.example.ecoleenligne.HomeActivity2;
+import com.example.ecoleenligne.R;
 import com.example.ecoleenligne.data.NetworkMessage;
+import com.example.ecoleenligne.models.Child;
 import com.example.ecoleenligne.models.UserInfo;
 import com.example.ecoleenligne.repositories.UserInfoRepository;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -33,14 +38,15 @@ import com.google.firebase.auth.FirebaseUser;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ParentInfoFragment extends Fragment implements View.OnClickListener {
+public class ParentInfoFragment extends Fragment implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
     private NavController navController;
     private EditText mEdtName;
     private EditText mEdtSurname;
     private RadioButton genderButton;
     private UserInfo incomingUser;
+    private Switch switchLearningOffline;
     private FirebaseAuth mAuth;
-
+    private Child incomingChild;
     private UserInfoRepository userInfoRepository;
 
 
@@ -88,8 +94,18 @@ public class ParentInfoFragment extends Fragment implements View.OnClickListener
         super.onViewCreated(view, savedInstanceState);
         navController = Navigation.findNavController(view);
         incomingUser = getArguments().getParcelable("user");
+        incomingChild = getArguments().getParcelable("child");
+        if(incomingChild != null) {
+            //TODO set custom email and password for the new child
+            incomingChild.setEmail(incomingUser.getEmail());
+            incomingChild.setPassword(incomingUser.getPassword());
+            incomingUser.addChild(incomingChild);
+        }
         view.findViewById(R.id.signup_btn).setOnClickListener(ParentInfoFragment.this);
         view.findViewById(R.id.back_btn).setOnClickListener(ParentInfoFragment.this);
+        view.findViewById(R.id.fab_add_child).setOnClickListener(ParentInfoFragment.this);
+        switchLearningOffline = view.findViewById(R.id.switchLearning);
+        switchLearningOffline.setOnCheckedChangeListener(ParentInfoFragment.this);
         mEdtName = view.findViewById(R.id.edtName);
         mEdtSurname = view.findViewById(R.id.edtSurname);
         genderButton = null;
@@ -127,6 +143,11 @@ public class ParentInfoFragment extends Fragment implements View.OnClickListener
                         activity.onBackPressed();
                     else
                         Log.w("ParentInfoFragment", "onClick: Attenzione, FragmentActivity null!");
+                    break;
+                case R.id.fab_add_child:
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable("user", incomingUser);
+                    navController.navigate(R.id.action_parentInfoFragment_to_addChildFragment, bundle);
                     break;
             }
         }
@@ -167,6 +188,15 @@ public class ParentInfoFragment extends Fragment implements View.OnClickListener
                             //hideProgressBar();
                         }
                     });
+        }
+    }
+
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        Log.d("ParentInfoFragment", "onCheckedChanged: "+ isChecked);
+        if(isChecked){
+            incomingUser.setOfflineLearning("offline");
         }
     }
 }

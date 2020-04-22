@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/entryFragment"
-        android:name="com.example.ecoleenligne.EntryFragment"
+        android:name="com.example.ecoleenligne.fragments.EntryFragment"
         android:label="EntryFragment" >
         <action
             android:id="@+id/action_entryFragment_to_signUpFragment"
@@ -27,7 +27,7 @@
 
     <fragment
         android:id="@+id/signUpFragment"
-        android:name="com.example.ecoleenligne.SignUpFragment"
+        android:name="com.example.ecoleenligne.fragments.SignUpFragment"
         android:label="SignUpFragment" >
         <argument android:name="user"
             app:argType="com.example.ecoleenligne.models.UserInfo"/>
@@ -50,7 +50,7 @@
 
     <fragment
         android:id="@+id/chooseProfileFragment"
-        android:name="com.example.ecoleenligne.ChooseProfileFragment"
+        android:name="com.example.ecoleenligne.fragments.ChooseProfileFragment"
         android:label="ChooseProfileFragment" >
         <argument android:name="user"
             app:argType="com.example.ecoleenligne.models.UserInfo"/>
@@ -72,18 +72,25 @@
 
     <fragment
         android:id="@+id/parentInfoFragment"
-        android:name="com.example.ecoleenligne.ParentInfoFragment"
+        android:name="com.example.ecoleenligne.fragments.ParentInfoFragment"
         android:label="parentInfoFragment" >
         <argument android:name="user"
             app:argType="com.example.ecoleenligne.models.UserInfo"/>
         <action
             android:id="@+id/action_parentInfoFragment_to_homeActivity2"
             app:destination="@id/homeActivity2" />
+        <action
+            android:id="@+id/action_parentInfoFragment_to_addChildFragment"
+            app:destination="@id/addChildFragment"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
     </fragment>
 
     <fragment
         android:id="@+id/studentInfoFragment"
-        android:name="com.example.ecoleenligne.StudentInfoFragment"
+        android:name="com.example.ecoleenligne.fragments.StudentInfoFragment"
         android:label="studentInfoFragment" >
         <argument android:name="user"
             app:argType="com.example.ecoleenligne.models.UserInfo"/>
@@ -95,7 +102,7 @@
 
     <fragment
         android:id="@+id/signInFragment"
-        android:name="com.example.ecoleenligne.SignInFragment"
+        android:name="com.example.ecoleenligne.fragments.SignInFragment"
         android:label="SignInFragment" >
         <action
             android:id="@+id/action_signInFragment_to_signUpFragment"
@@ -116,4 +123,18 @@
         <argument android:name="user"
             app:argType="com.example.ecoleenligne.models.UserInfo"/>
     </activity>
+    <fragment
+        android:id="@+id/addChildFragment"
+        android:name="com.example.ecoleenligne.fragments.AddChildFragment"
+        android:label="AddChildFragment" >
+        <action
+            android:id="@+id/action_addChildFragment_to_parentInfoFragment"
+            app:destination="@id/parentInfoFragment"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popUpTo="@id/parentInfoFragment"
+            app:popUpToInclusive="true"/>
+    </fragment>
 </navigation>

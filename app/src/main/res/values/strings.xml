@@ -41,7 +41,12 @@
         <item>Parent</item>
         <item>Student</item>
     </string-array>
+    <string name="online_on">ON</string>
+    <string name="online_off">OFF</string>
 
+    <string name="offline_learning_mode">Offline mode</string>
+    <string name="child_student_info">Child personal information</string>
+    <string name="confirm">Confirm</string>
     <string name="parent_role_mother">Mother</string>
     <string name="parent_role_father">Father</string>
     <string name="parent_role_other">Other</string>

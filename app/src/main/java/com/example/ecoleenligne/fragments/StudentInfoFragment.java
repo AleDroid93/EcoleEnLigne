@@ -1,4 +1,4 @@
-package com.example.ecoleenligne;
+package com.example.ecoleenligne.fragments;
 
 
 import android.content.Intent;
@@ -23,6 +23,8 @@ import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.ecoleenligne.HomeActivity2;
+import com.example.ecoleenligne.R;
 import com.example.ecoleenligne.data.NetworkMessage;
 import com.example.ecoleenligne.models.UserInfo;
 import com.example.ecoleenligne.repositories.UserInfoRepository;
@@ -72,6 +74,8 @@ public class StudentInfoFragment extends Fragment implements AdapterView.OnItemS
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         Log.d("StudentInfoFragment", "onItemSelected: hai scelto " +
                 parent.getItemAtPosition(position).toString());
+        String uclass = parent.getItemAtPosition(position).toString();
+        incomingUser.setUclass(uclass);
     }
 
     @Override

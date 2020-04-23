@@ -7,6 +7,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 /**
  * Model class for the API response
@@ -103,8 +104,7 @@ public class UserInfo implements Parcelable {
         offlineLearning = in.readByte() != 0;
         gender = in.readString();
         age = in.readInt();
-        children = new ArrayList<Child>();
-        in.readTypedList(children, Child.CREATOR);
+        children = in.readArrayList(Child.class.getClassLoader());
     }
 
 
@@ -211,6 +211,10 @@ public class UserInfo implements Parcelable {
 
     @Override
     public String toString() {
+        String listString = "";
+        for(Child c : children){
+            listString += c.toString() + "\n";
+        }
         return "UserInfo{" +
                 "email:'" + email + '\'' +
                 ", name:'" + name + '\'' +
@@ -220,7 +224,7 @@ public class UserInfo implements Parcelable {
                 ", learn mode:'" + offlineLearning + '\'' +
                 ", gender:'" + gender + '\'' +
                 ", age:'" + age + '\'' +
-                ", children: [\n" + children.toString() + "\n ] ,"+
+                ", children: [\n" + listString + "\n ] ,"+
                 '}';
     }
 
@@ -241,6 +245,6 @@ public class UserInfo implements Parcelable {
         dest.writeValue(offlineLearning);
         dest.writeString(gender);
         dest.writeInt(age);
-        dest.writeTypedList(children);
+        dest.writeList(children);
     }
 }

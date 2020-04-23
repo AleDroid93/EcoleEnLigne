@@ -85,6 +85,7 @@ public class VerifyAccountFragment extends Fragment implements View.OnClickListe
         switch (v.getId()) {
             case R.id.confirm_activate_btn:
                 Log.d("VerifyAccountFragment", "onClick: activation done pressed!");
+                mAuth = FirebaseAuth.getInstance();
                 if(mAuth.getCurrentUser().isEmailVerified()) {
                     FirebaseUser user = mAuth.getCurrentUser();
                     model.init(user.getUid());

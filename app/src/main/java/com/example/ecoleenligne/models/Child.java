@@ -124,7 +124,7 @@ public class Child implements Parcelable {
 
     @Override
     public String toString() {
-        return "ChildInfo{" +
+        return "Child {" +
                 "email:'" + email + '\'' +
                 ", name:'" + name + '\'' +
                 ", surname:'" + surname + '\'' +

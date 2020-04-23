@@ -114,7 +114,20 @@
             app:popUpTo="@id/entryFragment"/>
         <action
             android:id="@+id/action_signInFragment_to_homeActivity2"
-            app:destination="@id/homeActivity2" />
+            app:destination="@id/homeActivity2"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"/>
+        <action
+            android:id="@+id/action_signInFragment_to_verifyAccountFragment"
+            app:destination="@id/verifyAccountFragment"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
+
+
     </fragment>
     <activity
         android:id="@+id/homeActivity2"
@@ -135,6 +148,20 @@
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popUpTo="@id/parentInfoFragment"
+            app:popUpToInclusive="true"/>
+    </fragment>
+    <fragment
+        android:id="@+id/verifyAccountFragment"
+        android:name="com.example.ecoleenligne.fragments.VerifyAccountFragment"
+        android:label="VerifyAccountFragment" >
+        <action
+            android:id="@+id/action_verifyAccountFragment_to_homeActivity2"
+            app:destination="@id/homeActivity2"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popUpTo="@id/entryFragment"
             app:popUpToInclusive="true"/>
     </fragment>
 </navigation>

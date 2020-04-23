@@ -41,9 +41,11 @@
         <item>Parent</item>
         <item>Student</item>
     </string-array>
+    <string name="activation_done">activation done</string>
     <string name="online_on">ON</string>
     <string name="online_off">OFF</string>
-
+    <string name="verify_message">Please check your email inbox and click on the activation link to
+        complete your registration to activate your account and click in the button below after activation.</string>
     <string name="offline_learning_mode">Offline mode</string>
     <string name="child_student_info">Child personal information</string>
     <string name="confirm">Confirm</string>

@@ -200,13 +200,17 @@ public class SignInFragment extends Fragment implements View.OnClickListener{
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("SignInFragment", "signInByEmailAndPassword:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            String email = user.getEmail();
-                            String name = user.getDisplayName();
-                            Log.i("SignInFragment", "user info: \n{\n \t email: " + email + ",\n \t name: " + name + "}");
-                            String uid = user.getUid();
-                            userInfoRepository = UserInfoRepository.getInstance();
-                            model.init(uid);
-                            model.getUserInfoRepository().observe(SignInFragment.this, observerUserInfo);
+                            if(user.isEmailVerified()) {
+                                String email = user.getEmail();
+                                String name = user.getDisplayName();
+                                Log.i("SignInFragment", "user info: \n{\n \t email: " + email + ",\n \t name: " + name + "}");
+                                String uid = user.getUid();
+                                userInfoRepository = UserInfoRepository.getInstance();
+                                model.init(uid);
+                                model.getUserInfoRepository().observe(SignInFragment.this, observerUserInfo);
+                            }else{
+                                navController.navigate(R.id.action_signInFragment_to_verifyAccountFragment);
+                            }
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w("SignInFragment", "signInByEmailAndPassword:failure", task.getException());
@@ -303,6 +307,7 @@ public class SignInFragment extends Fragment implements View.OnClickListener{
                                 // Sign in success, update UI with the signed-in user's information
                                 Log.d("SignInFragment", "signInWithGoogle:success");
                                 FirebaseUser user = mAuth.getCurrentUser();
+
                                 String uid = user.getUid();
                                 String email = user.getEmail();
                                 String name = user.getDisplayName();

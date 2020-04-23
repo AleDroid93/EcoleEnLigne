@@ -103,8 +103,15 @@ public class UserInfo implements Parcelable {
         offlineLearning = in.readByte() != 0;
         gender = in.readString();
         age = in.readInt();
-        children = in.readArrayList(Child.class.getClassLoader());
+        children = new ArrayList<Child>();
+        in.readTypedList(children, Child.CREATOR);
     }
+
+
+    public void setOfflineLearning(Boolean offlineLearning) {
+        this.offlineLearning = offlineLearning;
+    }
+
 
     public String getUclass() {
         return uclass;
@@ -234,6 +241,6 @@ public class UserInfo implements Parcelable {
         dest.writeValue(offlineLearning);
         dest.writeString(gender);
         dest.writeInt(age);
-        dest.writeList(children);
+        dest.writeTypedList(children);
     }
 }

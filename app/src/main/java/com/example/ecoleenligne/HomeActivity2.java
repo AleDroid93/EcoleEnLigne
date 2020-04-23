@@ -8,16 +8,23 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.ecoleenligne.fragments.ChatFragment;
 import com.example.ecoleenligne.fragments.ClassroomFragment;
 import com.example.ecoleenligne.fragments.DashboardFragment;
 import com.example.ecoleenligne.fragments.SavedItemsFragment;
 import com.example.ecoleenligne.models.UserInfo;
+import com.example.ecoleenligne.views.HomeActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class HomeActivity2 extends AppCompatActivity {
     private UserInfo currentUser;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +34,9 @@ public class HomeActivity2 extends AppCompatActivity {
         bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
         Intent intent = getIntent();
         currentUser = intent.getParcelableExtra("user");
-        //currentUser = getArguments().getParcelable("user");
+        mAuth = FirebaseAuth.getInstance();
+        if(!mAuth.getCurrentUser().isEmailVerified())
+            sendEmailVerification();
         Bundle bundle = new Bundle();
         bundle.putParcelable("user", currentUser);
         DashboardFragment dashboardFragment = new DashboardFragment();
@@ -67,4 +76,39 @@ public class HomeActivity2 extends AppCompatActivity {
             return true;
         }
     };
+
+
+    private void sendEmailVerification() {
+        // Disable button
+        //findViewById(R.id.verifyEmailButton).setEnabled(false);
+
+        // Send verification email
+        // [START send_email_verification]
+        final FirebaseUser user = mAuth.getCurrentUser();
+
+        user.sendEmailVerification()
+                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        // [START_EXCLUDE]
+                        // Re-enable button
+                        //findViewById(R.id.verifyEmailButton).setEnabled(true);
+
+                        if (task.isSuccessful()) {
+                            // TODO alert dialog che chiede di cliccare sul link di verifica email
+                            Toast.makeText(HomeActivity2.this,
+                                    "Verification email sent to " + user.getEmail(),
+                                    Toast.LENGTH_SHORT).show();
+                        } else {
+                            // TODO chiedere di cliccare da qualche parte per riprovare a farsi inviare email di attivazione
+                            Log.e("HomeActivity2", "sendEmailVerification", task.getException());
+                            Toast.makeText(HomeActivity2.this,
+                                    "Failed to send verification email.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                        // [END_EXCLUDE]
+                    }
+                });
+        // [END send_email_verification]
+    }
 }

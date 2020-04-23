@@ -1,6 +1,7 @@
 package com.example.ecoleenligne.remote;
 
 
+import com.example.ecoleenligne.data.NetworkMessage;
 import com.example.ecoleenligne.models.UserInfo;
 
 import okhttp3.ResponseBody;
@@ -16,5 +17,5 @@ public interface FirebaseClient {
     Call<UserInfo> getUserInfo(@Path("uid") String userId);
 
     @PUT("/users/{uid}.json")
-    Call<ResponseBody> createUser(@Path("uid") String uid, @Body UserInfo user);
+    Call<NetworkMessage> createUser(@Path("uid") String uid, @Body UserInfo user);
 }

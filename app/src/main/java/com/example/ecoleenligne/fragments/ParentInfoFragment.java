@@ -8,6 +8,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
@@ -28,6 +31,7 @@ import com.example.ecoleenligne.data.NetworkMessage;
 import com.example.ecoleenligne.models.Child;
 import com.example.ecoleenligne.models.UserInfo;
 import com.example.ecoleenligne.repositories.UserInfoRepository;
+import com.example.ecoleenligne.viewmodels.UserInfoViewModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -48,6 +52,9 @@ public class ParentInfoFragment extends Fragment implements View.OnClickListener
     private FirebaseAuth mAuth;
     private Child incomingChild;
     private UserInfoRepository userInfoRepository;
+    private UserInfoViewModel model;
+
+    private Observer<NetworkMessage> observerCreationUser;
 
 
     public ParentInfoFragment() {
@@ -59,6 +66,7 @@ public class ParentInfoFragment extends Fragment implements View.OnClickListener
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         return inflater.inflate(R.layout.fragment_parent_info, container, false);
     }
 
@@ -110,8 +118,28 @@ public class ParentInfoFragment extends Fragment implements View.OnClickListener
         mEdtSurname = view.findViewById(R.id.edtSurname);
         genderButton = null;
         mAuth = FirebaseAuth.getInstance();
+
     }
 
+
+    private Observer<NetworkMessage> getCreationUserObserver() {
+        model = ViewModelProviders.of(ParentInfoFragment.this).get(UserInfoViewModel.class);
+        final Observer<NetworkMessage> observerCreationMEssage = new Observer<NetworkMessage>() {
+            @Override
+            public void onChanged(@Nullable NetworkMessage creationMessage) {
+                String msg = creationMessage.getMessage();
+                if(msg.equals("success")){
+                    Intent intent = new Intent(getActivity(), HomeActivity2.class);
+                    intent.putExtra("user", incomingUser);
+                    startActivity(intent);
+                }else{
+                    Log.d("ParentInfoFragment", "creationMessage: "+msg);
+                }
+
+            }
+        };
+        return observerCreationMEssage;
+    }
 
     @Override
     public void onClick(View v) {
@@ -162,22 +190,16 @@ public class ParentInfoFragment extends Fragment implements View.OnClickListener
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-
-                                Log.d("ParentInfoFragment", "createUserWithEmail:success");
                                 FirebaseUser fuser = mAuth.getCurrentUser();
                                 user.setUid(fuser.getUid());
                                 Bundle bundle = new Bundle();
                                 bundle.putParcelable("user", user);
-                                userInfoRepository = UserInfoRepository.getInstance();
-                                NetworkMessage message = userInfoRepository.createUser(fuser.getUid(), user);
-                                if(message.getMessage().equals("success")) {
-                                    Intent intent = new Intent(getActivity(), HomeActivity2.class);
-                                    intent.putExtra("user", user);
-                                    startActivity(intent);
-                                    //navController.navigate(R.id.action_parentInfoFragment_to_homeActivity2, bundle);
-                                }else {
-                                    Toast.makeText(getActivity(), "User creation failed.", Toast.LENGTH_SHORT).show();
-                                }
+                                //userInfoRepository = UserInfoRepository.getInstance();
+                                observerCreationUser = getCreationUserObserver();
+                                model.createUser(user.getUid(), user);
+                                LiveData<NetworkMessage> repo = model.getCreationMessage();
+                                repo.observe(ParentInfoFragment.this, observerCreationUser);
+                                //navController.navigate(R.id.action_parentInfoFragment_to_homeActivity2, bundle);
                             } else {
                                 Log.w("ParentInfoFragment", "createUserWithEmail:failure", task.getException());
                                 String message = task.getException().getMessage();
@@ -196,7 +218,9 @@ public class ParentInfoFragment extends Fragment implements View.OnClickListener
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         Log.d("ParentInfoFragment", "onCheckedChanged: "+ isChecked);
         if(isChecked){
-            incomingUser.setOfflineLearning("offline");
+            incomingUser.setOfflineLearning(true);
+        }else{
+            incomingUser.setOfflineLearning(false);
         }
     }
 }

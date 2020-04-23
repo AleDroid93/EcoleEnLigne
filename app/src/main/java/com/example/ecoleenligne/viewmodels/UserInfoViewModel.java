@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.ecoleenligne.data.NetworkMessage;
 import com.example.ecoleenligne.models.UserInfo;
 import com.example.ecoleenligne.repositories.UserInfoRepository;
 
@@ -13,6 +14,7 @@ import com.example.ecoleenligne.repositories.UserInfoRepository;
  */
 public class UserInfoViewModel extends ViewModel {
     private MutableLiveData<UserInfo> mutableLiveData;
+    private MutableLiveData<NetworkMessage> mutableCreationMessage;
     private UserInfoRepository userInfoRepository;
 
     public void init(String uid){
@@ -24,11 +26,17 @@ public class UserInfoViewModel extends ViewModel {
     }
 
     public void createUser(String uid, UserInfo user){
+        if (mutableCreationMessage != null){
+            return;
+        }
         userInfoRepository = UserInfoRepository.getInstance();
-        userInfoRepository.createUser(uid, user);
+        mutableCreationMessage = userInfoRepository.createUser(uid, user);
     }
 
     public LiveData<UserInfo> getUserInfoRepository() {
         return mutableLiveData;
+    }
+    public LiveData<NetworkMessage> getCreationMessage(){
+        return mutableCreationMessage;
     }
 }

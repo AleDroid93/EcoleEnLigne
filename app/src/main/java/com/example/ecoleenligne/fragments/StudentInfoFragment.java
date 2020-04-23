@@ -8,6 +8,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
@@ -28,6 +31,7 @@ import com.example.ecoleenligne.R;
 import com.example.ecoleenligne.data.NetworkMessage;
 import com.example.ecoleenligne.models.UserInfo;
 import com.example.ecoleenligne.repositories.UserInfoRepository;
+import com.example.ecoleenligne.viewmodels.UserInfoViewModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -47,6 +51,10 @@ public class StudentInfoFragment extends Fragment implements AdapterView.OnItemS
     private UserInfo incomingUser;
     private FirebaseAuth mAuth;
     private UserInfoRepository userInfoRepository;
+    private UserInfoViewModel model;
+    private Observer<NetworkMessage> observerCreationUser;
+
+
 
     public StudentInfoFragment() {
         // Required empty public constructor
@@ -96,6 +104,27 @@ public class StudentInfoFragment extends Fragment implements AdapterView.OnItemS
         genderButton = null;
         mAuth = FirebaseAuth.getInstance();
     }
+
+
+    private Observer<NetworkMessage> getCreationUserObserver() {
+        model = ViewModelProviders.of(StudentInfoFragment.this).get(UserInfoViewModel.class);
+        final Observer<NetworkMessage> observerCreationMEssage = new Observer<NetworkMessage>() {
+            @Override
+            public void onChanged(@Nullable NetworkMessage creationMessage) {
+                String msg = creationMessage.getMessage();
+                if(msg.equals("success")){
+                    Intent intent = new Intent(getActivity(), HomeActivity2.class);
+                    intent.putExtra("user", incomingUser);
+                    startActivity(intent);
+                }else{
+                    Log.d("ParentInfoFragment", "creationMessage: "+msg);
+                }
+
+            }
+        };
+        return observerCreationMEssage;
+    }
+
 
 
     public String onRadioButtonClicked(View view) {
@@ -174,16 +203,10 @@ public class StudentInfoFragment extends Fragment implements AdapterView.OnItemS
                                 user.setUid(fuser.getUid());
                                 Bundle bundle = new Bundle();
                                 bundle.putParcelable("user", user);
-                                userInfoRepository = UserInfoRepository.getInstance();
-                                NetworkMessage message = userInfoRepository.createUser(fuser.getUid(), user);
-                                if(message.getMessage().equals("success")) {
-                                    Intent intent = new Intent(getActivity(), HomeActivity2.class);
-                                    intent.putExtra("user", user);
-                                    startActivity(intent);
-                                    //navController.navigate(R.id.action_studentInfoFragment_to_homeActivity2, bundle);
-                                }else {
-                                    Toast.makeText(getActivity(), "User creation failed.", Toast.LENGTH_SHORT).show();
-                                }
+                                observerCreationUser = getCreationUserObserver();
+                                model.createUser(user.getUid(), user);
+                                LiveData<NetworkMessage> repo = model.getCreationMessage();
+                                repo.observe(StudentInfoFragment.this, observerCreationUser);
                             } else {
                                 Log.w("StudentInfoFragment", "createUserWithEmail:failure", task.getException());
                                 String message = task.getException().getMessage();

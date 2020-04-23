@@ -7,6 +7,10 @@ public class NetworkMessage {
         this.message = "";
     }
 
+    public NetworkMessage(String message) {
+        this.message = message;
+    }
+
     public String getMessage() {
         return message;
     }

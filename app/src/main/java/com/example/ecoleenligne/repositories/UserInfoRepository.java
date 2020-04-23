@@ -60,23 +60,23 @@ public class UserInfoRepository {
     }
 
 
-    public NetworkMessage createUser(String uid, UserInfo user){
-        NetworkMessage message = new NetworkMessage();
-        firebaseAPI.createUser(uid, user).enqueue(new Callback<ResponseBody>() {
+    public MutableLiveData<NetworkMessage> createUser(String uid, UserInfo user){
+        MutableLiveData<NetworkMessage> message = new MutableLiveData<>();
+        firebaseAPI.createUser(uid, user).enqueue(new Callback<NetworkMessage>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            public void onResponse(Call<NetworkMessage> call, Response<NetworkMessage> response) {
                 Log.d("UserInfoRepository","onCreate call success: ");
                 if (response.isSuccessful())
-                    message.setMessage("success");
+                    message.setValue(new NetworkMessage("success"));
                 else
-                    message.setMessage("not success");
+                    message.setValue(new NetworkMessage("not success"));
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(Call<NetworkMessage> call, Throwable t) {
                 String callInfo = call.request().url().toString();
                 Log.d("UserInfoRepository","onCreate: Network failure on url "+ callInfo);
-                message.setMessage("fail");
+                message.setValue(new NetworkMessage("fail"));
             }
         });
         return message;

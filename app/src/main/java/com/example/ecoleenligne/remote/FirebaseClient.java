@@ -3,11 +3,13 @@ package com.example.ecoleenligne.remote;
 
 import com.example.ecoleenligne.data.NetworkMessage;
 import com.example.ecoleenligne.models.UserInfo;
+import com.google.gson.JsonObject;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
@@ -18,4 +20,5 @@ public interface FirebaseClient {
 
     @PUT("/users/{uid}.json")
     Call<NetworkMessage> createUser(@Path("uid") String uid, @Body UserInfo user);
+
 }

@@ -23,6 +23,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ecoleenligne.HomeActivity2;
@@ -37,6 +38,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.util.ArrayList;
 
 
 /**
@@ -55,7 +58,7 @@ public class ParentInfoFragment extends Fragment implements View.OnClickListener
     private UserInfoViewModel model;
 
     private Observer<NetworkMessage> observerCreationUser;
-
+    private Observer<String> observerChildrenCredentials;
 
     public ParentInfoFragment() {
         // Required empty public constructor
@@ -104,10 +107,29 @@ public class ParentInfoFragment extends Fragment implements View.OnClickListener
         incomingUser = getArguments().getParcelable("user");
         incomingChild = getArguments().getParcelable("child");
         if(incomingChild != null) {
-            //TODO set custom email and password for the new child
-            incomingChild.setEmail(incomingUser.getEmail());
+            String email = incomingUser.getEmail();
+            String childNumber = String.valueOf(incomingUser.getChildren().size());
+            String emailName = email.split("@")[0] + "."+childNumber;
+            String emailDomain = email.split("@")[1];
+            incomingChild.setEmail(emailName+'@'+emailDomain);
             incomingChild.setPassword(incomingUser.getPassword());
             incomingUser.addChild(incomingChild);
+            mEdtName = (EditText)view.findViewById(R.id.edtName);
+            mEdtName.setText(incomingUser.getName(), TextView.BufferType.EDITABLE);
+            mEdtSurname = (EditText)view.findViewById(R.id.edtSurname);
+            mEdtSurname.setText(incomingUser.getSurname(), TextView.BufferType.EDITABLE);
+            String role = incomingUser.getGender();
+            RadioButton btn;
+            if(role.equalsIgnoreCase("mother")){
+                btn = view.findViewById(R.id.opt_mother);
+            }else if(role.equalsIgnoreCase("father")){
+                btn = view.findViewById(R.id.opt_father);
+            }else{
+                btn = view.findViewById(R.id.opt_other);
+            }
+            btn.toggle();
+            switchLearningOffline = view.findViewById(R.id.switchLearning);
+            switchLearningOffline.setChecked(incomingUser.getOfflineLearning());
         }
         view.findViewById(R.id.signup_btn).setOnClickListener(ParentInfoFragment.this);
         view.findViewById(R.id.back_btn).setOnClickListener(ParentInfoFragment.this);
@@ -139,6 +161,23 @@ public class ParentInfoFragment extends Fragment implements View.OnClickListener
             }
         };
         return observerCreationMEssage;
+    }
+
+    private Observer<String> getChildrenCredentialsObserver() {
+        model = ViewModelProviders.of(ParentInfoFragment.this).get(UserInfoViewModel.class);
+        final Observer<String> observerChildrenCredentials = new Observer<String>() {
+            @Override
+            public void onChanged(@Nullable String childrenCredentialsMessage) {
+                String msg = childrenCredentialsMessage;
+                if(msg.equals("success")){
+                    Log.d("ParentInfoFragment", "childrenCredentialsMessage: "+msg);
+                }else{
+                    Log.d("ParentInfoFragment", "childrenCredentialsMessage: "+msg);
+                }
+
+            }
+        };
+        return observerChildrenCredentials;
     }
 
     @Override
@@ -192,13 +231,22 @@ public class ParentInfoFragment extends Fragment implements View.OnClickListener
                             if (task.isSuccessful()) {
                                 FirebaseUser fuser = mAuth.getCurrentUser();
                                 user.setUid(fuser.getUid());
+                                ArrayList<Child> children = user.getChildren();
+                                for(Child c : children)
+                                    c.setUid(user.getUid()+children.indexOf(c));
+
                                 Bundle bundle = new Bundle();
                                 bundle.putParcelable("user", user);
                                 //userInfoRepository = UserInfoRepository.getInstance();
                                 observerCreationUser = getCreationUserObserver();
-                                model.createUser(user.getUid(), user);
-                                LiveData<NetworkMessage> repo = model.getCreationMessage();
-                                repo.observe(ParentInfoFragment.this, observerCreationUser);
+                                observerChildrenCredentials = getChildrenCredentialsObserver();
+                                model.sendChildrenCredentials(user.getChildren(), user.getEmail());
+                                LiveData<String> repo = model.getCredentialsEmailMessage();
+                                repo.observe(ParentInfoFragment.this, observerChildrenCredentials);
+                                // TODO create user for each child with Firebase Authentication and Firebase Database and then is OK
+                                //model.createUser(user.getUid(), user);
+                                //LiveData<NetworkMessage> repo = model.getCreationMessage();
+                                //repo.observe(ParentInfoFragment.this, observerCreationUser);
                                 //navController.navigate(R.id.action_parentInfoFragment_to_homeActivity2, bundle);
                             } else {
                                 Log.w("ParentInfoFragment", "createUserWithEmail:failure", task.getException());

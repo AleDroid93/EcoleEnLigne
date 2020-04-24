@@ -1,14 +1,25 @@
 package com.example.ecoleenligne.repositories;
 
+import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
 
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.ecoleenligne.data.NetworkMessage;
+import com.example.ecoleenligne.models.Child;
 import com.example.ecoleenligne.models.UserInfo;
+import com.example.ecoleenligne.remote.EmailClient;
 import com.example.ecoleenligne.remote.FirebaseClient;
 import com.example.ecoleenligne.remote.ServiceGenerator;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -23,9 +34,11 @@ public class UserInfoRepository {
 
     private static UserInfoRepository userInfoRepository;
     private FirebaseClient firebaseAPI;
-
+    private EmailClient emailClient;
     public UserInfoRepository() {
         firebaseAPI = ServiceGenerator.createService(FirebaseClient.class);
+        emailClient = ServiceGenerator.createFunctionService(EmailClient.class);
+
     }
 
     public static UserInfoRepository getInstance(){
@@ -81,4 +94,41 @@ public class UserInfoRepository {
         });
         return message;
     }
+
+
+    public MutableLiveData<String> sendChildrenCredentials(ArrayList<Child> children, String emailDest) {
+        MutableLiveData<String> message = new MutableLiveData<>();
+        JSONObject JSONChildren = new JSONObject();
+        Gson gson = new Gson();
+        String json = gson.toJson(children);
+        try {
+            for(Child c : children){
+                JSONChildren.put(String.valueOf(children.indexOf(c)), gson.toJson(c));
+            }
+
+            String encodedChildren = Base64.encodeToString(JSONChildren.toString().getBytes("UTF-8"), Base64.NO_WRAP);
+
+            emailClient.sendChildrenCredentials(json, emailDest).enqueue(new Callback<String>() {
+                @Override
+                public void onResponse(Call<String> call, Response<String> response) {
+                    Log.d("UserInfoRepository", "onCreate call success: ");
+                    if (response.isSuccessful())
+                        message.setValue("success");
+                    else
+                        message.setValue("not success");
+                }
+
+                @Override
+                public void onFailure(Call<String> call, Throwable t) {
+                    String callInfo = call.request().url().toString();
+                    Log.d("UserInfoRepository", "onCreate: Network failure on url " + callInfo);
+                    message.setValue("fail");
+                }
+            });
+        }catch(Exception ex){
+            Log.e("UserInfoRepository", ex.getMessage());
+        }
+        return message;
+    }
+
 }

@@ -9,33 +9,45 @@ import com.google.gson.annotations.SerializedName;
 public class Child implements Parcelable {
     @SerializedName("name")
     @Expose
-    String name;
+    private String name;
     @SerializedName("surname")
     @Expose
-    String surname;
+    private String surname;
     @SerializedName("classroom")
     @Expose
-    String classroom;
+    private String classroom;
     @SerializedName("gender")
     @Expose
-    String gender;
+    private String gender;
     @SerializedName("email")
     @Expose
-    String email;
+    private String email;
     @SerializedName("password")
     @Expose
-    String password;
+    private String password;
+    @SerializedName("uid")
+    @Expose
+    private String uid;
 
     public Child() {
     }
 
-    public Child(String name, String surname, String classroom, String gender, String email, String password) {
+    public Child(String uid, String name, String surname, String classroom, String gender, String email, String password) {
+        this.uid = uid;
         this.name = name;
         this.surname = surname;
         this.classroom = classroom;
         this.gender = gender;
         this.email = email;
         this.password = password;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public String getName() {
@@ -87,6 +99,7 @@ public class Child implements Parcelable {
     }
 
     protected Child(Parcel in) {
+        uid = in.readString();
         name = in.readString();
         surname = in.readString();
         classroom = in.readString();
@@ -114,6 +127,7 @@ public class Child implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(uid);
         dest.writeString(name);
         dest.writeString(surname);
         dest.writeString(classroom);

@@ -58,7 +58,9 @@
     <string name="student_othergen_text">Other</string>
     <string name="student_info_text">Student personal information:</string>
     <string name="parent_info_text">Parent personal information:</string>
+    <string name="choose_courses">Choose at least one course to follow</string>
     <string-array name="class_type">
+        <item> </item>
         <item>First</item>
         <item>Second</item>
         <item>Third</item>

@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">#1976d2</item>
         <item name="colorPrimaryDark">#2c4059</item>
@@ -17,4 +17,12 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="CustomChip" parent="@style/Widget.MaterialComponents.Chip.Choice">
+        <item name="chipStrokeColor">@color/browser_actions_divider_color</item>
+        <item name="chipBackgroundColor">@android:color/white</item>
+        <item name="android:textSize">20sp</item>
+        <item name="chipStrokeWidth">2dp</item>
+        <item name="android:checkable">true</item>
+        <item name="android:focusable">true</item>
+    </style>
 </resources>

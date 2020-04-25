@@ -35,8 +35,11 @@ public class HomeActivity2 extends AppCompatActivity {
         Intent intent = getIntent();
         currentUser = intent.getParcelableExtra("user");
         mAuth = FirebaseAuth.getInstance();
-        if(!mAuth.getCurrentUser().isEmailVerified())
+        if(!mAuth.getCurrentUser().isEmailVerified()) {
             sendEmailVerification();
+        }else{
+            // TODO gestire attivazione account child
+        }
         Bundle bundle = new Bundle();
         bundle.putParcelable("user", currentUser);
         DashboardFragment dashboardFragment = new DashboardFragment();

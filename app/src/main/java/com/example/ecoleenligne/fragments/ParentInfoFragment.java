@@ -107,6 +107,7 @@ public class ParentInfoFragment extends Fragment implements View.OnClickListener
         incomingUser = getArguments().getParcelable("user");
         incomingChild = getArguments().getParcelable("child");
         if(incomingChild != null) {
+            // TODO risolvere bug: L'utente arriva con attributi vuoti
             String email = incomingUser.getEmail();
             String childNumber = String.valueOf(incomingUser.getChildren().size());
             String emailName = email.split("@")[0] + "."+childNumber;

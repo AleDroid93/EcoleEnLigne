@@ -2,10 +2,12 @@ package com.example.ecoleenligne.fragments;
 
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.LiveData;
@@ -21,9 +23,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ecoleenligne.HomeActivity2;
@@ -34,9 +38,18 @@ import com.example.ecoleenligne.repositories.UserInfoRepository;
 import com.example.ecoleenligne.viewmodels.UserInfoViewModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.HashMap;
 
 
 /**
@@ -53,7 +66,9 @@ public class StudentInfoFragment extends Fragment implements AdapterView.OnItemS
     private UserInfoRepository userInfoRepository;
     private UserInfoViewModel model;
     private Observer<NetworkMessage> observerCreationUser;
-
+    private TextView tvChooseCourses;
+    private ChipGroup coursesGroup;
+    final FirebaseDatabase database = FirebaseDatabase.getInstance();
 
 
     public StudentInfoFragment() {
@@ -75,6 +90,7 @@ public class StudentInfoFragment extends Fragment implements AdapterView.OnItemS
         // Apply the adapter to the spinner
         mSpinnerClass.setAdapter(adapter);
         mSpinnerClass.setOnItemSelectedListener(this);
+
         return view;
     }
 
@@ -83,7 +99,58 @@ public class StudentInfoFragment extends Fragment implements AdapterView.OnItemS
         Log.d("StudentInfoFragment", "onItemSelected: hai scelto " +
                 parent.getItemAtPosition(position).toString());
         String uclass = parent.getItemAtPosition(position).toString();
+        if(!(position == 0)){
+            coursesGroup.setVisibility(View.VISIBLE);
+            displayClassCourses(uclass);
+            tvChooseCourses.setVisibility(View.VISIBLE);
+        }else{
+            coursesGroup.setVisibility(View.GONE);
+            tvChooseCourses.setVisibility(View.GONE);
+        }
         incomingUser.setUclass(uclass);
+    }
+
+
+    private void displayClassCourses(String uclass){
+        HashMap<String,String> classesIds = new HashMap<>();
+        classesIds.put("first", "cl0");
+        classesIds.put("second","cl1");
+        classesIds.put("third","cl2");
+        String courseId = classesIds.get(uclass.toLowerCase());
+        DatabaseReference reference = database.getReference("courses/"+courseId);
+
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                HashMap<String, String> courses = (HashMap<String, String>) dataSnapshot.getValue();
+                coursesGroup.removeAllViews();
+                for(String course : courses.values()) {
+                    Chip chip = (Chip) getLayoutInflater().inflate(R.layout.chip_layout, coursesGroup, false);
+                    chip.setText(course);
+                    chip.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton view, boolean isChecked) {
+                            Chip chip = (Chip) view;
+                            if(isChecked){
+                                chip.setChipBackgroundColorResource(R.color.lightColorAccent);
+                                chip.setChipStrokeColorResource(R.color.colorAccent);
+                                chip.setTextColor(getResources().getColor(R.color.colorAccent));
+                            }else{
+                                chip.setChipBackgroundColorResource(R.color.white);
+                                chip.setTextColor(getResources().getColor(R.color.browser_actions_text_color));
+                                chip.setChipStrokeColorResource(R.color.browser_actions_divider_color);
+                            }
+                        }
+                    });
+                    coursesGroup.addView(chip);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e("StudentInfoFragment", databaseError.getMessage());
+            }
+        });
     }
 
     @Override
@@ -101,8 +168,11 @@ public class StudentInfoFragment extends Fragment implements AdapterView.OnItemS
         view.findViewById(R.id.back_btn).setOnClickListener(StudentInfoFragment.this);
         mEdtName = view.findViewById(R.id.edtName);
         mEdtSurname = view.findViewById(R.id.edtSurname);
+        tvChooseCourses = view.findViewById(R.id.tv_choose_courses);
         genderButton = null;
+        coursesGroup = view.findViewById(R.id.course_chips);
         mAuth = FirebaseAuth.getInstance();
+
     }
 
 

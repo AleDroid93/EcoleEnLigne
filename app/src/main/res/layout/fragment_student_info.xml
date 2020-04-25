@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,20 +9,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.StudentInfoFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/main_layout"
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="32dp"
-        android:layout_marginRight="32dp"
-        android:layout_marginBottom="16dp"
+        android:layout_margin="16dp"
+        android:orientation="vertical"
         android:background="@drawable/login_box"
-        android:elevation="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
         <TextView
             android:id="@+id/tv_student_info"
             android:layout_width="match_parent"
@@ -32,137 +30,185 @@
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"  />
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/tv_choose_class"
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/main_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:fontFamily="@font/opensans_bold"
-            android:text="Choose your course class:"
-            android:textColor="@android:color/black"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_student_info"  />
+            android:elevation="10dp">
 
-
-        <Spinner
-            android:id="@+id/class_spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            app:layout_constraintEnd_toEndOf="@+id/main_layout"
-            app:layout_constraintStart_toStartOf="@+id/main_layout"
-            app:layout_constraintTop_toBottomOf="@id/tv_choose_class" />
-
-
-        <TextView
-            android:id="@+id/tv_student_genre"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/student_genre_text"
-            android:fontFamily="@font/opensans_bold"
-            android:textColor="@android:color/black"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/class_spinner" />
-
-
-
-        <RadioGroup
-            android:id="@+id/gender_options"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_student_genre"
-            >
-
-            <RadioButton
-                android:id="@+id/opt_female"
-                android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/tv_choose_class"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/student_female_text" />
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/opensans_bold"
+                android:text="Choose your course class:"
+                android:textColor="@android:color/black"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/main_layout" />
 
-            <RadioButton
-                android:id="@+id/opt_male"
-                android:layout_width="wrap_content"
+
+            <Spinner
+                android:id="@+id/class_spinner"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/student_male_text" />
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="@+id/main_layout"
+                app:layout_constraintStart_toStartOf="@+id/main_layout"
+                app:layout_constraintTop_toBottomOf="@id/tv_choose_class" />
 
-            <RadioButton
-                android:id="@+id/opt_otherg"
-                android:layout_width="wrap_content"
+
+            <TextView
+                android:id="@+id/tv_student_genre"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/student_othergen_text" />
-        </RadioGroup>
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/opensans_bold"
+                android:text="@string/student_genre_text"
+                android:textColor="@android:color/black"
+                app:layout_constraintTop_toBottomOf="@id/course_chips"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
 
+            <RadioGroup
+                android:id="@+id/gender_options"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_student_genre">
 
-        <TextView
-            android:id="@+id/tv_name"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="16dp"
-            android:text="@string/name_text"
-            android:fontFamily="@font/opensans_bold"
-            android:textColor="@android:color/black"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/edtSurname" />
+                <RadioButton
+                    android:id="@+id/opt_female"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/student_female_text" />
 
-        <EditText
-            android:id="@+id/edtName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/edit_text_rounded_corners"
-            android:fontFamily="@font/opensans_regular"
-            android:hint="@string/name_hint"
-            android:imeOptions="actionDone"
-            android:importantForAutofill="no"
-            android:inputType="textPersonName"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_name"/>
+                <RadioButton
+                    android:id="@+id/opt_male"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/student_male_text" />
+
+                <RadioButton
+                    android:id="@+id/opt_otherg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/student_othergen_text" />
+            </RadioGroup>
 
 
-        <TextView
-            android:id="@+id/tv_surname"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="16dp"
-            android:text="@string/surname_text"
-            android:fontFamily="@font/opensans_bold"
-            android:textColor="@android:color/black"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/gender_options" />
-        <EditText
-            android:id="@+id/edtSurname"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/edit_text_rounded_corners"
-            android:fontFamily="@font/opensans_regular"
-            android:hint="@string/surname_hint"
-            android:imeOptions="actionDone"
-            android:importantForAutofill="no"
-            android:inputType="textPersonName"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="@+id/main_layout"
-            app:layout_constraintStart_toStartOf="@+id/main_layout"
-            app:layout_constraintTop_toBottomOf="@+id/tv_surname" />
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/opensans_bold"
+                android:text="@string/name_text"
+                android:textColor="@android:color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/edtSurname" />
 
+            <EditText
+                android:id="@+id/edtName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/edit_text_rounded_corners"
+                android:fontFamily="@font/opensans_regular"
+                android:hint="@string/name_hint"
+                android:imeOptions="actionDone"
+                android:importantForAutofill="no"
+                android:inputType="textPersonName"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_name" />
+
+
+            <TextView
+                android:id="@+id/tv_surname"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/opensans_bold"
+                android:text="@string/surname_text"
+                android:textColor="@android:color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/gender_options" />
+
+            <EditText
+                android:id="@+id/edtSurname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/edit_text_rounded_corners"
+                android:fontFamily="@font/opensans_regular"
+                android:hint="@string/surname_hint"
+                android:imeOptions="actionDone"
+                android:importantForAutofill="no"
+                android:inputType="textPersonName"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@+id/main_layout"
+                app:layout_constraintStart_toStartOf="@+id/main_layout"
+                app:layout_constraintTop_toBottomOf="@+id/tv_surname" />
+
+            <TextView
+                android:id="@+id/tv_choose_courses"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dp"
+                android:visibility="gone"
+                android:fontFamily="@font/opensans_bold"
+                android:text="@string/choose_courses"
+                android:textColor="@android:color/black"
+                app:layout_constraintEnd_toEndOf="@+id/class_spinner"
+                app:layout_constraintStart_toStartOf="@+id/class_spinner"
+                app:layout_constraintTop_toBottomOf="@+id/class_spinner"/>
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/course_chips"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:chipSpacingHorizontal="8dp"
+                app:chipSpacingVertical="8dp"
+                app:layout_constraintEnd_toEndOf="@+id/class_spinner"
+                app:layout_constraintStart_toStartOf="@+id/class_spinner"
+                app:layout_constraintTop_toBottomOf="@+id/tv_choose_courses">
+
+                <!-- Chips can be declared here, or added dynamically.
+
+
+                <com.google.android.material.chip.Chip
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:checkable="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="History"
+                    android:textSize="20sp"
+                    app:chipBackgroundColor="@android:color/white"
+                    app:chipStrokeWidth="2dp"
+                    app:chipStrokeColor="@color/browser_actions_divider_color"/> -->
+
+            </com.google.android.material.chip.ChipGroup>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
         <Button
             android:id="@+id/signup_btn"
             android:layout_width="match_parent"
@@ -179,9 +225,7 @@
             android:textColor="@android:color/white"
             android:textSize="14sp"
             app:fontFamily="@font/opensans_bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/edtName"
-            app:layout_constraintTop_toBottomOf="@+id/edtName" />
+            />
 
         <Button
             android:id="@+id/back_btn"
@@ -192,11 +236,9 @@
             android:minHeight="40dp"
             android:text="back"
             android:textSize="14sp"
-            app:fontFamily="@font/opensans_bold"
-            app:layout_constraintStart_toStartOf="@+id/signup_btn"
-            app:layout_constraintTop_toBottomOf="@+id/signup_btn" />
+            app:fontFamily="@font/opensans_bold" />
+</LinearLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -244,7 +244,6 @@ public class StudentInfoFragment extends Fragment implements AdapterView.OnItemS
                         incomingUser.setName(name);
                         incomingUser.setSurname(surname);
                     }
-                    // TODO - salvare dati su SQLite e su Firebase DB
                     createNewUser(incomingUser);
                     break;
                 case R.id.back_btn:

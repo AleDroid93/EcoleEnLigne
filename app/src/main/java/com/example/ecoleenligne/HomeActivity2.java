@@ -74,7 +74,8 @@ public class HomeActivity2 extends AppCompatActivity {
                     selectedFragment = new SavedItemsFragment();
                     break;
             }
-
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("user", currentUser);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
             return true;
         }
@@ -114,4 +115,6 @@ public class HomeActivity2 extends AppCompatActivity {
                 });
         // [END send_email_verification]
     }
+
+
 }

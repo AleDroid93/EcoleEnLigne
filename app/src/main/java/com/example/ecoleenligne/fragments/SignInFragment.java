@@ -261,7 +261,7 @@ public class SignInFragment extends Fragment implements View.OnClickListener{
                 signInByEmailAndPassword(mEditTextEmail.getText().toString(), mEditTextPassword.getText().toString());
                 break;
             case R.id.tv_register_now:
-                Log.d("SignInFragment","onClick: signup textView pressed");
+                Log.d("SignInFragment","onClick: signup cardView pressed");
                 navController.navigate(R.id.action_signInFragment_to_signUpFragment);
                 break;
         }

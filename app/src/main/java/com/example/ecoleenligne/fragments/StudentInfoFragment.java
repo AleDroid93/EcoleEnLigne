@@ -112,6 +112,7 @@ public class StudentInfoFragment extends Fragment implements AdapterView.OnItemS
 
 
     private void displayClassCourses(String uclass){
+        // TODO get classesIds from the database
         HashMap<String,String> classesIds = new HashMap<>();
         classesIds.put("first", "cl0");
         classesIds.put("second","cl1");

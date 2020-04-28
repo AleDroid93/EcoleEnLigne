@@ -15,17 +15,6 @@ import java.util.stream.Collectors;
 
 public class UserInfo implements Parcelable {
 
-    public static final Creator<UserInfo> CREATOR = new Creator<UserInfo>() {
-        @Override
-        public UserInfo createFromParcel(Parcel in) {
-            return new UserInfo(in);
-        }
-
-        @Override
-        public UserInfo[] newArray(int size) {
-            return new UserInfo[size];
-        }
-    };
 
 
     @SerializedName("email")
@@ -48,7 +37,7 @@ public class UserInfo implements Parcelable {
     private String surname;
     @SerializedName("uclass")
     @Expose
-    private String uclass;
+    private Class uclass;
 
     @SerializedName("offlineLearning")
     @Expose
@@ -60,11 +49,11 @@ public class UserInfo implements Parcelable {
     @SerializedName("age")
     @Expose
     private Integer age;
-
+    /*
     @SerializedName("children")
     @Expose
     private ArrayList<Child> children;
-
+    */
     public UserInfo() {
         this.email = "";
         this.password = "";
@@ -72,14 +61,14 @@ public class UserInfo implements Parcelable {
         this.name = "";
         this.role = "";
         this.surname = "";
-        this.uclass = "";
+        this.uclass = new Class();
         this.gender = "";
         this.age = 0;
         this.offlineLearning = false;
-        this.children = new ArrayList<Child>();
+        //this.children = new ArrayList<Child>();
     }
 
-    public UserInfo(String email, String password, String name, String role, String surname, String uclass, String gender, Integer age) {
+    public UserInfo(String email, String password, String name, String role, String surname, Class uclass, String gender, Integer age) {
         this.email = email;
         this.password = password;
         this.uid = "";
@@ -90,8 +79,9 @@ public class UserInfo implements Parcelable {
         this.gender = gender;
         this.age = age;
         this.offlineLearning = false;
-        this.children = new ArrayList<Child>();
+        //this.children = new ArrayList<Child>();
     }
+
 
     protected UserInfo(Parcel in) {
         email = in.readString();
@@ -100,20 +90,36 @@ public class UserInfo implements Parcelable {
         name = in.readString();
         role = in.readString();
         surname = in.readString();
-        uclass = in.readString();
-        offlineLearning = in.readByte() != 0;
+        uclass = in.readParcelable(Class.class.getClassLoader());
+        byte tmpOfflineLearning = in.readByte();
+        offlineLearning = tmpOfflineLearning == 0 ? null : tmpOfflineLearning == 1;
         gender = in.readString();
-        age = in.readInt();
-        children = in.readArrayList(Child.class.getClassLoader());
+        if (in.readByte() == 0) {
+            age = null;
+        } else {
+            age = in.readInt();
+        }
+        //children = in.createTypedArrayList(Child.CREATOR);
     }
 
+    public static final Creator<UserInfo> CREATOR = new Creator<UserInfo>() {
+        @Override
+        public UserInfo createFromParcel(Parcel in) {
+            return new UserInfo(in);
+        }
+
+        @Override
+        public UserInfo[] newArray(int size) {
+            return new UserInfo[size];
+        }
+    };
 
     public void setOfflineLearning(Boolean offlineLearning) {
         this.offlineLearning = offlineLearning;
     }
 
 
-    public String getUclass() {
+    public Class getUclass() {
         return uclass;
     }
 
@@ -125,13 +131,16 @@ public class UserInfo implements Parcelable {
         this.offlineLearning = offlineLearning;
     }
 
-    public void addChild(Child child){
-        this.children.add(child);
-    }
 
+    public void addChild(Child child){
+        //this.children.add(child);
+        return;
+    }
+    /*
     public void removeChild(Child child){
         this.children.remove(child);
     }
+     */
 
     public String getEmail() {
         return email;
@@ -165,7 +174,7 @@ public class UserInfo implements Parcelable {
         return surname;
     }
 
-    public String getUserClass() {
+    public Class getUserClass() {
         return uclass;
     }
 
@@ -185,7 +194,7 @@ public class UserInfo implements Parcelable {
         this.surname = surname;
     }
 
-    public void setUclass(String uclass) {
+    public void setUclass(Class uclass) {
         this.uclass = uclass;
     }
 
@@ -205,28 +214,12 @@ public class UserInfo implements Parcelable {
         this.age = age;
     }
 
+
     public ArrayList<Child> getChildren(){
-        return this.children;
+        return new ArrayList<>();
     }
 
-    @Override
-    public String toString() {
-        String listString = "";
-        for(Child c : children){
-            listString += c.toString() + "\n";
-        }
-        return "UserInfo{" +
-                "email:'" + email + '\'' +
-                ", name:'" + name + '\'' +
-                ", role:'" + role + '\'' +
-                ", surname:'" + surname + '\'' +
-                ", class:'" + uclass + '\'' +
-                ", learn mode:'" + offlineLearning + '\'' +
-                ", gender:'" + gender + '\'' +
-                ", age:'" + age + '\'' +
-                ", children: [\n" + listString + "\n ] ,"+
-                '}';
-    }
+
 
     @Override
     public int describeContents() {
@@ -241,10 +234,32 @@ public class UserInfo implements Parcelable {
         dest.writeString(name);
         dest.writeString(role);
         dest.writeString(surname);
-        dest.writeString(uclass);
-        dest.writeValue(offlineLearning);
+        dest.writeParcelable(uclass, flags);
+        dest.writeByte((byte) (offlineLearning == null ? 0 : offlineLearning ? 1 : 2));
         dest.writeString(gender);
-        dest.writeInt(age);
-        dest.writeList(children);
+        if (age == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(age);
+        }
+        //dest.writeTypedList(children);
+    }
+
+    @Override
+    public String toString() {
+        return "UserInfo{" +
+                "email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", uid='" + uid + '\'' +
+                ", name='" + name + '\'' +
+                ", role='" + role + '\'' +
+                ", surname='" + surname + '\'' +
+                ", uclass=" + uclass +
+                ", offlineLearning=" + offlineLearning +
+                ", gender='" + gender + '\'' +
+                ", age=" + age +
+               // ", children=" + children +
+                '}';
     }
 }

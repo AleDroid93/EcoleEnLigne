@@ -7,6 +7,9 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Course implements Parcelable {
+    @SerializedName("id")
+    @Expose
+    private String id;
 
     @SerializedName("name")
     @Expose
@@ -16,18 +19,21 @@ public class Course implements Parcelable {
     private String color;
 
     public Course() {
+        this.id = "unkID";
         this.name="unknown";
         this.color="#ffffff";
     }
 
-    public Course(String name, String color) {
+    public Course(String id, String name, String color) {
+        this.id = id;
         this.name = name;
         this.color = color;
     }
 
     protected Course(Parcel in) {
-        color = in.readString();
+        id = in.readString();
         name = in.readString();
+        color = in.readString();
     }
 
     public static final Creator<Course> CREATOR = new Creator<Course>() {
@@ -41,6 +47,14 @@ public class Course implements Parcelable {
             return new Course[size];
         }
     };
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -58,6 +72,7 @@ public class Course implements Parcelable {
         this.color = color;
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -65,7 +80,8 @@ public class Course implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(color);
+        dest.writeString(id);
         dest.writeString(name);
+        dest.writeString(color);
     }
 }

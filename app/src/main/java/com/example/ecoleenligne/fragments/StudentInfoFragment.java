@@ -33,6 +33,8 @@ import android.widget.Toast;
 import com.example.ecoleenligne.HomeActivity2;
 import com.example.ecoleenligne.R;
 import com.example.ecoleenligne.data.NetworkMessage;
+import com.example.ecoleenligne.models.Class;
+import com.example.ecoleenligne.models.Course;
 import com.example.ecoleenligne.models.UserInfo;
 import com.example.ecoleenligne.repositories.UserInfoRepository;
 import com.example.ecoleenligne.viewmodels.UserInfoViewModel;
@@ -49,6 +51,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 
@@ -107,7 +110,7 @@ public class StudentInfoFragment extends Fragment implements AdapterView.OnItemS
             coursesGroup.setVisibility(View.GONE);
             tvChooseCourses.setVisibility(View.GONE);
         }
-        incomingUser.setUclass(uclass);
+        incomingUser.setUclass(new Class(uclass, new ArrayList<Course>()));
     }
 
 

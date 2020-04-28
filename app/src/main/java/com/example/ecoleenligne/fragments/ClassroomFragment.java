@@ -77,26 +77,21 @@ public class ClassroomFragment extends Fragment {
         HomeActivity2 parentActivity = (HomeActivity2) getActivity();
         parentActivity.getCurrentFocus();
         currentUser = getArguments().getParcelable("user");
-        displayClassCourses(currentUser.getUclass());
+        displayClassCourses(currentUser.getUid());
     }
 
 
-    private void displayClassCourses(String uclass){
-        // TODO get classesIds from the database
-        HashMap<String,String> classesIds = new HashMap<>();
-        classesIds.put("first", "cl0");
-        classesIds.put("second","cl1");
-        classesIds.put("third","cl2");
-        String courseId = classesIds.get(uclass.toLowerCase());
-        DatabaseReference reference = database.getReference("courses/"+courseId);
+    private void displayClassCourses(String uid){
+        DatabaseReference reference = database.getReference("users/"+uid+"/uclass/courses");
         // TODO se c'è qualcosa sul db locale, prendila da li, altrimenti scaricala dal web e sincronizza
+        // TODO spostare reperimento dei corsi nella HomeActivity e gestire solo la RecyclerView qui
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                HashMap<String,HashMap<String, String>> classroom = (HashMap<String, HashMap<String, String>>) dataSnapshot.getValue();
+                ArrayList<HashMap<String, String>> classroom = (ArrayList<HashMap<String, String>>) dataSnapshot.getValue();
                 ArrayList<Course> courses = new ArrayList<>();
-                for(HashMap<String, String> h : classroom.values())
-                    courses.add(new Course(h.get("name"), h.get("color")));
+                for(HashMap<String, String> h : classroom)
+                    courses.add(new Course(h.get("id"),h.get("name"), h.get("color")));
 
                 // specify an adapter (see also next example)
                 mClassroomAdapter = new ClassroomAdapter(courses);

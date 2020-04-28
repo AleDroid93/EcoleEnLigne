@@ -2,13 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/course_card_view"
         android:layout_width="150dp"
         android:layout_height="150dp"
+        android:layout_marginTop="16dp"
         android:layout_centerHorizontal="true"
-        android:backgroundTint="@android:color/black"
         android:elevation="12dp"
         android:innerRadius="0dp"
         android:shape="ring"
@@ -21,7 +21,6 @@
             android:id="@+id/tv_course_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="ciao"
             android:textColor="@color/white"
             android:fontFamily="@font/opensans_bold"
             android:textSize="20sp"

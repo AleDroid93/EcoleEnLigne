@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,6 +22,7 @@ import com.example.ecoleenligne.HomeActivity2;
 import com.example.ecoleenligne.R;
 import com.example.ecoleenligne.adapters.ClassroomAdapter;
 import com.example.ecoleenligne.models.Course;
+import com.example.ecoleenligne.models.UserInfo;
 import com.google.android.material.chip.Chip;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -39,7 +41,8 @@ public class ClassroomFragment extends Fragment {
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     private RecyclerView classroomRecyclerView;
     private RecyclerView.Adapter mClassroomAdapter;
-    private RecyclerView.LayoutManager layoutClassroomManager;
+    private GridLayoutManager layoutClassroomManager;
+    private UserInfo currentUser;
 
     public ClassroomFragment() {
         // Required empty public constructor
@@ -57,7 +60,7 @@ public class ClassroomFragment extends Fragment {
         //classroomRecyclerView.setHasFixedSize(true);
 
         // use a linear layout manager
-        layoutClassroomManager = new LinearLayoutManager(getContext());
+        layoutClassroomManager = new GridLayoutManager(getActivity(),2);
         classroomRecyclerView.setLayoutManager(layoutClassroomManager);
 
 
@@ -73,10 +76,8 @@ public class ClassroomFragment extends Fragment {
         DatabaseReference reference = database.getReference("courses/"+courseId);
         HomeActivity2 parentActivity = (HomeActivity2) getActivity();
         parentActivity.getCurrentFocus();
-        displayClassCourses("");
-
-
-
+        currentUser = getArguments().getParcelable("user");
+        displayClassCourses(currentUser.getUclass());
     }
 
 
@@ -88,15 +89,16 @@ public class ClassroomFragment extends Fragment {
         classesIds.put("third","cl2");
         String courseId = classesIds.get(uclass.toLowerCase());
         DatabaseReference reference = database.getReference("courses/"+courseId);
+        // TODO se c'è qualcosa sul db locale, prendila da li, altrimenti scaricala dal web e sincronizza
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                HashMap<String, Course> classroom = (HashMap<String, Course>) dataSnapshot.getValue();
-                ArrayList<Course> courses = (ArrayList<Course>) classroom.values();
+                HashMap<String,HashMap<String, String>> classroom = (HashMap<String, HashMap<String, String>>) dataSnapshot.getValue();
+                ArrayList<Course> courses = new ArrayList<>();
+                for(HashMap<String, String> h : classroom.values())
+                    courses.add(new Course(h.get("name"), h.get("color")));
+
                 // specify an adapter (see also next example)
-                // TODO (3) spostare in onCreate
-                // TODO (1) create a MaterialCardView for each course
-                // TODO (2) display cards in a RecyclerView
                 mClassroomAdapter = new ClassroomAdapter(courses);
                 classroomRecyclerView.setAdapter(mClassroomAdapter);
             }

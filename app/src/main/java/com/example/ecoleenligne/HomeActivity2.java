@@ -51,13 +51,13 @@ public class HomeActivity2 extends AppCompatActivity {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
             Fragment selectedFragment = null;
-
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("user", currentUser);
             switch (menuItem.getItemId()){
                 // creation of the fragment
                 case R.id.nav_dashboard:
                     Log.d("HomeActivity2", "onClick: dashboard pressed");
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelable("user", currentUser);
+
                     selectedFragment = new DashboardFragment();
                     selectedFragment.setArguments(bundle);
                     break;
@@ -68,14 +68,14 @@ public class HomeActivity2 extends AppCompatActivity {
                 case R.id.nav_class:
                     Log.d("HomeActivity2", "onClick: classroom pressed");
                     selectedFragment = new ClassroomFragment();
+                    selectedFragment.setArguments(bundle);
                     break;
                 case R.id.nav_saved:
                     Log.d("HomeActivity2", "onClick: saved items pressed");
                     selectedFragment = new SavedItemsFragment();
                     break;
             }
-            Bundle bundle = new Bundle();
-            bundle.putParcelable("user", currentUser);
+
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
             return true;
         }

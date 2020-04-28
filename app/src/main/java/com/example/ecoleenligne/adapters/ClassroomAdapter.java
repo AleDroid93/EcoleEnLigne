@@ -2,6 +2,7 @@ package com.example.ecoleenligne.adapters;
 
 import android.graphics.Color;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -23,9 +24,12 @@ public class ClassroomAdapter extends RecyclerView.Adapter<ClassroomAdapter.Clas
     public static class ClassroomViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         public CardView cardView;
-        public ClassroomViewHolder(CardView v) {
+        public TextView textView;
+
+        public ClassroomViewHolder(View v) {
             super(v);
-            cardView = v;
+            cardView = v.findViewById(R.id.course_card_view);
+            textView = v.findViewById(R.id.tv_course_name);
         }
     }
 
@@ -39,10 +43,10 @@ public class ClassroomAdapter extends RecyclerView.Adapter<ClassroomAdapter.Clas
     public ClassroomAdapter.ClassroomViewHolder onCreateViewHolder(ViewGroup parent,
                                                      int viewType) {
         // create a new view
-        LinearLayout layout = (LinearLayout) LayoutInflater.from(parent.getContext())
+        View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.course_card_view_item, parent, false);
-        CardView cv = layout.findViewById(R.id.course_card_view);
-        ClassroomViewHolder vh = new ClassroomViewHolder(cv);
+
+        ClassroomViewHolder vh = new ClassroomViewHolder(view);
         return vh;
     }
 
@@ -55,8 +59,7 @@ public class ClassroomAdapter extends RecyclerView.Adapter<ClassroomAdapter.Clas
         int color = Color.parseColor(course.getColor());
         // - replace the contents of the view with that element
         holder.cardView.setCardBackgroundColor(color);
-        TextView tv = holder.cardView.findViewById(R.id.tv_course_name);
-        tv.setText(name);
+        holder.textView.setText(name);
     }
 
     // Return the size of your dataset (invoked by the layout manager)

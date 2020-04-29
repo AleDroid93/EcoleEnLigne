@@ -62,8 +62,8 @@ public class ClassroomFragment extends Fragment {
         // use a linear layout manager
         layoutClassroomManager = new GridLayoutManager(getActivity(),2);
         classroomRecyclerView.setLayoutManager(layoutClassroomManager);
-
-
+        mClassroomAdapter = new ClassroomAdapter(new ArrayList<>(), (View.OnClickListener) getActivity());
+        classroomRecyclerView.setAdapter(mClassroomAdapter);
         return fragmentLayout;
 
     }
@@ -94,8 +94,10 @@ public class ClassroomFragment extends Fragment {
                     courses.add(new Course(h.get("id"),h.get("name"), h.get("color")));
 
                 // specify an adapter (see also next example)
-                mClassroomAdapter = new ClassroomAdapter(courses);
+                mClassroomAdapter = new ClassroomAdapter(courses, (View.OnClickListener) getActivity());
+                mClassroomAdapter.notifyDataSetChanged();
                 classroomRecyclerView.setAdapter(mClassroomAdapter);
+
             }
 
             @Override

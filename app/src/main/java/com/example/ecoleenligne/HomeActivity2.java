@@ -3,11 +3,14 @@ package com.example.ecoleenligne;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ecoleenligne.fragments.ChatFragment;
@@ -22,7 +25,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class HomeActivity2 extends AppCompatActivity {
+public class HomeActivity2 extends AppCompatActivity implements View.OnClickListener {
     private UserInfo currentUser;
     private FirebaseAuth mAuth;
 
@@ -42,9 +45,16 @@ public class HomeActivity2 extends AppCompatActivity {
         }
         Bundle bundle = new Bundle();
         bundle.putParcelable("user", currentUser);
-        DashboardFragment dashboardFragment = new DashboardFragment();
-        dashboardFragment.setArguments(bundle);
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, dashboardFragment).commit();
+        Fragment fragment = new DashboardFragment();
+        fragment.setArguments(bundle);
+        int index = getFragmentManager().getBackStackEntryCount() - 1;
+        if(index > 0){
+            FragmentManager.BackStackEntry backEntry = getSupportFragmentManager().getBackStackEntryAt(index);
+            String tag = backEntry.getName();
+            fragment = getSupportFragmentManager().findFragmentByTag(tag);
+        }
+        Log.d("HomeActivity2","index "+index);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -117,4 +127,16 @@ public class HomeActivity2 extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onClick(View v) {
+        switch(v.getId()){
+            case R.id.course_card_view:
+                Log.d("HomeActivity2", "course clicked!");
+                Intent intent = new Intent(this, CourseMenu.class);
+                intent.putExtra("course_name", ((TextView)v.findViewById(R.id.tv_course_name)).getText());
+                intent.putExtra("user", currentUser);
+                startActivity(intent);
+                break;
+        }
+    }
 }

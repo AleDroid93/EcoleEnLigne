@@ -39,9 +39,12 @@ public class DashboardFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        currentUser = getArguments().getParcelable("user");
+        if(currentUser == null) {
+            currentUser = getArguments().getParcelable("user");
+        }
         TextView tv = view.findViewById(R.id.welcome_text_view);
-        tv.setText("Hello\n"+ currentUser.toString());
+        if(currentUser != null)
+            tv.setText("Hello\n"+ currentUser.toString());
     }
 
 }

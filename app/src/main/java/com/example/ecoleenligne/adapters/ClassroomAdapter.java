@@ -1,5 +1,7 @@
 package com.example.ecoleenligne.adapters;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +12,7 @@ import android.widget.TextView;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.ecoleenligne.CourseMenu;
 import com.example.ecoleenligne.R;
 import com.example.ecoleenligne.models.Course;
 
@@ -17,7 +20,7 @@ import java.util.ArrayList;
 
 public class ClassroomAdapter extends RecyclerView.Adapter<ClassroomAdapter.ClassroomViewHolder> {
     private ArrayList<Course> mCourses;
-
+    private View.OnClickListener listener;
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
@@ -26,16 +29,26 @@ public class ClassroomAdapter extends RecyclerView.Adapter<ClassroomAdapter.Clas
         public CardView cardView;
         public TextView textView;
 
-        public ClassroomViewHolder(View v) {
+        public ClassroomViewHolder(View v, View.OnClickListener listener) {
             super(v);
             cardView = v.findViewById(R.id.course_card_view);
+            cardView.setOnClickListener(listener);
             textView = v.findViewById(R.id.tv_course_name);
         }
     }
 
+    public void setmCourses(ArrayList<Course> mCourses) {
+        this.mCourses = mCourses;
+    }
+
+    public ArrayList<Course> getmCourses() {
+        return mCourses;
+    }
+
     // Provide a suitable constructor (depends on the kind of dataset)
-    public ClassroomAdapter(ArrayList<Course> courses) {
-        mCourses = courses;
+    public ClassroomAdapter(ArrayList<Course> courses, View.OnClickListener listener) {
+        this.mCourses = courses;
+        this.listener = listener;
     }
 
     // Create new views (invoked by the layout manager)
@@ -45,8 +58,7 @@ public class ClassroomAdapter extends RecyclerView.Adapter<ClassroomAdapter.Clas
         // create a new view
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.course_card_view_item, parent, false);
-
-        ClassroomViewHolder vh = new ClassroomViewHolder(view);
+        ClassroomViewHolder vh = new ClassroomViewHolder(view, listener);
         return vh;
     }
 
@@ -67,5 +79,6 @@ public class ClassroomAdapter extends RecyclerView.Adapter<ClassroomAdapter.Clas
     public int getItemCount() {
         return mCourses.size();
     }
+
 
 }

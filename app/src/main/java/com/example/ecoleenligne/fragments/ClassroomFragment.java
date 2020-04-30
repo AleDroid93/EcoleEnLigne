@@ -80,7 +80,7 @@ public class ClassroomFragment extends Fragment {
         displayClassCourses(currentUser.getUid());
     }
 
-
+    // TODO - utilizzare approccio ViewModel come per i chapters
     private void displayClassCourses(String uid){
         DatabaseReference reference = database.getReference("users/"+uid+"/uclass/courses");
         // TODO se c'è qualcosa sul db locale, prendila da li, altrimenti scaricala dal web e sincronizza

@@ -135,6 +135,8 @@ public class HomeActivity2 extends AppCompatActivity implements View.OnClickList
                 Intent intent = new Intent(this, CourseMenu.class);
                 intent.putExtra("course_name", ((TextView)v.findViewById(R.id.tv_course_name)).getText());
                 intent.putExtra("user", currentUser);
+                currentUser.getUclass().getId();
+
                 startActivity(intent);
                 break;
         }

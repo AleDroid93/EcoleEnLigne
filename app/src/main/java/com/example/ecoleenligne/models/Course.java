@@ -6,6 +6,8 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+
 public class Course implements Parcelable {
     @SerializedName("id")
     @Expose
@@ -17,23 +19,35 @@ public class Course implements Parcelable {
     @SerializedName("color")
     @Expose
     private String color;
+    @SerializedName("chapters")
+    @Expose
+    private ArrayList<Chapter> chapters;
 
     public Course() {
         this.id = "unkID";
         this.name="unknown";
         this.color="#ffffff";
     }
-
     public Course(String id, String name, String color) {
         this.id = id;
         this.name = name;
         this.color = color;
+        this.chapters = new ArrayList<>();
     }
+
+    public Course(String id, String name, String color, ArrayList<Chapter> chapters) {
+        this.id = id;
+        this.name = name;
+        this.color = color;
+        this.chapters = chapters;
+    }
+
 
     protected Course(Parcel in) {
         id = in.readString();
         name = in.readString();
         color = in.readString();
+        chapters = in.createTypedArrayList(Chapter.CREATOR);
     }
 
     public static final Creator<Course> CREATOR = new Creator<Course>() {
@@ -73,6 +87,14 @@ public class Course implements Parcelable {
     }
 
 
+    public ArrayList<Chapter> getChapters() {
+        return chapters;
+    }
+
+    public void setChapters(ArrayList<Chapter> chapters) {
+        this.chapters = chapters;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -83,5 +105,6 @@ public class Course implements Parcelable {
         dest.writeString(id);
         dest.writeString(name);
         dest.writeString(color);
+        dest.writeTypedList(chapters);
     }
 }

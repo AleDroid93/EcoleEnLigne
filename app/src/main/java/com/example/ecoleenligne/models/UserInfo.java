@@ -246,6 +246,14 @@ public class UserInfo implements Parcelable {
         //dest.writeTypedList(children);
     }
 
+    public String findCourseIdByName(String courseName){
+        ArrayList<Course> courses = uclass.getCourses();
+        for(Course course : courses)
+            if(course.getName().equals(courseName))
+                return course.getId();
+        return null;
+    }
+
     @Override
     public String toString() {
         return "UserInfo{" +

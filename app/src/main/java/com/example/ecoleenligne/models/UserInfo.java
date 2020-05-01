@@ -1,5 +1,6 @@
 package com.example.ecoleenligne.models;
 
+import android.graphics.Color;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -252,6 +253,14 @@ public class UserInfo implements Parcelable {
             if(course.getName().equals(courseName))
                 return course.getId();
         return null;
+    }
+
+    public int findCourseColorByName(String courseName){
+        ArrayList<Course> courses = uclass.getCourses();
+        for(Course course : courses)
+            if(course.getName().equals(courseName))
+                return Color.parseColor(course.getColor());
+        return -1;
     }
 
     @Override

@@ -55,7 +55,7 @@ public class CourseMenu extends AppCompatActivity implements View.OnClickListene
     private LessonViewModel lessonsViewModel;
     private Observer<ArrayList<Chapter>> observerChapter;
     private Observer<ArrayList<Lesson>> observerLesson;
-    private UserInfo currentUser;
+    UserInfo currentUser;
     private int courseColor;
     private int lightColor;
 
@@ -181,6 +181,10 @@ public class CourseMenu extends AppCompatActivity implements View.OnClickListene
             }
         }
         return true;
+    }
+
+    public UserInfo getCurrentUser(){
+        return this.currentUser;
     }
 
     @Override

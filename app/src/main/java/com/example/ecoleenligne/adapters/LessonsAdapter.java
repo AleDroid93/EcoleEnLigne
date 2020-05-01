@@ -2,6 +2,7 @@ package com.example.ecoleenligne.adapters;
 
 import android.content.Context;
 
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.ecoleenligne.CourseMenu;
+import com.example.ecoleenligne.LessonMenuActivity;
 import com.example.ecoleenligne.R;
 import com.example.ecoleenligne.models.Lesson;
 import com.google.android.material.card.MaterialCardView;
@@ -70,7 +73,12 @@ public class LessonsAdapter extends RecyclerView.Adapter<LessonsAdapter.LessonVi
             lessonItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d("LessonsAdapter", "chiamo il menu di scelta risrose");
+                    Log.d("LessonsAdapter", "chiamo il menu di scelta risorse");
+                    CourseMenu parentActivity = (CourseMenu) ctx;
+                    Intent intent = new Intent(parentActivity, LessonMenuActivity.class);
+                    intent.putExtra("user", parentActivity.getCurrentUser());
+                    intent.putExtra("lessonName", lsTitle.getText());
+                    parentActivity.startActivity(intent);
                 }
             });
             lessonItem.setCardBackgroundColor(color);

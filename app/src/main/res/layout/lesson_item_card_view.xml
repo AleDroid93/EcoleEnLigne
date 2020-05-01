@@ -4,13 +4,14 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <com.google.android.material.card.MaterialCardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/lesson_item_card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:padding="16dp"
         android:layout_centerHorizontal="true"
-        android:backgroundTint="#e3f2fd"
+        card_view:cardBackgroundColor="#e3f2fd"
         android:elevation="12dp"
         android:innerRadius="0dp"
         android:shape="ring"
@@ -20,10 +21,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/classroom_recycler_view">
         <TextView
-            android:id="@+id/tv_lesson_name"
+            android:id="@+id/tv_lesson_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#232323"
+            android:textColor="@color/text_color"
             android:layout_margin="16dp"
             android:fontFamily="@font/opensans_regular"
             android:textSize="14sp"

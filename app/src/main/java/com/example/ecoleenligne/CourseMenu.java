@@ -13,9 +13,11 @@ import androidx.transition.AutoTransition;
 import androidx.transition.TransitionManager;
 
 import android.app.FragmentManager;
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -23,9 +25,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.ecoleenligne.adapters.ChaptersAdapter;
+import com.example.ecoleenligne.adapters.LessonsAdapter;
 import com.example.ecoleenligne.models.Chapter;
+import com.example.ecoleenligne.models.Course;
+import com.example.ecoleenligne.models.Lesson;
 import com.example.ecoleenligne.models.UserInfo;
 import com.example.ecoleenligne.viewmodels.ChapterViewModel;
+import com.example.ecoleenligne.viewmodels.LessonViewModel;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -40,12 +46,19 @@ public class CourseMenu extends AppCompatActivity implements View.OnClickListene
     private TextView courseMenuTitle;
     private LinearLayout expandableView;
     private RecyclerView mChaptersRecyclerView;
+    private RecyclerView mLessonsRecyclerView;
     private RecyclerView.Adapter mChaptersAdapter;
+    private RecyclerView.Adapter mLessonsAdapter;
     private LinearLayoutManager mLayoutChaptersManager;
+    private LinearLayoutManager mLayoutLessonsManager;
     private ChapterViewModel chaptersViewModel;
+    private LessonViewModel lessonsViewModel;
     private Observer<ArrayList<Chapter>> observerChapter;
+    private Observer<ArrayList<Lesson>> observerLesson;
     private UserInfo currentUser;
     private int courseColor;
+    private int lightColor;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,17 +72,29 @@ public class CourseMenu extends AppCompatActivity implements View.OnClickListene
         courseMenuTitle = findViewById(R.id.tv_menu_title);
         courseMenuTitle.setText(courseName + " course here");
         courseColor = currentUser.findCourseColorByName(courseName);
+        lightColor = currentUser.findCourseLightColorByName(courseName);
+
         String clId = currentUser.getUclass().getId();
         String csId = currentUser.findCourseIdByName(courseName);
 
         chaptersViewModel = ViewModelProviders.of(CourseMenu.this).get(ChapterViewModel.class);
+        //lessonsViewModel = ViewModelProviders.of(CourseMenu.this).get(LessonViewModel.class);
         observerChapter = getObserverChapter();
+        //observerLesson = getObserverLesson();
         chaptersViewModel.getChaptersLiveData().observe(CourseMenu.this, observerChapter);
+        //lessonsViewModel.getLessonsLiveData().observe(CourseMenu.this, observerLesson);
         mChaptersRecyclerView = findViewById(R.id.chapters_recycler_view);
+        //LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        //LinearLayout lyt = (LinearLayout) inflater.inflate(R.layout.chapter_card_view, null);
+        //mLessonsRecyclerView = lyt.findViewById(R.id.lessons_recycler_view);
         mLayoutChaptersManager = new LinearLayoutManager(CourseMenu.this);
+        //mLayoutLessonsManager = new LinearLayoutManager(CourseMenu.this);
         mChaptersRecyclerView.setLayoutManager(mLayoutChaptersManager);
-        mChaptersAdapter = new ChaptersAdapter(CourseMenu.this, courseColor, new ArrayList<>());
+        //mLessonsRecyclerView.setLayoutManager(mLayoutLessonsManager);
+        //mLessonsAdapter = new LessonsAdapter(new ArrayList<>(), lightColor, CourseMenu.this);
+        mChaptersAdapter = new ChaptersAdapter(CourseMenu.this, courseColor, lightColor, new ArrayList<>());
         mChaptersRecyclerView.setAdapter(mChaptersAdapter);
+        //mLessonsRecyclerView.setAdapter(mLessonsAdapter);
         displayChapters(clId, csId);
     }
 
@@ -77,8 +102,20 @@ public class CourseMenu extends AppCompatActivity implements View.OnClickListene
         return new Observer<ArrayList<Chapter>>() {
             @Override
             public void onChanged(ArrayList<Chapter> chapters) {
-                mChaptersAdapter = new ChaptersAdapter(CourseMenu.this, courseColor, chapters);
+                mChaptersAdapter = new ChaptersAdapter(CourseMenu.this, courseColor, lightColor, chapters);
+                mChaptersAdapter.notifyDataSetChanged();
                 mChaptersRecyclerView.setAdapter(mChaptersAdapter);
+            }
+        };
+    }
+
+    public Observer<ArrayList<Lesson>> getObserverLesson(){
+        return new Observer<ArrayList<Lesson>>() {
+            @Override
+            public void onChanged(ArrayList<Lesson> lessons) {
+                mLessonsAdapter = new LessonsAdapter(lessons, lightColor, CourseMenu.this);
+                mLessonsAdapter.notifyDataSetChanged();
+                mChaptersRecyclerView.setAdapter(mLessonsAdapter);
             }
         };
     }
@@ -94,6 +131,7 @@ public class CourseMenu extends AppCompatActivity implements View.OnClickListene
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 Chapter chapterItem = dataSnapshot.getValue(Chapter.class);
                 chaptersViewModel.addChapter(chapterItem);
+                //lessonsViewModel.addAll(chapterItem.getLessons());
             }
 
             @Override
@@ -135,6 +173,9 @@ public class CourseMenu extends AppCompatActivity implements View.OnClickListene
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home: {
+                mChaptersAdapter = new ChaptersAdapter(CourseMenu.this, getResources().getColor(R.color.white), lightColor, new ArrayList<>());
+                mChaptersAdapter.notifyDataSetChanged();
+                mChaptersRecyclerView.setAdapter(mChaptersAdapter);
                 onBackPressed();
                 break;
             }
@@ -144,6 +185,6 @@ public class CourseMenu extends AppCompatActivity implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
-        
+
     }
 }

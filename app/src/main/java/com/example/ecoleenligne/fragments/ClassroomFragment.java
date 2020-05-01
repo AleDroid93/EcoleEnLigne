@@ -91,7 +91,7 @@ public class ClassroomFragment extends Fragment {
                 ArrayList<HashMap<String, String>> classroom = (ArrayList<HashMap<String, String>>) dataSnapshot.getValue();
                 ArrayList<Course> courses = new ArrayList<>();
                 for(HashMap<String, String> h : classroom)
-                    courses.add(new Course(h.get("id"),h.get("name"), h.get("color")));
+                    courses.add(new Course(h.get("id"),h.get("name"), h.get("color"), h.get("lightColor")));
 
                 // specify an adapter (see also next example)
                 mClassroomAdapter = new ClassroomAdapter(courses, (View.OnClickListener) getActivity());

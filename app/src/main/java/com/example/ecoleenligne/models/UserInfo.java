@@ -279,4 +279,12 @@ public class UserInfo implements Parcelable {
                // ", children=" + children +
                 '}';
     }
+
+    public int findCourseLightColorByName(String courseName) {
+        ArrayList<Course> courses = uclass.getCourses();
+        for(Course course : courses)
+            if(course.getName().equals(courseName))
+                return Color.parseColor(course.getLightColor());
+        return -1;
+    }
 }

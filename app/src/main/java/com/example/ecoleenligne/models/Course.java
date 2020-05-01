@@ -19,6 +19,10 @@ public class Course implements Parcelable {
     @SerializedName("color")
     @Expose
     private String color;
+    @SerializedName("lightColor")
+    @Expose
+    private String lightColor;
+
     @SerializedName("chapters")
     @Expose
     private ArrayList<Chapter> chapters;
@@ -28,17 +32,19 @@ public class Course implements Parcelable {
         this.name="unknown";
         this.color="#ffffff";
     }
-    public Course(String id, String name, String color) {
+    public Course(String id, String name, String color, String lightColor) {
         this.id = id;
         this.name = name;
         this.color = color;
+        this.lightColor = lightColor;
         this.chapters = new ArrayList<>();
     }
 
-    public Course(String id, String name, String color, ArrayList<Chapter> chapters) {
+    public Course(String id, String name, String color, String lightColor,ArrayList<Chapter> chapters) {
         this.id = id;
         this.name = name;
         this.color = color;
+        this.lightColor = lightColor;
         this.chapters = chapters;
     }
 
@@ -47,7 +53,22 @@ public class Course implements Parcelable {
         id = in.readString();
         name = in.readString();
         color = in.readString();
+        lightColor = in.readString();
         chapters = in.createTypedArrayList(Chapter.CREATOR);
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(name);
+        dest.writeString(color);
+        dest.writeString(lightColor);
+        dest.writeTypedList(chapters);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<Course> CREATOR = new Creator<Course>() {
@@ -86,6 +107,13 @@ public class Course implements Parcelable {
         this.color = color;
     }
 
+    public String getLightColor() {
+        return lightColor;
+    }
+
+    public void setLightColor(String lightColor) {
+        this.lightColor = lightColor;
+    }
 
     public ArrayList<Chapter> getChapters() {
         return chapters;
@@ -95,16 +123,5 @@ public class Course implements Parcelable {
         this.chapters = chapters;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(id);
-        dest.writeString(name);
-        dest.writeString(color);
-        dest.writeTypedList(chapters);
-    }
 }

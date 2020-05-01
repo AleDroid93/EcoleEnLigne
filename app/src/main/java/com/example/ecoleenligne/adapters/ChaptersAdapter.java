@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.transition.AutoTransition;
 import androidx.transition.TransitionManager;
@@ -26,6 +27,7 @@ import java.util.ArrayList;
 public class ChaptersAdapter extends RecyclerView.Adapter<ChaptersAdapter.ChapterViewHolder>{
     private ArrayList<Chapter> mChapters;
     private int color;
+    private int lightColor;
     private Context context;
 
 
@@ -33,9 +35,10 @@ public class ChaptersAdapter extends RecyclerView.Adapter<ChaptersAdapter.Chapte
         this.mChapters = mChapters;
     }
 
-    public ChaptersAdapter(Context ctx, int color, ArrayList<Chapter> mChapters) {
+    public ChaptersAdapter(Context ctx, int color, int lightColor, ArrayList<Chapter> mChapters) {
         this.mChapters = mChapters;
         this.color = color;
+        this.lightColor = lightColor;
         this.context = ctx;
     }
 
@@ -74,6 +77,8 @@ public class ChaptersAdapter extends RecyclerView.Adapter<ChaptersAdapter.Chapte
         holder.chTitle.setTextColor(context.getResources().getColor(R.color.text_color));
         holder.chNumber.setTextColor(context.getResources().getColor(R.color.text_color));
         holder.chNumber.setText(chapterNumber);
+        holder.lessonsRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+        holder.lessonsRecyclerView.setAdapter(new LessonsAdapter(chapter.getLessons(), lightColor, context));
     }
 
 
@@ -85,6 +90,7 @@ public class ChaptersAdapter extends RecyclerView.Adapter<ChaptersAdapter.Chapte
         public TextView chNumber;
         public TextView chTitle;
         public ImageView chArrow;
+        public RecyclerView lessonsRecyclerView;
         public Context ctx;
         public int color;
 
@@ -95,6 +101,7 @@ public class ChaptersAdapter extends RecyclerView.Adapter<ChaptersAdapter.Chapte
             chNumber = itemView.findViewById(R.id.tv_chapter_number);
             chTitle = itemView.findViewById(R.id.tv_chapter_title);
             chArrow = itemView.findViewById(R.id.arrowBtn);
+            lessonsRecyclerView = itemView.findViewById(R.id.lessons_recycler_view);
             chHeader.setOnClickListener(getChapterClickListener(ctx, color));
             Drawable unwrappedDrawable = AppCompatResources.getDrawable(ctx, R.drawable.ic_down);
             Drawable wrappedDrawable = DrawableCompat.wrap(unwrappedDrawable);

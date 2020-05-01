@@ -1,18 +1,14 @@
 package com.example.ecoleenligne.adapters;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.ecoleenligne.CourseMenu;
 import com.example.ecoleenligne.R;
 import com.example.ecoleenligne.models.Course;
 
@@ -31,7 +27,7 @@ public class ClassroomAdapter extends RecyclerView.Adapter<ClassroomAdapter.Clas
 
         public ClassroomViewHolder(View v, View.OnClickListener listener) {
             super(v);
-            cardView = v.findViewById(R.id.course_card_view);
+            cardView = v.findViewById(R.id.chapter_card_view);
             cardView.setOnClickListener(listener);
             textView = v.findViewById(R.id.tv_course_name);
         }

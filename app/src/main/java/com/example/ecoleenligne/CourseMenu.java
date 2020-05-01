@@ -6,9 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.transition.AutoTransition;
@@ -19,17 +17,13 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.ecoleenligne.adapters.ChaptersAdapter;
-import com.example.ecoleenligne.adapters.ClassroomAdapter;
-import com.example.ecoleenligne.listener.CardViewListener;
 import com.example.ecoleenligne.models.Chapter;
-import com.example.ecoleenligne.models.Course;
 import com.example.ecoleenligne.models.UserInfo;
 import com.example.ecoleenligne.viewmodels.ChapterViewModel;
 import com.google.firebase.database.ChildEventListener;
@@ -37,10 +31,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class CourseMenu extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "CourseMenu";
@@ -59,60 +51,25 @@ public class CourseMenu extends AppCompatActivity implements View.OnClickListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_menu);
-        chaptersViewModel = ViewModelProviders.of(CourseMenu.this).get(ChapterViewModel.class);
-        observerChapter = getObserverChapter();
-        chaptersViewModel.getChaptersLiveData().observe(CourseMenu.this, observerChapter);
+
         String courseName = getIntent().getStringExtra("course_name");
-        courseMenuTitle = findViewById(R.id.tv_menu_title);
-        courseMenuTitle.setText(courseName + " course here");
-
-        mChaptersRecyclerView = findViewById(R.id.chapters_recycler_view);
-        mChaptersRecyclerView.addOnItemTouchListener(new CardViewListener(CourseMenu.this, mChaptersRecyclerView, new CardViewListener.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                Log.d(TAG, "arrow clicked");
-                LinearLayout headerLayout = view.findViewById(R.id.header_layout);
-                TextView chTitle = headerLayout.findViewById(R.id.tv_chapter_title);
-                TextView chNumber = headerLayout.findViewById(R.id.tv_chapter_number);
-                Drawable unwrappedDrawable = AppCompatResources.getDrawable(CourseMenu.this, R.drawable.chapter_item_box);
-                Drawable wrappedDrawable = DrawableCompat.wrap(unwrappedDrawable);
-                ImageView imView = (ImageView) headerLayout.findViewById(R.id.arrowBtn);
-                expandableView = view.findViewById(R.id.expandableView);
-                if(expandableView.getVisibility() == View.GONE) {
-                    TransitionManager.beginDelayedTransition(view.findViewById(R.id.course_card_view), new AutoTransition());
-                    expandableView.setVisibility(View.VISIBLE);
-                    imView.setImageResource(R.drawable.ic_up);
-                    DrawableCompat.setTint(wrappedDrawable, courseColor);
-                    chTitle.setTextColor(getResources().getColor(R.color.white));
-                    chNumber.setTextColor(getResources().getColor(R.color.white));
-                }else {
-                    TransitionManager.beginDelayedTransition(view.findViewById(R.id.course_card_view), new AutoTransition());
-                    expandableView.setVisibility(View.GONE);
-                    imView.setImageResource(R.drawable.ic_down);
-                    DrawableCompat.setTint(wrappedDrawable, getResources().getColor(R.color.white));
-                    chTitle.setTextColor(getResources().getColor(R.color.text_color));
-                    chNumber.setTextColor(getResources().getColor(R.color.text_color));
-                }
-                headerLayout.setBackground(wrappedDrawable);
-            }
-
-            @Override
-            public void onLongItemClick(View view, int position) {
-
-            }
-        }));
-
-
-        mLayoutChaptersManager = new LinearLayoutManager(CourseMenu.this);
-        mChaptersRecyclerView.setLayoutManager(mLayoutChaptersManager);
-        mChaptersAdapter = new ChaptersAdapter(CourseMenu.this, courseColor,CourseMenu.this, new ArrayList<>());
-        mChaptersRecyclerView.setAdapter(mChaptersAdapter);
         UserInfo currentUser = getIntent().getParcelableExtra("user");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        courseMenuTitle = findViewById(R.id.tv_menu_title);
+        courseMenuTitle.setText(courseName + " course here");
         courseColor = currentUser.findCourseColorByName(courseName);
         String clId = currentUser.getUclass().getId();
         String csId = currentUser.findCourseIdByName(courseName);
 
+        chaptersViewModel = ViewModelProviders.of(CourseMenu.this).get(ChapterViewModel.class);
+        observerChapter = getObserverChapter();
+        chaptersViewModel.getChaptersLiveData().observe(CourseMenu.this, observerChapter);
+        mChaptersRecyclerView = findViewById(R.id.chapters_recycler_view);
+        mLayoutChaptersManager = new LinearLayoutManager(CourseMenu.this);
+        mChaptersRecyclerView.setLayoutManager(mLayoutChaptersManager);
+        mChaptersAdapter = new ChaptersAdapter(CourseMenu.this, courseColor, new ArrayList<>());
+        mChaptersRecyclerView.setAdapter(mChaptersAdapter);
         displayChapters(clId, csId);
     }
 
@@ -120,7 +77,7 @@ public class CourseMenu extends AppCompatActivity implements View.OnClickListene
         return new Observer<ArrayList<Chapter>>() {
             @Override
             public void onChanged(ArrayList<Chapter> chapters) {
-                mChaptersAdapter = new ChaptersAdapter(CourseMenu.this, courseColor,CourseMenu.this, chapters);
+                mChaptersAdapter = new ChaptersAdapter(CourseMenu.this, courseColor, chapters);
                 mChaptersRecyclerView.setAdapter(mChaptersAdapter);
             }
         };
@@ -187,10 +144,6 @@ public class CourseMenu extends AppCompatActivity implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
-        switch(v.getId()){
-            case R.id.arrowBtn:
-
-                break;
-        }
+        
     }
 }

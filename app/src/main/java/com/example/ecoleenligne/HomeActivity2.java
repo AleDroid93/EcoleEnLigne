@@ -18,7 +18,6 @@ import com.example.ecoleenligne.fragments.ClassroomFragment;
 import com.example.ecoleenligne.fragments.DashboardFragment;
 import com.example.ecoleenligne.fragments.SavedItemsFragment;
 import com.example.ecoleenligne.models.UserInfo;
-import com.example.ecoleenligne.views.HomeActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -130,7 +129,7 @@ public class HomeActivity2 extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
         switch(v.getId()){
-            case R.id.course_card_view:
+            case R.id.chapter_card_view:
                 Log.d("HomeActivity2", "course clicked!");
                 Intent intent = new Intent(this, CourseMenu.class);
                 intent.putExtra("course_name", ((TextView)v.findViewById(R.id.tv_course_name)).getText());

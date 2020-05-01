@@ -1,8 +1,8 @@
 package com.example.ecoleenligne.adapters;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,13 +12,14 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.content.res.AppCompatResources;
-import androidx.cardview.widget.CardView;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.transition.AutoTransition;
+import androidx.transition.TransitionManager;
 
 import com.example.ecoleenligne.R;
 import com.example.ecoleenligne.models.Chapter;
-import com.example.ecoleenligne.models.Course;
+import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
 
@@ -26,29 +27,21 @@ public class ChaptersAdapter extends RecyclerView.Adapter<ChaptersAdapter.Chapte
     private ArrayList<Chapter> mChapters;
     private int color;
     private Context context;
-    private View.OnClickListener listener;
 
-    public static class ChapterViewHolder extends RecyclerView.ViewHolder {
-        public LinearLayout chHeader;
-        public TextView chNumber;
-        public TextView chTitle;
-        public ImageView chArrow;
-        public Context context;
-        public int color;
-        public View.OnClickListener listener;
 
-        public ChapterViewHolder(@NonNull View itemView, Context ctx, int color, View.OnClickListener listener) {
-            super(itemView);
-            chHeader = itemView.findViewById(R.id.header_layout);
-            chNumber = itemView.findViewById(R.id.tv_chapter_number);
-            chTitle = itemView.findViewById(R.id.tv_chapter_title);
-            chArrow = itemView.findViewById(R.id.arrowBtn);
-            chArrow.setOnClickListener(listener);
-            listener = listener;
-            Drawable unwrappedDrawable = AppCompatResources.getDrawable(ctx, R.drawable.ic_down);
-            Drawable wrappedDrawable = DrawableCompat.wrap(unwrappedDrawable);
-            DrawableCompat.setTint(wrappedDrawable, color);
-        }
+    public ChaptersAdapter(ArrayList<Chapter> mChapters) {
+        this.mChapters = mChapters;
+    }
+
+    public ChaptersAdapter(Context ctx, int color, ArrayList<Chapter> mChapters) {
+        this.mChapters = mChapters;
+        this.color = color;
+        this.context = ctx;
+    }
+
+    @Override
+    public int getItemCount() {
+        return this.mChapters.size();
     }
 
     public ArrayList<Chapter> getmChapters() {
@@ -68,7 +61,7 @@ public class ChaptersAdapter extends RecyclerView.Adapter<ChaptersAdapter.Chapte
     public ChapterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.chapter_card_view, parent, false);
-        ChapterViewHolder vh = new ChapterViewHolder(view, context, color, listener);
+        ChapterViewHolder vh = new ChapterViewHolder(view, context, color);
         return vh;
     }
 
@@ -83,19 +76,62 @@ public class ChaptersAdapter extends RecyclerView.Adapter<ChaptersAdapter.Chapte
         holder.chNumber.setText(chapterNumber);
     }
 
-    @Override
-    public int getItemCount() {
-        return this.mChapters.size();
+
+    /**
+     * ViewHolder Inner Class
+     */
+    public static class ChapterViewHolder extends RecyclerView.ViewHolder {
+        public LinearLayout chHeader;
+        public TextView chNumber;
+        public TextView chTitle;
+        public ImageView chArrow;
+        public Context ctx;
+        public int color;
+
+
+        public ChapterViewHolder(@NonNull View itemView, Context ctx, int color) {
+            super(itemView);
+            chHeader = itemView.findViewById(R.id.header_layout);
+            chNumber = itemView.findViewById(R.id.tv_chapter_number);
+            chTitle = itemView.findViewById(R.id.tv_chapter_title);
+            chArrow = itemView.findViewById(R.id.arrowBtn);
+            chHeader.setOnClickListener(getChapterClickListener(ctx, color));
+            Drawable unwrappedDrawable = AppCompatResources.getDrawable(ctx, R.drawable.ic_down);
+            Drawable wrappedDrawable = DrawableCompat.wrap(unwrappedDrawable);
+            DrawableCompat.setTint(wrappedDrawable, color);
+        }
+
+        private View.OnClickListener getChapterClickListener(Context ctx, int chColor){
+            return new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d("ChaptersAdapter", "arrow clicked");
+                    TextView chTitle = v.findViewById(R.id.tv_chapter_title);
+                    TextView chNumber = v.findViewById(R.id.tv_chapter_number);
+                    Drawable unwrappedDrawable = AppCompatResources.getDrawable(ctx, R.drawable.chapter_item_box);
+                    Drawable wrappedDrawable = DrawableCompat.wrap(unwrappedDrawable);
+                    ImageView imView = (ImageView) v.findViewById(R.id.arrowBtn);
+                    View expandableView = ((ViewGroup)v.getParent()).findViewById(R.id.expandableView);
+                    MaterialCardView chapterCard = (MaterialCardView) v.getParent().getParent();
+                    if(expandableView.getVisibility() == View.GONE) {
+                        TransitionManager.beginDelayedTransition(chapterCard, new AutoTransition());
+                        expandableView.setVisibility(View.VISIBLE);
+                        imView.setImageResource(R.drawable.ic_up);
+                        DrawableCompat.setTint(wrappedDrawable, chColor);
+                        chTitle.setTextColor(ctx.getResources().getColor(R.color.white));
+                        chNumber.setTextColor(ctx.getResources().getColor(R.color.white));
+                    }else {
+                        TransitionManager.beginDelayedTransition(chapterCard, new AutoTransition());
+                        expandableView.setVisibility(View.GONE);
+                        imView.setImageResource(R.drawable.ic_down);
+                        DrawableCompat.setTint(wrappedDrawable, ctx.getResources().getColor(R.color.white));
+                        chTitle.setTextColor(ctx.getResources().getColor(R.color.text_color));
+                        chNumber.setTextColor(ctx.getResources().getColor(R.color.text_color));
+                    }
+                    v.setBackground(wrappedDrawable);
+                }
+            };
+        }
     }
 
-    public ChaptersAdapter(ArrayList<Chapter> mChapters) {
-        this.mChapters = mChapters;
-    }
-
-    public ChaptersAdapter(Context ctx, int color, View.OnClickListener listener, ArrayList<Chapter> mChapters) {
-        this.mChapters = mChapters;
-        this.color = color;
-        this.context = ctx;
-        this.listener = listener;
-    }
 }

@@ -50,7 +50,7 @@ public class CourseMenu extends AppCompatActivity implements View.OnClickListene
     UserInfo currentUser;
     private int courseColor;
     private int lightColor;
-
+    private String urlDb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,7 +114,8 @@ public class CourseMenu extends AppCompatActivity implements View.OnClickListene
 
     // TODO gestire la nested RecyclerView per le lezioni
     private void displayChapters(String clId, String csId) {
-        DatabaseReference reference = database.getReference("courses/"+clId+"/"+csId+"/chapters");
+        urlDb = "courses/"+clId+"/"+csId+"/chapters";
+        DatabaseReference reference = database.getReference(urlDb);
 
 
         reference.orderByChild("name").addChildEventListener(new ChildEventListener() {

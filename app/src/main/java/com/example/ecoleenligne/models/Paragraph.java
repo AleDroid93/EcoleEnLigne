@@ -2,6 +2,7 @@ package com.example.ecoleenligne.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.provider.MediaStore;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -18,7 +19,7 @@ public class Paragraph implements Parcelable {
     private Integer number;
     @SerializedName("video")
     @Expose
-    private String video;
+    private Video video;
     @SerializedName("resume")
     @Expose
     private String resume;
@@ -31,12 +32,12 @@ public class Paragraph implements Parcelable {
         this.id = "unknowId";
         this.content="content";
         this.number=-1;
-        this.video="video";
+        this.video= new Video();
         this.resume="resume";
         this.title="title";
     }
 
-    public Paragraph(String id, String title, Integer number, String video, String resume, String content) {
+    public Paragraph(String id, String title, Integer number, Video video, String resume, String content) {
         this.id = id;
         this.title = title;
         this.number = number;
@@ -44,6 +45,7 @@ public class Paragraph implements Parcelable {
         this.resume = resume;
         this.content = content;
     }
+
 
     protected Paragraph(Parcel in) {
         id = in.readString();
@@ -53,7 +55,7 @@ public class Paragraph implements Parcelable {
         } else {
             number = in.readInt();
         }
-        video = in.readString();
+        video = in.readParcelable(Video.class.getClassLoader());
         resume = in.readString();
         content = in.readString();
     }
@@ -94,11 +96,11 @@ public class Paragraph implements Parcelable {
         this.number = number;
     }
 
-    public String getVideo() {
+    public Video getVideo() {
         return video;
     }
 
-    public void setVideo(String video) {
+    public void setVideo(Video video) {
         this.video = video;
     }
 
@@ -118,6 +120,7 @@ public class Paragraph implements Parcelable {
         this.content = content;
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -133,7 +136,7 @@ public class Paragraph implements Parcelable {
             dest.writeByte((byte) 1);
             dest.writeInt(number);
         }
-        dest.writeString(video);
+        dest.writeParcelable(video, flags);
         dest.writeString(resume);
         dest.writeString(content);
     }

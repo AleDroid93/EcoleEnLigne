@@ -45,6 +45,7 @@ public class LessonsAdapter extends RecyclerView.Adapter<LessonsAdapter.LessonVi
         Lesson lesson = mLessons.get(position);
         String title = lesson.getTitle();
         holder.lsTitle.setText(title);
+        holder.addLesson(lesson);
     }
 
     @Override
@@ -60,11 +61,13 @@ public class LessonsAdapter extends RecyclerView.Adapter<LessonsAdapter.LessonVi
         public TextView lsTitle;
         public Context ctx;
         public int color;
+        public ArrayList<Lesson> lessons;
+
 
 
         public LessonViewHolder(@NonNull View itemView, Context ctx, int color) {
             super(itemView);
-
+            this.lessons = new ArrayList<>();
             this.lessonItem = itemView.findViewById(R.id.lesson_item_card_view);
             this.lsTitle = itemView.findViewById(R.id.tv_lesson_title);
             this.ctx = ctx;
@@ -77,12 +80,27 @@ public class LessonsAdapter extends RecyclerView.Adapter<LessonsAdapter.LessonVi
                     CourseMenu parentActivity = (CourseMenu) ctx;
                     Intent intent = new Intent(parentActivity, LessonMenuActivity.class);
                     intent.putExtra("user", parentActivity.getCurrentUser());
+                    Lesson lesson = getLessonByTitle(lsTitle.getText().toString());
+                    if(lesson != null)
+                        intent.putExtra("lesson", lesson);
                     intent.putExtra("bgColor", color);
                     intent.putExtra("lessonName", lsTitle.getText());
                     parentActivity.startActivity(intent);
                 }
             });
             lessonItem.setCardBackgroundColor(color);
+        }
+
+        public void addLesson(Lesson lesson){
+            this.lessons.add(lesson);
+        }
+
+        public Lesson getLessonByTitle(String title){
+            for(Lesson l : lessons){
+                if( l.getTitle().equals(title))
+                    return l;
+            }
+            return null;
         }
     }
 }

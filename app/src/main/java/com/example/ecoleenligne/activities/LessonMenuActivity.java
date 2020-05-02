@@ -11,12 +11,14 @@ import android.widget.Toast;
 
 import com.example.ecoleenligne.R;
 import com.example.ecoleenligne.adapters.ChaptersAdapter;
+import com.example.ecoleenligne.models.Lesson;
 import com.example.ecoleenligne.models.UserInfo;
 
 import java.util.ArrayList;
 
 public class LessonMenuActivity extends AppCompatActivity implements View.OnClickListener {
     private TextView lessonMenuTitle;
+    private Lesson lesson;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +26,8 @@ public class LessonMenuActivity extends AppCompatActivity implements View.OnClic
         setContentView(R.layout.activity_lesson_menu);
 
         String lessonName = getIntent().getStringExtra("lessonName");
+        if(getIntent().hasExtra("lesson"))
+            lesson = getIntent().getParcelableExtra("lesson");
         int bgColor = getIntent().getIntExtra("bgColor", 0);
         UserInfo currentUser = getIntent().getParcelableExtra("user");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -57,6 +61,9 @@ public class LessonMenuActivity extends AppCompatActivity implements View.OnClic
                 message = "Video Item clicked!";
                 intent = new Intent(this, VideoContentActivity.class);
                 // TODO put key-value <paragraph - video ref> as extras
+                intent.putParcelableArrayListExtra("videos", this.lesson.getVideos());
+
+                intent.putExtra("urlDb","video");
                 break;
             case R.id.course_card_view_item:
                 message = "Course Item clicked!";

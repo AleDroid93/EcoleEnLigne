@@ -103,6 +103,15 @@ public class Lesson implements Parcelable {
         this.paragraphs = paragraphs;
     }
 
+    public ArrayList<Video> getVideos(){
+        ArrayList<Video> videos = new ArrayList<>();
+        for(Paragraph p : this.paragraphs){
+            if(!p.getVideo().isEmpty())
+                videos.add(p.getVideo());
+        }
+        return videos;
+    }
+
     @Override
     public int describeContents() {
         return 0;

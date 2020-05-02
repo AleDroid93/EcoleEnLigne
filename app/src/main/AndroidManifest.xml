@@ -12,25 +12,29 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".LessonMenuActivity"
-            android:parentActivityName=".CourseMenu"
-            android:theme="@style/AppTheme">
-        </activity>
-
+        <activity android:name=".activities.ResumeContentActivity"></activity>
+        <activity android:name=".activities.VideoContentActivity"
+            android:parentActivityName=".activities.LessonMenuActivity"
+            android:theme="@style/AppTheme"
+            />
+        <activity android:name=".activities.CourseContentActivity" />
         <activity
-            android:name=".CourseMenu"
-            android:parentActivityName=".HomeActivity2"
-            android:theme="@style/AppTheme"></activity>
-
-        <activity android:name=".SearchResultsActivity" />
+            android:name=".activities.LessonMenuActivity"
+            android:parentActivityName=".activities.CourseMenu"
+            android:theme="@style/AppTheme" />
         <activity
-            android:name=".HomeActivity2"
+            android:name=".activities.CourseMenu"
+            android:parentActivityName=".activities.HomeActivity2"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".activities.SearchResultsActivity" />
+        <activity
+            android:name=".activities.HomeActivity2"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
-        <activity android:name=".RootActivity">
+        <activity android:name=".activities.RootActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -41,7 +45,7 @@
             android:name=".fragments.RegistrationActivity"
             android:label="Sign Up" />
         <activity android:name=".views.HomeActivity" />
-        <activity android:name=".LoginActivity">
+        <activity android:name=".activities.LoginActivity">
 
             <!--
             <intent-filter>

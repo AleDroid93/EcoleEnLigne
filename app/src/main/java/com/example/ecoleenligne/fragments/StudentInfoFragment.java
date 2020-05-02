@@ -2,12 +2,10 @@ package com.example.ecoleenligne.fragments;
 
 
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.LiveData;
@@ -30,7 +28,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.ecoleenligne.HomeActivity2;
+import com.example.ecoleenligne.activities.HomeActivity2;
 import com.example.ecoleenligne.R;
 import com.example.ecoleenligne.data.NetworkMessage;
 import com.example.ecoleenligne.models.Class;

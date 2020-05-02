@@ -1,10 +1,12 @@
-package com.example.ecoleenligne;
+package com.example.ecoleenligne.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
+
+import com.example.ecoleenligne.R;
 
 public class SearchResultsActivity extends AppCompatActivity {
 

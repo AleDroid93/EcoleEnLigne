@@ -24,7 +24,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.ecoleenligne.HomeActivity2;
+import com.example.ecoleenligne.activities.HomeActivity2;
 import com.example.ecoleenligne.R;
 import com.example.ecoleenligne.models.UserInfo;
 import com.example.ecoleenligne.repositories.UserInfoRepository;

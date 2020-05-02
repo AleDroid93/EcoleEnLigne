@@ -11,8 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.ecoleenligne.CourseMenu;
-import com.example.ecoleenligne.LessonMenuActivity;
+import com.example.ecoleenligne.activities.CourseMenu;
+import com.example.ecoleenligne.activities.LessonMenuActivity;
 import com.example.ecoleenligne.R;
 import com.example.ecoleenligne.models.Lesson;
 import com.google.android.material.card.MaterialCardView;
@@ -77,6 +77,7 @@ public class LessonsAdapter extends RecyclerView.Adapter<LessonsAdapter.LessonVi
                     CourseMenu parentActivity = (CourseMenu) ctx;
                     Intent intent = new Intent(parentActivity, LessonMenuActivity.class);
                     intent.putExtra("user", parentActivity.getCurrentUser());
+                    intent.putExtra("bgColor", color);
                     intent.putExtra("lessonName", lsTitle.getText());
                     parentActivity.startActivity(intent);
                 }

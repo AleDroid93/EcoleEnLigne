@@ -1,13 +1,15 @@
-package com.example.ecoleenligne;
+package com.example.ecoleenligne.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ecoleenligne.R;
 import com.example.ecoleenligne.adapters.ChaptersAdapter;
 import com.example.ecoleenligne.models.UserInfo;
 
@@ -22,8 +24,10 @@ public class LessonMenuActivity extends AppCompatActivity implements View.OnClic
         setContentView(R.layout.activity_lesson_menu);
 
         String lessonName = getIntent().getStringExtra("lessonName");
+        int bgColor = getIntent().getIntExtra("bgColor", 0);
         UserInfo currentUser = getIntent().getParcelableExtra("user");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        findViewById(R.id.lesson_menu_layout).setBackgroundColor(bgColor);
         findViewById(R.id.course_card_view_item).setOnClickListener(this);
         findViewById(R.id.video_card_view_item).setOnClickListener(this);
         findViewById(R.id.resume_card_view_item).setOnClickListener(this);
@@ -47,9 +51,12 @@ public class LessonMenuActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onClick(View v) {
         String message = "";
+        Intent intent = null;
         switch (v.getId()){
             case R.id.video_card_view_item:
                 message = "Video Item clicked!";
+                intent = new Intent(this, VideoContentActivity.class);
+                // TODO put key-value <paragraph - video ref> as extras
                 break;
             case R.id.course_card_view_item:
                 message = "Course Item clicked!";
@@ -66,5 +73,7 @@ public class LessonMenuActivity extends AppCompatActivity implements View.OnClic
 
         }
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        if(intent != null)
+            startActivity(intent);
     }
 }

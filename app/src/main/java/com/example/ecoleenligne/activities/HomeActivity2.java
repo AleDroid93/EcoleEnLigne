@@ -1,4 +1,4 @@
-package com.example.ecoleenligne;
+package com.example.ecoleenligne.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ecoleenligne.R;
 import com.example.ecoleenligne.fragments.ChatFragment;
 import com.example.ecoleenligne.fragments.ClassroomFragment;
 import com.example.ecoleenligne.fragments.DashboardFragment;

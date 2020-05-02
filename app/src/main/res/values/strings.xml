@@ -67,4 +67,14 @@
     </string-array>
     <string name="search_title">Search a course</string>
     <string name="search_hint">Search</string>
+    <string name="resume_content">resume content</string>
+    <string name="summary">SUMMARY</string>
+    <string name="course_content">course content</string>
+    <string name="course">COURSE</string>
+    <string name="video_content">video content</string>
+    <string name="videos">VIDEOS</string>
+    <string name="quiz">QUIZ</string>
+    <string name="quiz_content">quiz content</string>
+    <string name="exercise">EXERCISE</string>
+    <string name="exercise_content">exercise content</string>
 </resources>

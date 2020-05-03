@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.example.ecoleenligne.R;
 import com.example.ecoleenligne.adapters.ChaptersAdapter;
 import com.example.ecoleenligne.models.Lesson;
+import com.example.ecoleenligne.models.Paragraph;
 import com.example.ecoleenligne.models.UserInfo;
 import com.example.ecoleenligne.models.Video;
 
@@ -69,6 +70,13 @@ public class LessonMenuActivity extends AppCompatActivity implements View.OnClic
                 break;
             case R.id.course_card_view_item:
                 message = "Course Item clicked!";
+                intent = new Intent(this, CourseContentActivity.class);
+                ArrayList<Paragraph> paragraphs = this.lesson.getParagraphs();
+                String intro = this.lesson.getIntroduction();
+                String conclusion = this.lesson.getConclusion();
+                intent.putExtra("intro",intro);
+                intent.putExtra("conclusion",conclusion);
+                intent.putParcelableArrayListExtra("paragraphs", paragraphs);
                 break;
             case R.id.resume_card_view_item:
                 message = "Resume Item clicked!";

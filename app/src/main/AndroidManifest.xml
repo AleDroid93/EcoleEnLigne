@@ -12,12 +12,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".activities.ResumeContentActivity"></activity>
+        <activity android:name=".activities.ResumeContentActivity"
+            android:parentActivityName=".activities.LessonMenuActivity"
+            android:theme="@style/AppTheme"/>
         <activity android:name=".activities.VideoContentActivity"
             android:parentActivityName=".activities.LessonMenuActivity"
             android:theme="@style/AppTheme"
             />
-        <activity android:name=".activities.CourseContentActivity" />
+        <activity android:name=".activities.CourseContentActivity"
+            android:parentActivityName=".activities.LessonMenuActivity"
+            android:theme="@style/AppTheme"/>
         <activity
             android:name=".activities.LessonMenuActivity"
             android:parentActivityName=".activities.CourseMenu"

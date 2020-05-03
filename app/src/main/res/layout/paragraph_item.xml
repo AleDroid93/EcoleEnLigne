@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/paragraph_layout"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/tv_paragraph"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/pt_bold"
+        android:text="Paragraph 2"
+        android:textColor="@color/colorAccent"
+        android:textSize="34sp" />
+
+    <TextView
+        android:id="@+id/tv_paragraph_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/crimson_regular"
+        android:text="@string/sample_text"
+        android:textColor="@color/text_color"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="40dp"
+        android:gravity="center_vertical"
+        android:textSize="20sp" />
+</LinearLayout>

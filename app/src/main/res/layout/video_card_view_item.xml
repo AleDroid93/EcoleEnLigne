@@ -1,51 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <com.google.android.material.card.MaterialCardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_height="wrap_content">
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/video_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="16dp"
         android:layout_marginStart="24dp"
         android:layout_marginLeft="24dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginBottom="32dp"
         android:layout_marginEnd="24dp"
         android:layout_marginRight="24dp"
         android:innerRadius="0dp"
-        android:shape="ring"
-        android:thicknessRatio="1.9"
-        card_view:cardCornerRadius="20dp">
+        android:thicknessRatio="1.9">
 
-
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/header_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="8dp">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/tv_video_item_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="8dp"
                 android:layout_gravity="center_vertical"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
                 android:layout_weight="2"
                 android:fontFamily="@font/opensans_bold"
+                android:paddingLeft="8dp"
                 android:text="Video x"
                 android:textColor="@color/colorPrimaryDark"
-                android:textSize="24sp" />
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <com.google.android.exoplayer2.ui.PlayerView
-                xmlns:app="http://schemas.android.com/tools"
+            <VideoView
                 android:id="@+id/video_player"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:background="@color/text_color"
-                app:layout_gravity="center"/>
-        </LinearLayout>
+                app:layout_constraintTop_toBottomOf="@+id/tv_video_item_title" />
+
+            <ImageButton
+                android:id="@+id/play_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_play_arrow_black_24dp"
+                android:background="@drawable/play_button_shape"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/video_player" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 </LinearLayout>

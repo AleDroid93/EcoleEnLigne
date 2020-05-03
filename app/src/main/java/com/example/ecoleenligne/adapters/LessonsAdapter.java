@@ -97,7 +97,8 @@ public class LessonsAdapter extends RecyclerView.Adapter<LessonsAdapter.LessonVi
 
         public Lesson getLessonByTitle(String title){
             for(Lesson l : lessons){
-                if( l.getTitle().equals(title))
+                String lTitle = l.getTitle();
+                if( lTitle.equals(title))
                     return l;
             }
             return null;

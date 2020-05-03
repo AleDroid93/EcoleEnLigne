@@ -36,17 +36,13 @@ public class CourseMenu extends AppCompatActivity implements View.OnClickListene
     private static final String TAG = "CourseMenu";
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     private TextView courseMenuTitle;
-    private LinearLayout expandableView;
     private RecyclerView mChaptersRecyclerView;
-    private RecyclerView mLessonsRecyclerView;
     private RecyclerView.Adapter mChaptersAdapter;
     private RecyclerView.Adapter mLessonsAdapter;
     private LinearLayoutManager mLayoutChaptersManager;
-    private LinearLayoutManager mLayoutLessonsManager;
     private ChapterViewModel chaptersViewModel;
-    private LessonViewModel lessonsViewModel;
     private Observer<ArrayList<Chapter>> observerChapter;
-    private Observer<ArrayList<Lesson>> observerLesson;
+
     UserInfo currentUser;
     private int courseColor;
     private int lightColor;
@@ -70,23 +66,15 @@ public class CourseMenu extends AppCompatActivity implements View.OnClickListene
         String csId = currentUser.findCourseIdByName(courseName);
 
         chaptersViewModel = ViewModelProviders.of(CourseMenu.this).get(ChapterViewModel.class);
-        //lessonsViewModel = ViewModelProviders.of(CourseMenu.this).get(LessonViewModel.class);
         observerChapter = getObserverChapter();
-        //observerLesson = getObserverLesson();
         chaptersViewModel.getChaptersLiveData().observe(CourseMenu.this, observerChapter);
-        //lessonsViewModel.getLessonsLiveData().observe(CourseMenu.this, observerLesson);
+
         mChaptersRecyclerView = findViewById(R.id.chapters_recycler_view);
-        //LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        //LinearLayout lyt = (LinearLayout) inflater.inflate(R.layout.chapter_card_view, null);
-        //mLessonsRecyclerView = lyt.findViewById(R.id.lessons_recycler_view);
         mLayoutChaptersManager = new LinearLayoutManager(CourseMenu.this);
-        //mLayoutLessonsManager = new LinearLayoutManager(CourseMenu.this);
         mChaptersRecyclerView.setLayoutManager(mLayoutChaptersManager);
-        //mLessonsRecyclerView.setLayoutManager(mLayoutLessonsManager);
-        //mLessonsAdapter = new LessonsAdapter(new ArrayList<>(), lightColor, CourseMenu.this);
+
         mChaptersAdapter = new ChaptersAdapter(CourseMenu.this, courseColor, lightColor, new ArrayList<>());
         mChaptersRecyclerView.setAdapter(mChaptersAdapter);
-        //mLessonsRecyclerView.setAdapter(mLessonsAdapter);
         displayChapters(clId, csId);
     }
 
@@ -101,16 +89,7 @@ public class CourseMenu extends AppCompatActivity implements View.OnClickListene
         };
     }
 
-    public Observer<ArrayList<Lesson>> getObserverLesson(){
-        return new Observer<ArrayList<Lesson>>() {
-            @Override
-            public void onChanged(ArrayList<Lesson> lessons) {
-                mLessonsAdapter = new LessonsAdapter(lessons, lightColor, CourseMenu.this);
-                mLessonsAdapter.notifyDataSetChanged();
-                mChaptersRecyclerView.setAdapter(mLessonsAdapter);
-            }
-        };
-    }
+
 
     // TODO gestire la nested RecyclerView per le lezioni
     private void displayChapters(String clId, String csId) {

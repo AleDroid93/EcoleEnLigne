@@ -13,6 +13,7 @@ import com.example.ecoleenligne.R;
 import com.example.ecoleenligne.adapters.ChaptersAdapter;
 import com.example.ecoleenligne.models.Lesson;
 import com.example.ecoleenligne.models.UserInfo;
+import com.example.ecoleenligne.models.Video;
 
 import java.util.ArrayList;
 
@@ -61,7 +62,8 @@ public class LessonMenuActivity extends AppCompatActivity implements View.OnClic
                 message = "Video Item clicked!";
                 intent = new Intent(this, VideoContentActivity.class);
                 // TODO put key-value <paragraph - video ref> as extras
-                intent.putParcelableArrayListExtra("videos", this.lesson.getVideos());
+                ArrayList<Video> videos = this.lesson.getVideos();
+                intent.putParcelableArrayListExtra("videos", videos);
 
                 intent.putExtra("urlDb","video");
                 break;

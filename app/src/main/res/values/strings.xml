@@ -83,6 +83,6 @@
         che la retta via era smarrita. Ahi quanto fu ardua e oscura
         quella radura, che nessuna scelta fu mai più dura.
     </string>
-
+    <string name="resume_title">Resume - %1$s</string>
     <string name="paragraph">Paragraph %1$d - %2$s</string>
 </resources>

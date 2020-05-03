@@ -80,6 +80,11 @@ public class LessonMenuActivity extends AppCompatActivity implements View.OnClic
                 break;
             case R.id.resume_card_view_item:
                 message = "Resume Item clicked!";
+                intent = new Intent(this, ResumeContentActivity.class);
+                String resumeTitle = this.lesson.getTitle();
+                ArrayList<Paragraph> resumedParagraphs = this.lesson.getParagraphs();
+                intent.putExtra("resumeTitle", resumeTitle);
+                intent.putParcelableArrayListExtra("resumes", resumedParagraphs);
                 break;
             case R.id.quiz_card_view_item:
                 message = "Quiz Item clicked!";

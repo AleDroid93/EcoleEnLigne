@@ -3,7 +3,8 @@
     package="com.example.ecoleenligne">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
     <application
         android:name="androidx.multidex.MultiDexApplication"
         android:allowBackup="true"
@@ -12,16 +13,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".activities.ResumeContentActivity"
+
+        <activity android:name=".activities.QuizActivity"
             android:parentActivityName=".activities.LessonMenuActivity"
             android:theme="@style/AppTheme"/>
-        <activity android:name=".activities.VideoContentActivity"
+
+        <activity
+            android:name=".activities.ResumeContentActivity"
             android:parentActivityName=".activities.LessonMenuActivity"
-            android:theme="@style/AppTheme"
-            />
-        <activity android:name=".activities.CourseContentActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activities.VideoContentActivity"
             android:parentActivityName=".activities.LessonMenuActivity"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activities.CourseContentActivity"
+            android:parentActivityName=".activities.LessonMenuActivity"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.LessonMenuActivity"
             android:parentActivityName=".activities.CourseMenu"

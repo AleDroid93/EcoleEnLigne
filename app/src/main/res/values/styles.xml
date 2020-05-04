@@ -6,6 +6,7 @@
         <item name="colorPrimary">#1976d2</item>
         <item name="colorPrimaryDark">#2c4059</item>
         <item name="colorAccent">#29b6f6</item>
+
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -24,5 +25,20 @@
         <item name="chipStrokeWidth">2dp</item>
         <item name="android:checkable">true</item>
         <item name="android:focusable">true</item>
+    </style>
+
+    <style name="quiz_button">
+        <item name="textAllCaps">false</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:background">@drawable/edit_text_rounded_corners</item>
+        <item name="android:textColor">@color/text_color</item>
+        <item name="android:layout_marginLeft">16dp</item>
+        <item name="android:layout_marginRight">16dp</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginEnd">16dp</item>
+        <item name="android:layout_marginBottom">24dp</item>
+
+        <item name="android:padding">16dp</item>
+        <item name="android:textSize">18sp</item>
     </style>
 </resources>

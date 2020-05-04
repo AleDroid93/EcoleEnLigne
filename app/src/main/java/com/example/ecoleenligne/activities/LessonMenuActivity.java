@@ -87,6 +87,7 @@ public class LessonMenuActivity extends AppCompatActivity implements View.OnClic
                 intent.putParcelableArrayListExtra("resumes", resumedParagraphs);
                 break;
             case R.id.quiz_card_view_item:
+                intent = new Intent(this, QuizActivity.class);
                 message = "Quiz Item clicked!";
                 break;
             case R.id.exercise_card_view_item:

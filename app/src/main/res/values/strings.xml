@@ -73,8 +73,8 @@
     <string name="course">COURSE</string>
     <string name="video_content">video content</string>
     <string name="videos">VIDEOS</string>
-    <string name="quiz">QUIZ</string>
-    <string name="quiz_content">quiz content</string>
+    <string name="quizItem">QUIZ</string>
+    <string name="quiz_content">quizItem content</string>
     <string name="exercise">EXERCISE</string>
     <string name="exercise_content">exercise content</string>
     <string name="video_content_title">Watch a video:</string>

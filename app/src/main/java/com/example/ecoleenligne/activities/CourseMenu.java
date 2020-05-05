@@ -23,7 +23,6 @@ import com.example.ecoleenligne.models.Chapter;
 import com.example.ecoleenligne.models.Lesson;
 import com.example.ecoleenligne.models.UserInfo;
 import com.example.ecoleenligne.viewmodels.ChapterViewModel;
-import com.example.ecoleenligne.viewmodels.LessonViewModel;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -35,6 +34,8 @@ import java.util.ArrayList;
 public class CourseMenu extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "CourseMenu";
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference reference;
+    ChildEventListener listener;
     private TextView courseMenuTitle;
     private RecyclerView mChaptersRecyclerView;
     private RecyclerView.Adapter mChaptersAdapter;
@@ -91,13 +92,11 @@ public class CourseMenu extends AppCompatActivity implements View.OnClickListene
 
 
 
-    // TODO gestire la nested RecyclerView per le lezioni
     private void displayChapters(String clId, String csId) {
         urlDb = "courses/"+clId+"/"+csId+"/chapters";
-        DatabaseReference reference = database.getReference(urlDb);
+        reference = database.getReference(urlDb);
 
-
-        reference.orderByChild("name").addChildEventListener(new ChildEventListener() {
+        listener = new ChildEventListener() {
 
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
@@ -125,8 +124,8 @@ public class CourseMenu extends AppCompatActivity implements View.OnClickListene
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-        });
-
+        };
+        reference.orderByChild("name").addChildEventListener(listener);
     }
 
     @Override
@@ -134,6 +133,7 @@ public class CourseMenu extends AppCompatActivity implements View.OnClickListene
         FragmentManager fm = getFragmentManager();
         if (fm.getBackStackEntryCount() > 0) {
             Log.i(TAG, "popping backstack");
+            reference.removeEventListener(listener);
             fm.popBackStack();
         } else {
             Log.i(TAG, "nothing on backstack, calling super");
@@ -148,6 +148,7 @@ public class CourseMenu extends AppCompatActivity implements View.OnClickListene
                 mChaptersAdapter = new ChaptersAdapter(CourseMenu.this, getResources().getColor(R.color.white), lightColor, new ArrayList<>());
                 mChaptersAdapter.notifyDataSetChanged();
                 mChaptersRecyclerView.setAdapter(mChaptersAdapter);
+                reference.removeEventListener(listener);
                 onBackPressed();
                 break;
             }

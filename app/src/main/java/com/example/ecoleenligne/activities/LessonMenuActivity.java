@@ -88,7 +88,7 @@ public class LessonMenuActivity extends AppCompatActivity implements View.OnClic
                 break;
             case R.id.quiz_card_view_item:
                 intent = new Intent(this, QuizActivity.class);
-                message = "Quiz Item clicked!";
+                message = "QuizItem Item clicked!";
                 break;
             case R.id.exercise_card_view_item:
                 message = "Exercise Item clicked!";

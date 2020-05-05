@@ -3,14 +3,18 @@ package com.example.ecoleenligne.activities;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ecoleenligne.R;
+import com.example.ecoleenligne.adapters.QuizSliderAdapter;
 import com.example.ecoleenligne.models.Quiz;
 import com.example.ecoleenligne.models.QuizItem;
 import com.google.firebase.database.ChildEventListener;
@@ -20,13 +24,17 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class QuizActivity extends AppCompatActivity {
+public class QuizActivity extends AppCompatActivity implements View.OnClickListener {
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     private TextView tvQuestion;
     private Button choice1;
     private Button choice2;
     private Button choice3;
     private Button choice4;
+
+    private ViewPager quizPager;
+    private LinearLayout dotsPager;
+    private QuizSliderAdapter adapter;
     private int nQuiz;
     private int currentQuestion;
     private Quiz currentQuiz;
@@ -42,6 +50,9 @@ public class QuizActivity extends AppCompatActivity {
         choice4 = findViewById(R.id.choice4);
         currentQuestion = 0;
         spawnQuiz();
+
+        quizPager = findViewById(R.id.quiz_pager);
+        dotsPager = findViewById(R.id.dots_pager);
     }
 
     @Override
@@ -68,7 +79,9 @@ public class QuizActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         currentQuiz = dataSnapshot.getValue(Quiz.class);
-                        nextQuestion(currentQuiz);
+                        adapter = new QuizSliderAdapter(QuizActivity.this, currentQuiz.getQuestions());
+                        quizPager.setAdapter(adapter);
+                        //nextQuestion(currentQuiz);
                     }
 
                     @Override
@@ -105,5 +118,22 @@ public class QuizActivity extends AppCompatActivity {
     public int getRandomQuizNumber(double min, double max){
         double x = Math.random()*(max);
         return (int) x;
+    }
+
+    @Override
+    public void onClick(View v) {
+        Button button = (Button) v;
+        switch (v.getId()){
+            case R.id.choice1:
+                if(button.getText().equals(currentQuiz.getQuestions().get(currentQuestion).getAnswerTextByIndex()))
+                    Toast.makeText(this, "Correct", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.choice2:
+                break;
+            case R.id.choice3:
+                break;
+            case R.id.choice4:
+                break;
+        }
     }
 }

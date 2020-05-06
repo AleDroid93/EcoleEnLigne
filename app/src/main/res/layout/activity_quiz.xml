@@ -7,63 +7,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.QuizActivity">
-    <!--
-    <LinearLayout
-        android:id="@+id/question_wrapper"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
-        android:background="@drawable/social_login_box"
-        android:padding="20dp"
-        android:orientation="vertical">
-    <TextView
-        android:id="@+id/question"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/opensans_bold"
-        android:text="Which thing is alive?"
-        android:textAlignment="center"
-        android:textSize="20sp"
 
-        />
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/choice1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Choice1"
-        style="@style/quiz_button"
-        />
-
-    <Button
-        android:id="@+id/choice2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Choice2"
-        style="@style/quiz_button"
-        />
-
-    <Button
-        android:id="@+id/choice3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Choice3"
-        style="@style/quiz_button" />
-
-    <Button
-        android:id="@+id/choice4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Choice4"
-        style="@style/quiz_button"
-        /> !-->
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/quiz_pager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/dots_pager"
-        android:layout_marginBottom="8dp"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/prevBtn"

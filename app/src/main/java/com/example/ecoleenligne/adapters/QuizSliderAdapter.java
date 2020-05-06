@@ -1,7 +1,6 @@
 package com.example.ecoleenligne.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,6 @@ import com.example.ecoleenligne.R;
 import com.example.ecoleenligne.activities.QuizActivity;
 import com.example.ecoleenligne.models.QuizItem;
 import com.google.android.material.chip.Chip;
-import com.google.android.material.chip.ChipGroup;
 
 import java.util.ArrayList;
 

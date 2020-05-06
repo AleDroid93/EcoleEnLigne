@@ -9,107 +9,83 @@
         android:id="@+id/question_wrapper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
-        android:background="@drawable/social_login_box"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/quiz_header_box"
         android:padding="20dp"
         android:orientation="vertical">
         <TextView
             android:id="@+id/question"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/white"
             android:fontFamily="@font/opensans_bold"
             android:text="Which thing is alive?"
             android:textAlignment="center"
-            android:textSize="20sp"
-
-            />
+            android:textSize="20sp" />
     </LinearLayout>
-    <!--
-    <Button
-        android:id="@+id/choice1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Choice1"
-        style="@style/quiz_button"
-        />
 
-    <Button
-        android:id="@+id/choice2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Choice2"
-        style="@style/quiz_button"
-        />
-
-    <Button
-        android:id="@+id/choice3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Choice3"
-        style="@style/quiz_button" />
-
-    <Button
-        android:id="@+id/choice4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Choice4"
-        style="@style/quiz_button"
-        />
-    !-->
     <com.google.android.material.chip.ChipGroup
         android:id="@+id/chipGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        app:singleSelection="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/quiz_body_box"
+        android:paddingTop="32dp"
+        android:paddingBottom="10dp"
         app:chipSpacingVertical="8dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="32dp">
+        app:singleSelection="true">
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chipChoice1"
+            style="@style/quizChip"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Choice 1"
-            app:iconStartPadding="8dp"
-            app:chipIconSize="28dp"
-            app:chipIcon="@drawable/circled_a"
             android:padding="16dp"
-            style="@style/quizChip">
-        </com.google.android.material.chip.Chip>
+            android:text="Choice 1"
+            app:chipIcon="@drawable/circled_a"
+            app:chipIconSize="28dp"
+            app:iconStartPadding="8dp"/>
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chipChoice2"
+            style="@style/quizChip"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Choice 2"
-            app:iconStartPadding="8dp"
-            app:chipIconSize="28dp"
-            app:chipIcon="@drawable/circled_b"
             android:padding="16dp"
-            style="@style/quizChip">
-        </com.google.android.material.chip.Chip>
+            android:text="Choice 2"
+            app:chipIcon="@drawable/circled_b"
+            app:chipIconSize="28dp"
+            app:iconStartPadding="8dp"/>
+
         <com.google.android.material.chip.Chip
             android:id="@+id/chipChoice3"
+            style="@style/quizChip"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Choice 3"
-            app:iconStartPadding="8dp"
-            app:chipIconSize="28dp"
-            app:chipIcon="@drawable/circled_c"
             android:padding="16dp"
-            style="@style/quizChip">
-        </com.google.android.material.chip.Chip>
+            android:text="Choice 3"
+            app:chipIcon="@drawable/circled_c"
+            app:chipIconSize="28dp"
+            app:iconStartPadding="8dp"/>
+
         <com.google.android.material.chip.Chip
             android:id="@+id/chipChoice4"
+            style="@style/quizChip"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Choice 4"
-            app:iconStartPadding="8dp"
-            app:chipIconSize="28dp"
-            app:chipIcon="@drawable/circled_d"
+            android:layout_marginBottom="30dp"
             android:padding="16dp"
-            style="@style/quizChip">
-        </com.google.android.material.chip.Chip>
+            android:text="Choice 4"
+            app:chipIcon="@drawable/circled_d"
+            app:chipIconSize="28dp"
+            app:iconStartPadding="8dp"/>
+
+        <com.google.android.material.chip.Chip
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:padding="16dp"
+            android:visibility="invisible" />
     </com.google.android.material.chip.ChipGroup>
 </LinearLayout>

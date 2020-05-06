@@ -1,19 +1,22 @@
 package com.example.ecoleenligne.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 
 import com.example.ecoleenligne.R;
+import com.example.ecoleenligne.activities.QuizActivity;
 import com.example.ecoleenligne.models.QuizItem;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 
 import java.util.ArrayList;
 
@@ -21,10 +24,14 @@ public class QuizSliderAdapter extends PagerAdapter {
     Context context;
     LayoutInflater inflater;
     ArrayList<QuizItem> questions;
+    ArrayList<Integer> answers;
 
     public QuizSliderAdapter(Context context, ArrayList<QuizItem> items) {
         this.context = context;
         this.questions = items;
+        this.answers  = new ArrayList<>(this.questions.size());
+        for(int i = 0; i < questions.size(); i++)
+            answers.add(0);
     }
 
     @Override
@@ -43,18 +50,22 @@ public class QuizSliderAdapter extends PagerAdapter {
         inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.quiz_slide_layout, container, false);
         TextView tvQuestion = view.findViewById(R.id.question);
-        Button btnChoice1 = view.findViewById(R.id.choice1);
-        Button btnChoice2 = view.findViewById(R.id.choice2);
-        Button btnChoice3 = view.findViewById(R.id.choice3);
-        Button btnChoice4 = view.findViewById(R.id.choice4);
+        Chip btnChoice1 = view.findViewById(R.id.chipChoice1);
+        Chip btnChoice2 = view.findViewById(R.id.chipChoice2);
+        Chip btnChoice3 = view.findViewById(R.id.chipChoice3);
+        Chip btnChoice4 = view.findViewById(R.id.chipChoice4);
+        btnChoice1.setOnCheckedChangeListener(getOnCheckedChangeListener());
+        btnChoice2.setOnCheckedChangeListener(getOnCheckedChangeListener());
+        btnChoice3.setOnCheckedChangeListener(getOnCheckedChangeListener());
+        btnChoice4.setOnCheckedChangeListener(getOnCheckedChangeListener());
 
         QuizItem question = questions.get(position);
+
         tvQuestion.setText(question.getQuestion());
         btnChoice1.setText(question.getChoice1());
         btnChoice2.setText(question.getChoice2());
         btnChoice3.setText(question.getChoice3());
         btnChoice4.setText(question.getChoice4());
-
         container.addView(view);
         return view;
     }
@@ -62,5 +73,54 @@ public class QuizSliderAdapter extends PagerAdapter {
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         container.removeView((LinearLayout) object);
+    }
+
+
+    public CompoundButton.OnCheckedChangeListener getOnCheckedChangeListener(){
+        return new CompoundButton.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(CompoundButton view, boolean isChecked) {
+                Chip chip = (Chip) view;
+                QuizActivity activity = (QuizActivity) context;
+                int currentQuestion = activity.getCurrentQuestion();
+                if(isChecked){
+                    chip.setChipBackgroundColorResource(R.color.colorAccent2);
+                    chip.setChipStrokeColorResource(R.color.colorPrimaryDark);
+                    chip.setChipIconVisible(false);
+                    int answerId = getNumberOfChip(chip.getId());
+                    answers.set(currentQuestion, answerId);
+                    chip.setTextColor(context.getResources().getColor(R.color.white));
+                }else{
+                    chip.setChipBackgroundColorResource(R.color.white);
+                    chip.setChipIconVisible(true);
+                    chip.setTextColor(context.getResources().getColor(R.color.text_color));
+                    chip.setChipStrokeColorResource(R.color.text_color);
+                }
+            }
+        };
+    }
+
+    public int getNumberOfChip(int id){
+        switch(id){
+            case R.id.chipChoice1:
+                return 1;
+            case R.id.chipChoice2:
+                return 2;
+            case R.id.chipChoice3:
+                return 3;
+            case R.id.chipChoice4:
+                return 4;
+        }
+        return 0;
+    }
+
+    public int evaluateQuiz(){
+        int result = 0;
+        for(QuizItem question : questions){
+            if(question.getAnswer() == answers.get(questions.indexOf(question)))
+                result++;
+        }
+        return result;
     }
 }

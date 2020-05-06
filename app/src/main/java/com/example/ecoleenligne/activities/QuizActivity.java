@@ -10,6 +10,7 @@ import android.text.Html;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +19,8 @@ import com.example.ecoleenligne.R;
 import com.example.ecoleenligne.adapters.QuizSliderAdapter;
 import com.example.ecoleenligne.models.Quiz;
 import com.example.ecoleenligne.models.QuizItem;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,10 +33,10 @@ import java.util.ArrayList;
 public class QuizActivity extends AppCompatActivity implements View.OnClickListener {
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     private TextView tvQuestion;
-    private Button choice1;
-    private Button choice2;
-    private Button choice3;
-    private Button choice4;
+    private Chip choice1;
+    private Chip choice2;
+    private Chip choice3;
+    private Chip choice4;
     private Button prevBtn;
     private Button nextBtn;
     private ViewPager quizPager;
@@ -51,10 +54,10 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
         tvQuestion = findViewById(R.id.question);
-        choice1 = findViewById(R.id.choice1);
-        choice2 = findViewById(R.id.choice2);
-        choice3 = findViewById(R.id.choice3);
-        choice4 = findViewById(R.id.choice4);
+        choice1 = findViewById(R.id.chipChoice1);
+        choice2 = findViewById(R.id.chipChoice2);
+        choice3 = findViewById(R.id.chipChoice3);
+        choice4 = findViewById(R.id.chipChoice4);
         prevBtn = findViewById(R.id.prevBtn);
         nextBtn = findViewById(R.id.nextBtn);
         prevBtn.setOnClickListener(new View.OnClickListener() {
@@ -68,7 +71,14 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onClick(View v) {
                 Toast.makeText(QuizActivity.this, "next clicked", Toast.LENGTH_SHORT).show();
-                quizPager.setCurrentItem(currentQuestion + 1);
+                if(((Button)v).getText().equals(getResources().getString(R.string.finish_hint))) {
+                    int result = adapter.evaluateQuiz();
+                    int maxResult = adapter.getCount();
+                    //TODO - aggiungere result alle statistiche, insieme a quizdone
+                    Toast.makeText(QuizActivity.this, "Quiz result: " + result + "/" + maxResult, Toast.LENGTH_SHORT).show();
+                }else {
+                    quizPager.setCurrentItem(currentQuestion + 1);
+                }
             }
         });
         currentQuestion = 0;
@@ -138,7 +148,10 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
             tvQuestion.setText(quizItem.getQuestion());
             currentQuestion++;
         }else{
-            Toast.makeText(this, "Quiz ended", Toast.LENGTH_SHORT).show();
+            int result = adapter.evaluateQuiz();
+            int maxResult = adapter.getCount();
+            //TODO - aggiungere result alle statistiche, insieme a quizdone
+            Toast.makeText(this, "Quiz result: "+result+"/"+maxResult, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -150,18 +163,7 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         Button button = (Button) v;
-        switch (v.getId()){
-            case R.id.choice1:
-                if(button.getText().equals(currentQuiz.getQuestions().get(currentQuestion).getAnswerTextByIndex()))
-                    Toast.makeText(this, "Correct", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.choice2:
-                break;
-            case R.id.choice3:
-                break;
-            case R.id.choice4:
-                break;
-        }
+
     }
 
     public ViewPager.OnPageChangeListener getPageListener() {
@@ -216,5 +218,9 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
             dots.add(dot);
             dotsPager.addView(dot);
         }
+    }
+
+    public int getCurrentQuestion() {
+        return currentQuestion;
     }
 }

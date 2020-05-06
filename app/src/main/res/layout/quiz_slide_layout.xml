@@ -73,7 +73,7 @@
             android:text="Choice 1"
             app:iconStartPadding="8dp"
             app:chipIconSize="28dp"
-            app:chipIcon="@drawable/ic_quiz"
+            app:chipIcon="@drawable/circled_a"
             android:padding="16dp"
             style="@style/quizChip">
         </com.google.android.material.chip.Chip>
@@ -85,7 +85,7 @@
             android:text="Choice 2"
             app:iconStartPadding="8dp"
             app:chipIconSize="28dp"
-            app:chipIcon="@drawable/ic_quiz"
+            app:chipIcon="@drawable/circled_b"
             android:padding="16dp"
             style="@style/quizChip">
         </com.google.android.material.chip.Chip>
@@ -96,7 +96,7 @@
             android:text="Choice 3"
             app:iconStartPadding="8dp"
             app:chipIconSize="28dp"
-            app:chipIcon="@drawable/ic_quiz"
+            app:chipIcon="@drawable/circled_c"
             android:padding="16dp"
             style="@style/quizChip">
         </com.google.android.material.chip.Chip>
@@ -107,7 +107,7 @@
             android:text="Choice 4"
             app:iconStartPadding="8dp"
             app:chipIconSize="28dp"
-            app:chipIcon="@drawable/ic_quiz"
+            app:chipIcon="@drawable/circled_d"
             android:padding="16dp"
             style="@style/quizChip">
         </com.google.android.material.chip.Chip>

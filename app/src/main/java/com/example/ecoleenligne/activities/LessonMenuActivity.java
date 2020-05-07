@@ -74,6 +74,7 @@ public class LessonMenuActivity extends AppCompatActivity implements View.OnClic
                 ArrayList<Paragraph> paragraphs = this.lesson.getParagraphs();
                 String intro = this.lesson.getIntroduction();
                 String conclusion = this.lesson.getConclusion();
+                intent.putExtra("lesson", lesson);
                 intent.putExtra("intro",intro);
                 intent.putExtra("conclusion",conclusion);
                 intent.putParcelableArrayListExtra("paragraphs", paragraphs);

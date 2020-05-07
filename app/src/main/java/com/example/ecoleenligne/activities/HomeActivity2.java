@@ -1,9 +1,12 @@
 package com.example.ecoleenligne.activities;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,11 +17,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ecoleenligne.R;
+import com.example.ecoleenligne.data.NetworkMessage;
 import com.example.ecoleenligne.fragments.ChatFragment;
 import com.example.ecoleenligne.fragments.ClassroomFragment;
 import com.example.ecoleenligne.fragments.DashboardFragment;
+import com.example.ecoleenligne.fragments.MessagesFragment;
 import com.example.ecoleenligne.fragments.SavedItemsFragment;
+import com.example.ecoleenligne.fragments.StudentInfoFragment;
 import com.example.ecoleenligne.models.UserInfo;
+import com.example.ecoleenligne.viewmodels.NotificationViewModel;
+import com.example.ecoleenligne.viewmodels.UserInfoViewModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -33,11 +41,24 @@ public class HomeActivity2 extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_2);
-        BottomNavigationView bottomNavigationView = findViewById(R.id.dashboard_menu);
-        bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
         Intent intent = getIntent();
         currentUser = intent.getParcelableExtra("user");
         mAuth = FirebaseAuth.getInstance();
+
+        BottomNavigationView bottomNavigationView = findViewById(R.id.dashboard_menu);
+        // TODO - gestire anche i sottocasi (offline mode e tchat)
+        if(currentUser.getRole().equalsIgnoreCase("student")){
+            bottomNavigationView.getMenu().clear();
+            bottomNavigationView.inflateMenu(R.menu.bottom_nav_student);
+        }else{
+            bottomNavigationView.getMenu().clear();
+            bottomNavigationView.inflateMenu(R.menu.bottom_navigation);
+        }
+
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
+
+
         if(!mAuth.getCurrentUser().isEmailVerified()) {
             sendEmailVerification();
         }else{
@@ -71,6 +92,12 @@ public class HomeActivity2 extends AppCompatActivity implements View.OnClickList
                     selectedFragment = new DashboardFragment();
                     selectedFragment.setArguments(bundle);
                     break;
+                case R.id.nav_home:
+                    Log.d("HomeActivity2", "onClick: home pressed");
+                    // TODO replace DasbhboardFragment with HomeStudentFragment
+                    selectedFragment = new DashboardFragment();
+                    selectedFragment.setArguments(bundle);
+                    break;
                 case R.id.nav_chat:
                     Log.d("HomeActivity2", "onClick: chat pressed");
                     selectedFragment = new ChatFragment();
@@ -80,6 +107,10 @@ public class HomeActivity2 extends AppCompatActivity implements View.OnClickList
                     selectedFragment = new ClassroomFragment();
                     selectedFragment.setArguments(bundle);
                     break;
+                case R.id.nav_messages:
+                    Log.d("HomeActivity", "onClick: messages pressed");
+                    selectedFragment = new MessagesFragment();
+                    //selectedFragment.setArguments(bundle);
                 case R.id.nav_saved:
                     Log.d("HomeActivity2", "onClick: saved items pressed");
                     selectedFragment = new SavedItemsFragment();
@@ -133,6 +164,7 @@ public class HomeActivity2 extends AppCompatActivity implements View.OnClickList
             case R.id.chapter_card_view:
                 Log.d("HomeActivity2", "course clicked!");
                 Intent intent = new Intent(this, CourseMenu.class);
+
                 intent.putExtra("course_name", ((TextView)v.findViewById(R.id.tv_course_name)).getText());
                 intent.putExtra("user", currentUser);
                 currentUser.getUclass().getId();
@@ -141,4 +173,6 @@ public class HomeActivity2 extends AppCompatActivity implements View.OnClickList
                 break;
         }
     }
+
+
 }

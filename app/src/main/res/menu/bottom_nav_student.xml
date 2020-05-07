@@ -12,7 +12,7 @@
 
     <item
         android:id="@+id/nav_messages"
-        android:icon="@drawable/ic_inbox_24dp"
+        android:icon="@drawable/ic_notifications"
         android:title="Messages" />
 
     <item

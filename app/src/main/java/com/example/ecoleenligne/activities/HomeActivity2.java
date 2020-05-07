@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -29,6 +30,8 @@ import com.example.ecoleenligne.viewmodels.NotificationViewModel;
 import com.example.ecoleenligne.viewmodels.UserInfoViewModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationItemView;
+import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -36,6 +39,10 @@ import com.google.firebase.auth.FirebaseUser;
 public class HomeActivity2 extends AppCompatActivity implements View.OnClickListener {
     private UserInfo currentUser;
     private FirebaseAuth mAuth;
+    private View notificationBadge;
+    private BottomNavigationView bottomNavigationView;
+    
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +52,7 @@ public class HomeActivity2 extends AppCompatActivity implements View.OnClickList
         currentUser = intent.getParcelableExtra("user");
         mAuth = FirebaseAuth.getInstance();
 
-        BottomNavigationView bottomNavigationView = findViewById(R.id.dashboard_menu);
+        bottomNavigationView = findViewById(R.id.dashboard_menu);
         // TODO - gestire anche i sottocasi (offline mode e tchat)
         if(currentUser.getRole().equalsIgnoreCase("student")){
             bottomNavigationView.getMenu().clear();
@@ -76,6 +83,7 @@ public class HomeActivity2 extends AppCompatActivity implements View.OnClickList
         }
         Log.d("HomeActivity2","index "+index);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
+        setNotificationBadge(2, "1");
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -172,6 +180,14 @@ public class HomeActivity2 extends AppCompatActivity implements View.OnClickList
                 startActivity(intent);
                 break;
         }
+    }
+
+    private void setNotificationBadge(int pos, String num){
+        BottomNavigationMenuView bottomNavigationMenuView = (BottomNavigationMenuView) bottomNavigationView.getChildAt(0);
+        View v = bottomNavigationMenuView.getChildAt(pos);
+        BottomNavigationItemView itemView = (BottomNavigationItemView) v;
+        View badge = LayoutInflater.from(this).inflate(R.layout.badge_layout, itemView, true);
+        ((TextView) badge).setText(num);
     }
 
 

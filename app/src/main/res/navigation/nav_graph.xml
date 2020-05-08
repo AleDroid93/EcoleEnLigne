@@ -77,15 +77,19 @@
         <argument android:name="user"
             app:argType="com.example.ecoleenligne.models.UserInfo"/>
         <action
-            android:id="@+id/action_parentInfoFragment_to_homeActivity2"
-            app:destination="@id/homeActivity2" />
-        <action
             android:id="@+id/action_parentInfoFragment_to_addChildFragment"
             app:destination="@id/addChildFragment"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_parentInfoFragment_to_homeActivity"
+            app:destination="@id/homeActivity"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"/>
     </fragment>
 
     <fragment
@@ -95,8 +99,12 @@
         <argument android:name="user"
             app:argType="com.example.ecoleenligne.models.UserInfo"/>
         <action
-            android:id="@+id/action_studentInfoFragment_to_homeActivity2"
-            app:destination="@id/homeActivity2" />
+            android:id="@+id/action_studentInfoFragment_to_homeActivity"
+            app:destination="@id/homeActivity"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"/>
 
     </fragment>
 
@@ -113,29 +121,18 @@
             app:exitAnim="@anim/slide_out_left"
             app:popUpTo="@id/entryFragment"/>
         <action
-            android:id="@+id/action_signInFragment_to_homeActivity2"
-            app:destination="@id/homeActivity2"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"/>
-        <action
             android:id="@+id/action_signInFragment_to_verifyAccountFragment"
             app:destination="@id/verifyAccountFragment"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_signInFragment_to_homeActivity"
+            app:destination="@id/homeActivity" />
 
 
     </fragment>
-    <activity
-        android:id="@+id/homeActivity2"
-        android:name="com.example.ecoleenligne.activities.HomeActivity2"
-        android:label="HomeActivity2">
-        <argument android:name="user"
-            app:argType="com.example.ecoleenligne.models.UserInfo"/>
-    </activity>
     <fragment
         android:id="@+id/addChildFragment"
         android:name="com.example.ecoleenligne.fragments.AddChildFragment"
@@ -155,13 +152,19 @@
         android:name="com.example.ecoleenligne.fragments.VerifyAccountFragment"
         android:label="VerifyAccountFragment" >
         <action
-            android:id="@+id/action_verifyAccountFragment_to_homeActivity2"
-            app:destination="@id/homeActivity2"
+            android:id="@+id/action_verifyAccountFragment_to_homeActivity"
+            app:destination="@id/homeActivity"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popUpTo="@id/entryFragment"
-            app:popUpToInclusive="true"/>
+            app:exitAnim="@anim/slide_out_left"/>
     </fragment>
+    <activity
+        android:id="@+id/homeActivity"
+        android:name="com.example.ecoleenligne.views.HomeActivity"
+        android:label="HomeActivity"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"/>
 </navigation>

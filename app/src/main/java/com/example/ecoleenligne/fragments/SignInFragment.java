@@ -29,6 +29,7 @@ import com.example.ecoleenligne.R;
 import com.example.ecoleenligne.models.UserInfo;
 import com.example.ecoleenligne.repositories.UserInfoRepository;
 import com.example.ecoleenligne.viewmodels.UserInfoViewModel;
+import com.example.ecoleenligne.views.HomeActivity;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -151,7 +152,7 @@ public class SignInFragment extends Fragment implements View.OnClickListener{
             public void onChanged(@Nullable UserInfo userInfo) {
                 //Bundle bundle = new Bundle();
                 //bundle.putParcelable("user",userInfo);
-                Intent intent = new Intent(getActivity(), HomeActivity2.class);
+                Intent intent = new Intent(getActivity(), HomeActivity.class);
                 intent.putExtra("user", userInfo);
                 //navController.navigate(R.id.action_signInFragment_to_homeActivity2, bundle);
                 startActivity(intent);

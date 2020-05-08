@@ -3,6 +3,7 @@ package com.example.ecoleenligne.adapters;
 import android.content.Context;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import com.example.ecoleenligne.activities.CourseMenu;
 import com.example.ecoleenligne.activities.LessonMenuActivity;
 import com.example.ecoleenligne.R;
 import com.example.ecoleenligne.models.Lesson;
+import com.example.ecoleenligne.views.HomeActivity;
 import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
@@ -77,15 +79,16 @@ public class LessonsAdapter extends RecyclerView.Adapter<LessonsAdapter.LessonVi
                 @Override
                 public void onClick(View v) {
                     Log.d("LessonsAdapter", "chiamo il menu di scelta risorse");
-                    CourseMenu parentActivity = (CourseMenu) ctx;
-                    Intent intent = new Intent(parentActivity, LessonMenuActivity.class);
-                    intent.putExtra("user", parentActivity.getCurrentUser());
+                    HomeActivity parentActivity = (HomeActivity) ctx;
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable("user", parentActivity.getCurrentUser());
+
                     Lesson lesson = getLessonByTitle(lsTitle.getText().toString());
                     if(lesson != null)
-                        intent.putExtra("lesson", lesson);
-                    intent.putExtra("bgColor", color);
-                    intent.putExtra("lessonName", lsTitle.getText());
-                    parentActivity.startActivity(intent);
+                        bundle.putParcelable("lesson", lesson);
+                    bundle.putInt("bgColor", color);
+                    bundle.putString("lessonName", lsTitle.getText().toString());
+                    parentActivity.getNavController().navigate(R.id.action_courseDetailFragment_to_lessonMenuFragment, bundle);
                 }
             });
             lessonItem.setCardBackgroundColor(color);

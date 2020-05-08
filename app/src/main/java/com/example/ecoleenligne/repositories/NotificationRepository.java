@@ -8,6 +8,8 @@ import com.example.ecoleenligne.models.Notification;
 import com.example.ecoleenligne.remote.FirebaseClient;
 import com.example.ecoleenligne.remote.ServiceGenerator;
 
+import java.util.ArrayList;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -60,7 +62,7 @@ public class NotificationRepository {
             public void onResponse(Call<Object> call, Response<Object> response) {
                 Log.d("NotificationRepository","onResponse call success: ");
                 if (response.isSuccessful())
-                    message.setValue("success");
+                    message.postValue("success");
                 else
                     message.setValue("not success");
             }

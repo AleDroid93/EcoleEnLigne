@@ -6,6 +6,10 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,12 +17,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
-import com.example.ecoleenligne.activities.HomeActivity2;
+
 import com.example.ecoleenligne.R;
 import com.example.ecoleenligne.adapters.ClassroomAdapter;
 import com.example.ecoleenligne.models.Course;
 import com.example.ecoleenligne.models.UserInfo;
+import com.example.ecoleenligne.viewmodels.ChapterViewModel;
+import com.example.ecoleenligne.viewmodels.CourseViewModel;
+import com.example.ecoleenligne.views.HomeActivity;
+import com.google.android.exoplayer2.C;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,6 +37,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -37,6 +48,10 @@ public class ClassroomFragment extends Fragment {
     private RecyclerView.Adapter mClassroomAdapter;
     private GridLayoutManager layoutClassroomManager;
     private UserInfo currentUser;
+    private NavController navController;
+    private CourseViewModel courseViewModel;
+    private Observer<ArrayList<Course>> courseObserver;
+
 
     public ClassroomFragment() {
         // Required empty public constructor
@@ -56,7 +71,8 @@ public class ClassroomFragment extends Fragment {
         // use a linear layout manager
         layoutClassroomManager = new GridLayoutManager(getActivity(),2);
         classroomRecyclerView.setLayoutManager(layoutClassroomManager);
-        mClassroomAdapter = new ClassroomAdapter(new ArrayList<>(), (View.OnClickListener) getActivity());
+        View.OnClickListener listener = getOnClickListener();
+        mClassroomAdapter = new ClassroomAdapter(new ArrayList<>(), listener);
         classroomRecyclerView.setAdapter(mClassroomAdapter);
         return fragmentLayout;
 
@@ -65,13 +81,25 @@ public class ClassroomFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        navController = Navigation.findNavController(view);
         String courseId = "";
-        DatabaseReference reference = database.getReference("courses/"+courseId);
-        HomeActivity2 parentActivity = (HomeActivity2) getActivity();
+        DatabaseReference reference = database.getReference("courses/" + courseId);
+        HomeActivity parentActivity = (HomeActivity) getActivity();
         parentActivity.getCurrentFocus();
-        currentUser = getArguments().getParcelable("user");
-        displayClassCourses(currentUser.getUid());
+        currentUser = parentActivity.getCurrentUser();
+        courseViewModel = ViewModelProviders.of(parentActivity).get(CourseViewModel.class);
+        courseObserver = getObserverCourses();
+        courseViewModel.getCoursesLiveData().observe(parentActivity, courseObserver);
+        if (courseViewModel.getCoursesLiveData().getValue() == null){
+            displayClassCourses(currentUser.getUid());
+        }else if (courseViewModel.isEmpty()) {
+            displayClassCourses(currentUser.getUid());
+        }else{
+            mClassroomAdapter = new ClassroomAdapter(courseViewModel.getCoursesLiveData().getValue(), getOnClickListener());
+            mClassroomAdapter.notifyDataSetChanged();
+            classroomRecyclerView.setAdapter(mClassroomAdapter);
+        }
+
     }
 
     // TODO - utilizzare approccio ViewModel come per i chapters
@@ -79,25 +107,68 @@ public class ClassroomFragment extends Fragment {
         DatabaseReference reference = database.getReference("users/"+uid+"/uclass/courses");
         // TODO se c'è qualcosa sul db locale, prendila da li, altrimenti scaricala dal web e sincronizza
         // TODO spostare reperimento dei corsi nella HomeActivity e gestire solo la RecyclerView qui
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                ArrayList<HashMap<String, String>> classroom = (ArrayList<HashMap<String, String>>) dataSnapshot.getValue();
-                ArrayList<Course> courses = new ArrayList<>();
-                for(HashMap<String, String> h : classroom)
-                    courses.add(new Course(h.get("id"),h.get("name"), h.get("color"), h.get("lightColor")));
+        ChildEventListener listener = new ChildEventListener() {
 
-                // specify an adapter (see also next example)
-                mClassroomAdapter = new ClassroomAdapter(courses, (View.OnClickListener) getActivity());
-                mClassroomAdapter.notifyDataSetChanged();
-                classroomRecyclerView.setAdapter(mClassroomAdapter);
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                Course courseItem = dataSnapshot.getValue(Course.class);
+                courseViewModel.addCourses(courseItem);
+                //lessonsViewModel.addAll(chapterItem.getLessons());
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e("StudentInfoFragment", databaseError.getMessage());
+
             }
-        });
+        };
+        reference.orderByChild("name").addChildEventListener(listener);
+    }
+
+
+    private View.OnClickListener getOnClickListener(){
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch(v.getId()){
+                    case R.id.course_card_view:
+                        Log.d("ClassroomFragment", "course clicked!");
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelable("user", currentUser);
+                        bundle.putString("course_name",  ((TextView)v.findViewById(R.id.tv_course_name)).getText().toString());
+                        courseViewModel.clear();
+                        mClassroomAdapter = new ClassroomAdapter(new ArrayList<>(), null);
+                        mClassroomAdapter.notifyDataSetChanged();
+                        navController.navigate(R.id.action_classroomFragment_to_courseDetailFragment, bundle);
+                        break;
+                }
+            }
+        };
+    }
+
+
+    public Observer<ArrayList<Course>> getObserverCourses(){
+        return new Observer<ArrayList<Course>>() {
+            @Override
+            public void onChanged(ArrayList<Course> courses) {
+                mClassroomAdapter = new ClassroomAdapter(courses, getOnClickListener());
+                mClassroomAdapter.notifyDataSetChanged();
+                classroomRecyclerView.setAdapter(mClassroomAdapter);
+            }
+        };
     }
 }

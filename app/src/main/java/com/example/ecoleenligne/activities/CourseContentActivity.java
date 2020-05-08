@@ -144,6 +144,11 @@ public class CourseContentActivity extends AppCompatActivity {
         return true;
     }
 
+
+
+
+
+
     private void checkNotification(String uid) {
         String urlDb = "notifications/"+uid;
         reference = database.getReference(urlDb);

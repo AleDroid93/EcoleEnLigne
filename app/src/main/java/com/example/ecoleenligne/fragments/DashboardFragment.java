@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.example.ecoleenligne.R;
 import com.example.ecoleenligne.models.UserInfo;
+import com.example.ecoleenligne.views.HomeActivity;
 
 
 /**
@@ -40,7 +41,7 @@ public class DashboardFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if(currentUser == null) {
-            currentUser = getArguments().getParcelable("user");
+            currentUser = ((HomeActivity)getActivity()).getCurrentUser();
         }
         TextView tv = view.findViewById(R.id.welcome_text_view);
         if(currentUser != null)

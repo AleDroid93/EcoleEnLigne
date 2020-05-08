@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nstScrollView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".views.CourseFragment">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusableInTouchMode="true">
+        <TextView
+            android:id="@+id/tv_introduction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:textColor="@color/colorAccent"
+            android:fontFamily="@font/pt_bold"
+            android:text="Introduction"
+            android:textSize="34sp"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_intro_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/crimson_regular"
+            android:text="@string/sample_text"
+            android:textColor="@color/text_color"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="18dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:paddingBottom="24dp"
+            android:gravity="center_vertical"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="@+id/tv_introduction"
+            app:layout_constraintStart_toStartOf="@+id/tv_introduction"
+            app:layout_constraintTop_toBottomOf="@+id/tv_introduction" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/paragraphs_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="?attr/actionBarSize"
+            android:paddingBottom="24dp"
+            android:clipToPadding="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_intro_content" />
+
+
+        <TextView
+            android:id="@+id/tv_conclusion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pt_bold"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:text="Conclusion"
+            android:textColor="@color/colorAccent"
+            android:textSize="34sp"
+            app:layout_constraintTop_toBottomOf="@+id/paragraphs_recycler_view"
+            tools:layout_editor_absoluteX="24dp" />
+
+        <TextView
+            android:id="@+id/tv_conclusion_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/crimson_regular"
+            android:text="@string/sample_text"
+            android:textColor="@color/text_color"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:paddingBottom="32dp"
+            android:gravity="center_vertical"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="@+id/tv_conclusion"
+            app:layout_constraintStart_toStartOf="@+id/tv_conclusion"
+            app:layout_constraintTop_toBottomOf="@+id/tv_conclusion" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

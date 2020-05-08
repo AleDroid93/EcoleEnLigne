@@ -18,16 +18,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ecoleenligne.R;
-import com.example.ecoleenligne.data.NetworkMessage;
 import com.example.ecoleenligne.fragments.ChatFragment;
 import com.example.ecoleenligne.fragments.ClassroomFragment;
 import com.example.ecoleenligne.fragments.DashboardFragment;
 import com.example.ecoleenligne.fragments.MessagesFragment;
 import com.example.ecoleenligne.fragments.SavedItemsFragment;
-import com.example.ecoleenligne.fragments.StudentInfoFragment;
 import com.example.ecoleenligne.models.UserInfo;
 import com.example.ecoleenligne.viewmodels.NotificationViewModel;
-import com.example.ecoleenligne.viewmodels.UserInfoViewModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
@@ -41,8 +38,9 @@ public class HomeActivity2 extends AppCompatActivity implements View.OnClickList
     private FirebaseAuth mAuth;
     private View notificationBadge;
     private BottomNavigationView bottomNavigationView;
-    
-
+    private Observer<String> notificationObserver;
+    private NotificationViewModel notificationViewModel;
+    private int counter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +50,7 @@ public class HomeActivity2 extends AppCompatActivity implements View.OnClickList
         currentUser = intent.getParcelableExtra("user");
         mAuth = FirebaseAuth.getInstance();
 
-        bottomNavigationView = findViewById(R.id.dashboard_menu);
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
         // TODO - gestire anche i sottocasi (offline mode e tchat)
         if(currentUser.getRole().equalsIgnoreCase("student")){
             bottomNavigationView.getMenu().clear();
@@ -83,7 +81,12 @@ public class HomeActivity2 extends AppCompatActivity implements View.OnClickList
         }
         Log.d("HomeActivity2","index "+index);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
+        counter = 1;
         setNotificationBadge(2, "1");
+
+        notificationObserver = getNotificationObserver();
+
+
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -113,6 +116,7 @@ public class HomeActivity2 extends AppCompatActivity implements View.OnClickList
                 case R.id.nav_class:
                     Log.d("HomeActivity2", "onClick: classroom pressed");
                     selectedFragment = new ClassroomFragment();
+
                     selectedFragment.setArguments(bundle);
                     break;
                 case R.id.nav_messages:
@@ -129,6 +133,7 @@ public class HomeActivity2 extends AppCompatActivity implements View.OnClickList
             return true;
         }
     };
+
 
 
     private void sendEmailVerification() {
@@ -169,7 +174,7 @@ public class HomeActivity2 extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
         switch(v.getId()){
-            case R.id.chapter_card_view:
+            case R.id.course_card_view:
                 Log.d("HomeActivity2", "course clicked!");
                 Intent intent = new Intent(this, CourseMenu.class);
 
@@ -187,8 +192,26 @@ public class HomeActivity2 extends AppCompatActivity implements View.OnClickList
         View v = bottomNavigationMenuView.getChildAt(pos);
         BottomNavigationItemView itemView = (BottomNavigationItemView) v;
         View badge = LayoutInflater.from(this).inflate(R.layout.badge_layout, itemView, true);
-        ((TextView) badge).setText(num);
+        TextView textView = itemView.findViewById(R.id.notifications_badge);
+        textView.setText(num);
     }
 
 
+    private Observer<String> getNotificationObserver() {
+        notificationViewModel = ViewModelProviders.of(this).get(NotificationViewModel.class);
+        final Observer<String> observerCreationMessage = new Observer<String>() {
+            @Override
+            public void onChanged(@Nullable String notificationMessage) {
+                String msg = notificationMessage;
+                if (msg.equals("success")) {
+                    Log.d("HomeActivity", "notification added");
+                    setNotificationBadge(2, String.valueOf(counter++));
+                } else {
+                    Log.d("HomeActivity", "creationMessage: " + msg);
+                }
+
+            }
+        };
+        return observerCreationMessage;
+    }
 }

@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/navigation_student"
+    app:startDestination="@id/nav_home">
+    <fragment
+        android:id="@+id/courseDetailFragment"
+        android:name="com.example.ecoleenligne.views.CourseDetailFragment"
+        android:label="CourseDetailFragment" >
+        <action
+            android:id="@+id/action_courseDetailFragment_to_classroomFragment"
+            app:destination="@id/nav_class" />
+        <action
+            android:id="@+id/action_courseDetailFragment_to_lessonMenuFragment"
+            app:destination="@id/lessonMenuFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_class"
+        android:name="com.example.ecoleenligne.fragments.ClassroomFragment"
+        android:label="ClassroomFragment" >
+        <action
+            android:id="@+id/action_classroomFragment_to_courseDetailFragment"
+            app:destination="@id/courseDetailFragment" />
+        <action
+            android:id="@+id/action_classroomFragment_to_dashboardFragment"
+            app:destination="@id/nav_home" />
+        <action
+            android:id="@+id/action_classroomFragment_to_messagesFragment"
+            app:destination="@id/nav_messages" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.example.ecoleenligne.fragments.DashboardFragment"
+        android:label="DashboardFragment" >
+        <action
+            android:id="@+id/action_dashboardFragment_to_classroomFragment"
+            app:destination="@id/nav_class" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_messages"
+        android:name="com.example.ecoleenligne.fragments.MessagesFragment"
+        android:label="MessagesFragment" >
+        <action
+            android:id="@+id/action_messagesFragment_to_classroomFragment"
+            app:destination="@id/nav_class" />
+        <action
+            android:id="@+id/action_messagesFragment_to_dashboardFragment"
+            app:destination="@id/nav_home" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_saved"
+        android:name="com.example.ecoleenligne.fragments.SavedItemsFragment"
+        android:label="SavedItemsFragment" />
+    <fragment
+        android:id="@+id/lessonMenuFragment"
+        android:name="com.example.ecoleenligne.views.LessonMenuFragment"
+        android:label="LessonMenuFragment" >
+        <action
+            android:id="@+id/action_lessonMenuFragment_to_courseDetailFragment"
+            app:destination="@id/courseDetailFragment"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"/>
+        <action
+            android:id="@+id/action_lessonMenuFragment_to_courseFragment"
+            app:destination="@id/courseFragment"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"/>
+        <action
+            android:id="@+id/action_lessonMenuFragment_to_resumeFragment"
+            app:destination="@id/resumeFragment"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"/>
+        <action
+            android:id="@+id/action_lessonMenuFragment_to_exerciseFragment"
+            app:destination="@id/exerciseFragment"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"/>
+        <action
+            android:id="@+id/action_lessonMenuFragment_to_quizFragment"
+            app:destination="@id/quizFragment"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"/>
+        <action
+            android:id="@+id/action_lessonMenuFragment_to_videosFragment"
+            app:destination="@id/videosFragment"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"/>
+    </fragment>
+    <fragment
+        android:id="@+id/courseFragment"
+        android:name="com.example.ecoleenligne.views.CourseFragment"
+        android:label="CourseFragment" >
+        <action
+            android:id="@+id/action_courseFragment_to_lessonMenuFragment"
+            app:destination="@id/lessonMenuFragment"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/quizFragment"
+        android:name="com.example.ecoleenligne.views.QuizFragment"
+        android:label="QuizFragment" >
+        <action
+            android:id="@+id/action_quizFragment_to_lessonMenuFragment"
+            app:destination="@id/lessonMenuFragment"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/resumeFragment"
+        android:name="com.example.ecoleenligne.views.ResumeFragment"
+        android:label="ResumeFragment" >
+        <action
+            android:id="@+id/action_resumeFragment_to_lessonMenuFragment"
+            app:destination="@id/lessonMenuFragment"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/videosFragment"
+        android:name="com.example.ecoleenligne.views.VideosFragment"
+        android:label="VideosFragment" >
+        <action
+            android:id="@+id/action_videosFragment_to_lessonMenuFragment"
+            app:destination="@id/lessonMenuFragment"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/exerciseFragment"
+        android:name="com.example.ecoleenligne.views.ExerciseFragment"
+        android:label="ExerciseFragment" >
+        <action
+            android:id="@+id/action_exerciseFragment_to_lessonMenuFragment"
+            app:destination="@id/lessonMenuFragment"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"/>
+    </fragment>
+
+</navigation>

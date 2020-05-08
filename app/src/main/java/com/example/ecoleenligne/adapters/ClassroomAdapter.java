@@ -27,11 +27,13 @@ public class ClassroomAdapter extends RecyclerView.Adapter<ClassroomAdapter.Clas
 
         public ClassroomViewHolder(View v, View.OnClickListener listener) {
             super(v);
-            cardView = v.findViewById(R.id.chapter_card_view);
+            cardView = v.findViewById(R.id.course_card_view);
             cardView.setOnClickListener(listener);
             textView = v.findViewById(R.id.tv_course_name);
         }
     }
+
+
 
     public void setmCourses(ArrayList<Course> mCourses) {
         this.mCourses = mCourses;
@@ -75,6 +77,7 @@ public class ClassroomAdapter extends RecyclerView.Adapter<ClassroomAdapter.Clas
     public int getItemCount() {
         return mCourses.size();
     }
+
 
 
 }

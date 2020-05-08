@@ -56,7 +56,8 @@
         <activity
             android:name=".fragments.RegistrationActivity"
             android:label="Sign Up" />
-        <activity android:name=".views.HomeActivity" />
+        <activity android:name=".views.HomeActivity"
+            android:theme="@style/AppTheme"/>
         <activity android:name=".activities.LoginActivity">
 
             <!--

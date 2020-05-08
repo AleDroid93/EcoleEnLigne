@@ -79,6 +79,7 @@ public class ChaptersAdapter extends RecyclerView.Adapter<ChaptersAdapter.Chapte
         holder.chNumber.setText(chapterNumber);
         holder.lessonsRecyclerView.setLayoutManager(new LinearLayoutManager(context));
         holder.lessonsRecyclerView.setAdapter(new LessonsAdapter(chapter.getLessons(), lightColor, context));
+
     }
 
 
@@ -106,7 +107,12 @@ public class ChaptersAdapter extends RecyclerView.Adapter<ChaptersAdapter.Chapte
             Drawable unwrappedDrawable = AppCompatResources.getDrawable(ctx, R.drawable.ic_down);
             Drawable wrappedDrawable = DrawableCompat.wrap(unwrappedDrawable);
             DrawableCompat.setTint(wrappedDrawable, color);
+            Drawable chapterBoxDrawable = AppCompatResources.getDrawable(ctx, R.drawable.chapter_item_box);
+            Drawable wrapChapterBoxDrawable = DrawableCompat.wrap(chapterBoxDrawable);
+            DrawableCompat.setTint(wrapChapterBoxDrawable,ctx.getResources().getColor(R.color.white) );
+            chHeader.setBackground(wrapChapterBoxDrawable);
         }
+
 
         private View.OnClickListener getChapterClickListener(Context ctx, int chColor){
             return new View.OnClickListener() {

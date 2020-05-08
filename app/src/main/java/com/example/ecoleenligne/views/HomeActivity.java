@@ -155,13 +155,14 @@ public class HomeActivity extends AppCompatActivity {
         textView.setText(num);
     }
 
+    public Observer<String> getNotificationMessageObserver(){
+        return notificationObserver;
+    }
 
     public Observer<String> getNotificationObserver() {
 
         notificationViewModel = ViewModelProviders.of(this).get(NotificationViewModel.class);
-        Observer<String> observerCreationMessage;
-        if(notificationObserver == null) {
-            observerCreationMessage = new Observer<String>() {
+        Observer<String> observerCreationMessage = new Observer<String>() {
 
                 @Override
                 public void onChanged(@Nullable String notificationMessage) {
@@ -174,9 +175,7 @@ public class HomeActivity extends AppCompatActivity {
                     }
                 }
             };
-        }else{
-            return notificationObserver;
-        }
+
         return observerCreationMessage;
     }
 

@@ -115,7 +115,7 @@ public class CourseFragment extends Fragment {
 
         HomeActivity parentActivity = (HomeActivity) getActivity();
         notificationViewModel = parentActivity.getNotificationViewModel();
-        observerNotification = parentActivity.getNotificationObserver();
+        observerNotification = parentActivity.getNotificationMessageObserver();
     }
 
 

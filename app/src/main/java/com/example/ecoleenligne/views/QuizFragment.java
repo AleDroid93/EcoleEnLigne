@@ -159,7 +159,7 @@ public class QuizFragment extends Fragment {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         currentQuiz = dataSnapshot.getValue(Quiz.class);
-                        adapter = new QuizSliderAdapter(getActivity(), currentQuiz.getQuestions());
+                        adapter = new QuizSliderAdapter(QuizFragment.this, currentQuiz.getQuestions());
 
                         quizPager.setAdapter(adapter);
                         addDotsIndicator(0);

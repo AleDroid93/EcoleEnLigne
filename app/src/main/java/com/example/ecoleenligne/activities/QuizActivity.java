@@ -109,7 +109,7 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         currentQuiz = dataSnapshot.getValue(Quiz.class);
-                        adapter = new QuizSliderAdapter(QuizActivity.this, currentQuiz.getQuestions());
+                        adapter = new QuizSliderAdapter(null, currentQuiz.getQuestions());
 
                         quizPager.setAdapter(adapter);
                         addDotsIndicator(0);

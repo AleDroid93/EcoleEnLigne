@@ -10,14 +10,19 @@
         android:id="@+id/tv_menu_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="32sp"/>
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:fontFamily="@font/opensans_regular"
+        android:textColor="@color/text_color"
+        android:textSize="20sp"/>
 
     <!-- A RecyclerView with some commonly used attributes -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/chapters_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginRight="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"

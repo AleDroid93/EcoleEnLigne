@@ -14,7 +14,13 @@
         android:id="@+id/tv_lesson_menu_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginLeft="16dp"
         android:textColor="@color/text_color"
+        android:fontFamily="@font/opensans_regular"
         android:textSize="20sp"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -31,11 +37,11 @@
             android:id="@+id/video_card_view_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginLeft="24dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginLeft="32dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="24dp"
-            android:layout_marginRight="24dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginRight="32dp"
             android:innerRadius="0dp"
             android:shape="ring"
             android:thicknessRatio="1.9"
@@ -48,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/lesson_menu_item_box"
                 android:orientation="horizontal"
-                android:padding="8dp">
+                android:padding="4dp">
 
                 <TextView
                     android:id="@+id/tv_chapter_number"
@@ -62,13 +68,14 @@
                     android:text="@string/videos"
                     android:textAlignment="center"
                     android:textColor="@color/colorPrimaryDark"
-                    android:textSize="24sp" />
+                    android:textSize="20sp" />
 
                 <ImageView
                     android:id="@+id/arrowBtn"
                     style="@style/Widget.AppCompat.ActionButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:padding="0dp"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="0"
                     android:contentDescription="@string/video_content"
@@ -80,11 +87,11 @@
             android:id="@+id/course_card_view_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginLeft="24dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginLeft="32dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="24dp"
-            android:layout_marginRight="24dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginRight="32dp"
             android:innerRadius="0dp"
             android:shape="ring"
             android:thicknessRatio="1.9"
@@ -97,7 +104,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/lesson_menu_item_box"
                 android:orientation="horizontal"
-                android:padding="8dp">
+                android:padding="4dp">
 
                 <TextView
                     android:id="@+id/tv_course_item"
@@ -111,13 +118,14 @@
                     android:text="@string/course"
                     android:textAlignment="center"
                     android:textColor="@color/colorPrimaryDark"
-                    android:textSize="24sp" />
+                    android:textSize="20sp" />
 
                 <ImageView
                     android:id="@+id/courseIcon"
                     style="@style/Widget.AppCompat.ActionButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:padding="0dp"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="0"
                     android:contentDescription="@string/course_content"
@@ -129,11 +137,11 @@
             android:id="@+id/resume_card_view_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginLeft="24dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginLeft="32dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="24dp"
-            android:layout_marginRight="24dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginRight="32dp"
             android:innerRadius="0dp"
             android:shape="ring"
             android:thicknessRatio="1.9"
@@ -146,7 +154,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/lesson_menu_item_box"
                 android:orientation="horizontal"
-                android:padding="8dp">
+                android:padding="4dp">
 
                 <TextView
                     android:id="@+id/tv_resume_item"
@@ -160,7 +168,7 @@
                     android:text="@string/summary"
                     android:textAlignment="center"
                     android:textColor="@color/colorPrimaryDark"
-                    android:textSize="24sp" />
+                    android:textSize="20sp" />
 
                 <ImageView
                     android:id="@+id/resumeIcon"
@@ -168,6 +176,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:padding="0dp"
                     android:layout_weight="0"
                     android:contentDescription="@string/resume_content"
                     android:src="@drawable/ic_resume" />
@@ -179,11 +188,11 @@
             android:id="@+id/quiz_card_view_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginLeft="24dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginLeft="32dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="24dp"
-            android:layout_marginRight="24dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginRight="32dp"
             android:innerRadius="0dp"
             android:shape="ring"
             android:thicknessRatio="1.9"
@@ -196,7 +205,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/lesson_menu_item_box"
                 android:orientation="horizontal"
-                android:padding="8dp">
+                android:padding="4dp">
 
                 <TextView
                     android:id="@+id/tv_quiz_item"
@@ -210,7 +219,7 @@
                     android:text="@string/quizItem"
                     android:textAlignment="center"
                     android:textColor="@color/colorPrimaryDark"
-                    android:textSize="24sp" />
+                    android:textSize="20sp" />
 
                 <ImageView
                     android:id="@+id/quizIcon"
@@ -218,6 +227,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:padding="0dp"
                     android:layout_weight="0"
                     android:contentDescription="@string/quiz_content"
                     android:src="@drawable/ic_quiz" />
@@ -228,11 +238,11 @@
             android:id="@+id/exercise_card_view_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginLeft="24dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginLeft="32dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="24dp"
-            android:layout_marginRight="24dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginRight="32dp"
             android:innerRadius="0dp"
             android:shape="ring"
             android:thicknessRatio="1.9"
@@ -245,7 +255,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/lesson_menu_item_box"
                 android:orientation="horizontal"
-                android:padding="8dp">
+                android:padding="4dp">
 
                 <TextView
                     android:id="@+id/tv_exercise_item"
@@ -259,7 +269,7 @@
                     android:text="@string/exercise"
                     android:textAlignment="center"
                     android:textColor="@color/colorPrimaryDark"
-                    android:textSize="24sp" />
+                    android:textSize="20sp" />
 
                 <ImageView
                     android:id="@+id/exerciseIcon"
@@ -267,6 +277,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:padding="0dp"
                     android:layout_weight="0"
                     android:contentDescription="@string/exercise_content"
                     android:src="@drawable/ic_exercise" />

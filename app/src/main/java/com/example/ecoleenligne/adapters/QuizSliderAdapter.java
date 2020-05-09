@@ -9,22 +9,25 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.PagerAdapter;
 
 import com.example.ecoleenligne.R;
 import com.example.ecoleenligne.activities.QuizActivity;
 import com.example.ecoleenligne.models.QuizItem;
+import com.example.ecoleenligne.views.QuizFragment;
 import com.google.android.material.chip.Chip;
 
 import java.util.ArrayList;
 
 public class QuizSliderAdapter extends PagerAdapter {
-    Context context;
+    Fragment context;
     LayoutInflater inflater;
     ArrayList<QuizItem> questions;
     ArrayList<Integer> answers;
 
-    public QuizSliderAdapter(Context context, ArrayList<QuizItem> items) {
+    public QuizSliderAdapter(Fragment context, ArrayList<QuizItem> items) {
         this.context = context;
         this.questions = items;
         this.answers  = new ArrayList<>(this.questions.size());
@@ -45,7 +48,7 @@ public class QuizSliderAdapter extends PagerAdapter {
     @NonNull
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
-        inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
+        inflater = (LayoutInflater) context.getActivity().getSystemService(context.getActivity().LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.quiz_slide_layout, container, false);
         TextView tvQuestion = view.findViewById(R.id.question);
         Chip btnChoice1 = view.findViewById(R.id.chipChoice1);
@@ -80,8 +83,8 @@ public class QuizSliderAdapter extends PagerAdapter {
             @Override
             public void onCheckedChanged(CompoundButton view, boolean isChecked) {
                 Chip chip = (Chip) view;
-                QuizActivity activity = (QuizActivity) context;
-                int currentQuestion = activity.getCurrentQuestion();
+                QuizFragment fragment = (QuizFragment) context;
+                int currentQuestion = fragment.getCurrentQuestion();
                 if(isChecked){
                     chip.setChipBackgroundColorResource(R.color.colorAccent2);
                     chip.setChipStrokeColorResource(R.color.colorPrimaryDark);

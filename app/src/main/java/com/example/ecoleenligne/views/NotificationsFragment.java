@@ -71,7 +71,7 @@ public class NotificationsFragment extends Fragment {
         mNotificationRecyclerView.setLayoutManager(mLayoutChaptersManager);
 
         notificationViewModel = ViewModelProviders.of(parentActivity).get(NotificationViewModel.class);
-        observerNotifications = parentActivity.getNotificationListObserver();
+        observerNotifications = parentActivity.getObserverNotificationsList();
         notificationViewModel.getMutableNotifications().observe(parentActivity, observerNotifications);
 
 
@@ -89,7 +89,7 @@ public class NotificationsFragment extends Fragment {
 
     }
 
-    private void displayNotifications(String uid) {
+    public void displayNotifications(String uid) {
         urlDb = "notifications/"+uid;
         reference = database.getReference(urlDb);
 
@@ -98,6 +98,7 @@ public class NotificationsFragment extends Fragment {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 Notification notificationItem = dataSnapshot.getValue(Notification.class);
+                notificationItem.setKey(dataSnapshot.getKey());
                 notificationViewModel.updateNotifications(notificationItem);
                 //lessonsViewModel.addAll(chapterItem.getLessons());
             }

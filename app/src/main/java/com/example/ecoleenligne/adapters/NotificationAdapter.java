@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ecoleenligne.R;
 import com.example.ecoleenligne.models.Notification;
+import com.example.ecoleenligne.views.HomeActivity;
 
 import java.util.ArrayList;
 
@@ -61,6 +62,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             holder.toReadImg.setVisibility(View.GONE);
         holder.notificationTitle.setText(title);
         holder.notificationDatetime.setText(dateTime);
+        holder.notification = notification;
         if(notification.getScope().equalsIgnoreCase("course"))
             holder.notificationLogo.setImageResource(R.drawable.ic_study_notification_logo);
     }
@@ -81,10 +83,12 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         public ImageView toReadImg;
         public ImageView notificationLogo;
         public Context ctx;
+        public Notification notification;
 
 
-        public NotificationViewHolder(@NonNull View itemView, Context ctx) {
+        public NotificationViewHolder(@NonNull View itemView,Context ctx) {
             super(itemView);
+            this.notification = new Notification();
             notificationLayout = itemView.findViewById(R.id.notification_layout);
             notificationDatetime = itemView.findViewById(R.id.notification_datetime);
             notificationTitle = itemView.findViewById(R.id.notification_title);
@@ -110,6 +114,8 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                     ImageView toRead = v.findViewById(R.id.dot_to_read);
                     if(toRead.getVisibility() == View.VISIBLE){
                         // TODO notify viewModel to mark this notification as read
+                        HomeActivity activity = (HomeActivity) ctx;
+                        activity.markNotificationAsRead(notification);
                         toReadImg.setVisibility(View.GONE);
                     }
                 }

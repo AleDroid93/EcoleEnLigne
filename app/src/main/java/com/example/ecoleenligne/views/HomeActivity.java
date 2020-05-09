@@ -33,22 +33,34 @@ import com.example.ecoleenligne.models.Notification;
 import com.example.ecoleenligne.viewmodels.NotificationViewModel;
 import com.example.ecoleenligne.models.UserInfo;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class HomeActivity extends AppCompatActivity {
     private static final String TAG = "HomeActivity";
     private UserInfo currentUser;
     private FirebaseAuth mAuth;
+    private FirebaseDatabase database;
+    private DatabaseReference notificationsRef;
     private View notificationBadge;
     private BottomNavigationView bottomNavigationView;
     private Observer<String> notificationObserver;
+    private Observer<ArrayList<Notification>> notificationListObserver;
     private NotificationViewModel notificationViewModel;
     private NavController navController;
 
@@ -70,6 +82,7 @@ public class HomeActivity extends AppCompatActivity {
         Intent intent = getIntent();
         currentUser = intent.getParcelableExtra("user");
         mAuth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance();
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         // TODO - gestire anche i sottocasi (offline mode e tchat)
@@ -103,13 +116,18 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         notificationObserver = getNotificationObserver();
-        // TODO lanciare la richiesta delle notifiche già presenti sul database
+        notificationListObserver = getNotificationListObserver();
+        notificationViewModel.getMutableNotifications().observe(this, notificationListObserver);
+        if(notificationViewModel.getMutableNotifications().getValue() == null || notificationViewModel.getMutableNotifications().getValue().isEmpty())
+            initNotifications(currentUser.getUid());
     }
 
 
     public NotificationViewModel getNotificationViewModel() {
         return notificationViewModel;
     }
+
+    public Observer<ArrayList<Notification>> getObserverNotificationsList(){return notificationListObserver;}
 
     private void sendEmailVerification() {
         // Disable button
@@ -146,6 +164,43 @@ public class HomeActivity extends AppCompatActivity {
     }
 
 
+    private void initNotifications(String uid){
+        String urlDb = "notifications/"+uid;
+        notificationsRef = database.getReference(urlDb);
+        ChildEventListener listener = new ChildEventListener() {
+
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                Notification notificationItem = dataSnapshot.getValue(Notification.class);
+                String key = dataSnapshot.getKey();
+                notificationItem.setKey(key);
+                notificationViewModel.updateNotifications(notificationItem);
+                //lessonsViewModel.addAll(chapterItem.getLessons());
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
+
+        notificationsRef.orderByChild("datetime").addChildEventListener(listener);
+    }
 
     private void setNotificationBadge(int pos, String num){
         BottomNavigationMenuView bottomNavigationMenuView = (BottomNavigationMenuView) bottomNavigationView.getChildAt(0);
@@ -154,8 +209,10 @@ public class HomeActivity extends AppCompatActivity {
 
         View badge = LayoutInflater.from(this).inflate(R.layout.badge_layout, itemView, true);
         TextView textView = itemView.findViewById(R.id.notifications_badge);
-        if(textView.getVisibility() == View.GONE)
+        if(textView.getVisibility() == View.GONE && Integer.parseInt(num) >0)
             textView.setVisibility(View.VISIBLE);
+        else if(textView.getVisibility() == View.VISIBLE && Integer.parseInt(num) <=0)
+            textView.setVisibility(View.GONE);
         textView.setText(num);
     }
 
@@ -193,14 +250,9 @@ public class HomeActivity extends AppCompatActivity {
         Observer<ArrayList<Notification>> observer = new Observer<ArrayList<Notification>>() {
             @Override
             public void onChanged(ArrayList<Notification> notifications) {
-                int count = 0;
-                for (Notification n: notifications)
-                    if(n.getRead())
-                        count++;
-                NotificationAdapter adapter = new NotificationAdapter(HomeActivity.this, notifications);
-                NotificationsFragment fragment = (NotificationsFragment) getForegroundFragment();
-                fragment.updateRecyclerView(adapter);
+                int count = notificationViewModel.getNotificationsToRead();
                 setNotificationBadge(2, String.valueOf(count));
+
             }
         };
         return observer;
@@ -250,6 +302,29 @@ public class HomeActivity extends AppCompatActivity {
             }
         }
         return true;
+    }
+
+
+    public void markNotificationAsRead(Notification notification){
+        notification.setRead(false);
+        String key = notification.getKey();
+        Map<String, Object> newValues = notification.toMap();
+        Map<String, Object> childUpdates = new HashMap<>();
+        childUpdates.put("/"+key, newValues);
+        notificationsRef.updateChildren(childUpdates).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Toast.makeText(HomeActivity.this, "Marked as read", Toast.LENGTH_SHORT).show();
+                int toRead = notificationViewModel.getNotificationsToRead()-1;
+                notificationViewModel.setNotificationsToRead(toRead);
+                setNotificationBadge(2, String.valueOf(toRead));
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(HomeActivity.this, "Error on updating", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 }

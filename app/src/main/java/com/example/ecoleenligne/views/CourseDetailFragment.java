@@ -92,7 +92,7 @@ public class CourseDetailFragment extends Fragment {
         parentActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         courseMenuTitle = view.findViewById(R.id.tv_menu_title);
-        courseMenuTitle.setText(courseName + " course here");
+        courseMenuTitle.setText(courseName + ":");
         courseColor = currentUser.findCourseColorByName(courseName);
         lightColor = currentUser.findCourseLightColorByName(courseName);
 

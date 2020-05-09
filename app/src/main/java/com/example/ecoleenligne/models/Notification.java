@@ -3,8 +3,12 @@ package com.example.ecoleenligne.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.firebase.database.Exclude;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Notification implements Parcelable{
 
@@ -29,6 +33,9 @@ public class Notification implements Parcelable{
     private String datetime;
 
 
+    @Exclude
+    private String key;
+
     public Notification() {
         this.topic = "";
         this.scope = "";
@@ -45,6 +52,27 @@ public class Notification implements Parcelable{
         this.read = read;
     }
 
+
+
+    @Exclude
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("topic", topic);
+        result.put("scope", scope);
+        result.put("message", message);
+        result.put("read", read);
+        result.put("datetime", datetime);
+
+        return result;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
 
     protected Notification(Parcel in) {
         topic = in.readString();

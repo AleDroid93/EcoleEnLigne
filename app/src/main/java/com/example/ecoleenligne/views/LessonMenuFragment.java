@@ -60,7 +60,7 @@ public class LessonMenuFragment extends Fragment {
         int bgColor = getArguments().getInt("bgColor", 0);
         UserInfo currentUser = ((HomeActivity) getActivity()).getCurrentUser();
         ((HomeActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        view.findViewById(R.id.lesson_menu_layout).setBackgroundColor(bgColor);
+        //view.findViewById(R.id.lesson_menu_layout).setBackgroundColor(bgColor);
 
         instantiateOnClickListener();
 

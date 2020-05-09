@@ -55,14 +55,13 @@ public class NotificationRepository {
     }
 
 
-    public MutableLiveData<String> putNotification(String uid, Notification notification){
-        MutableLiveData<String> message = new MutableLiveData<>();
+    public void putNotification(String uid, Notification notification, MutableLiveData<String> message){
         firebaseAPI.putNotification(uid, notification).enqueue(new Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
                 Log.d("NotificationRepository","onResponse call success: ");
                 if (response.isSuccessful())
-                    message.postValue("success");
+                    message.setValue("success");
                 else
                     message.setValue("not success");
             }
@@ -74,7 +73,6 @@ public class NotificationRepository {
                 message.setValue("fail");
             }
         });
-        return message;
     }
 
 }

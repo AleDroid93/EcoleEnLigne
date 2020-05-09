@@ -39,15 +39,8 @@ public class NotificationViewModel extends ViewModel {
     }
 
     public void putNotification(String uid, Notification notification){
-        /*
-        if (mutableNotificationMessage != null){
-            repository = NotificationRepository.getInstance();
-            mutableNotificationMessage = repository.putNotification(uid, notification);
-        }else{
-            Log.e("NotificationViewModel", "MutableNotification null");
-        }*/
         repository = NotificationRepository.getInstance();
-        mutableNotificationMessage = repository.putNotification(uid, notification);
+        repository.putNotification(uid, notification, mutableNotificationMessage);
     }
 
     public void getNotifications(String uid){

@@ -152,7 +152,7 @@ public class CourseFragment extends Fragment {
         LiveData<String> repo = notificationViewModel.getMutableNotificationMessage();
         notificationViewModel.putNotification(uid, notification);
 
-        repo.observe(this, observerNotification);
+        repo.observe(getActivity(), observerNotification);
     }
 
 

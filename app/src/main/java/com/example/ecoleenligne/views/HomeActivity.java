@@ -23,11 +23,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ecoleenligne.R;
+import com.example.ecoleenligne.adapters.NotificationAdapter;
 import com.example.ecoleenligne.fragments.ChatFragment;
 import com.example.ecoleenligne.fragments.ClassroomFragment;
 import com.example.ecoleenligne.fragments.DashboardFragment;
 import com.example.ecoleenligne.fragments.MessagesFragment;
 import com.example.ecoleenligne.fragments.SavedItemsFragment;
+import com.example.ecoleenligne.models.Notification;
 import com.example.ecoleenligne.viewmodels.NotificationViewModel;
 import com.example.ecoleenligne.models.UserInfo;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -37,6 +39,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.util.ArrayList;
 
 public class HomeActivity extends AppCompatActivity {
     private static final String TAG = "HomeActivity";
@@ -169,7 +173,9 @@ public class HomeActivity extends AppCompatActivity {
                     String msg = notificationMessage;
                     if (msg.equals("success")) {
                         Log.d("HomeActivity", "notification added");
-                        setNotificationBadge(2, String.valueOf(counter++));
+                        int count = notificationViewModel.getNotificationsToRead() +1;
+                        notificationViewModel.setNotificationsToRead(count);
+                        setNotificationBadge(2, String.valueOf(count));
                     } else {
                         Log.d("HomeActivity", "creationMessage: " + msg);
                     }
@@ -178,6 +184,28 @@ public class HomeActivity extends AppCompatActivity {
 
         return observerCreationMessage;
     }
+
+
+
+
+    public Observer<ArrayList<Notification>> getNotificationListObserver() {
+        notificationViewModel = ViewModelProviders.of(this).get(NotificationViewModel.class);
+        Observer<ArrayList<Notification>> observer = new Observer<ArrayList<Notification>>() {
+            @Override
+            public void onChanged(ArrayList<Notification> notifications) {
+                int count = 0;
+                for (Notification n: notifications)
+                    if(n.getRead())
+                        count++;
+                NotificationAdapter adapter = new NotificationAdapter(HomeActivity.this, notifications);
+                NotificationsFragment fragment = (NotificationsFragment) getForegroundFragment();
+                fragment.updateRecyclerView(adapter);
+                setNotificationBadge(2, String.valueOf(count));
+            }
+        };
+        return observer;
+    }
+
 
 
     public NavController getNavController() {
@@ -223,4 +251,5 @@ public class HomeActivity extends AppCompatActivity {
         }
         return true;
     }
+
 }

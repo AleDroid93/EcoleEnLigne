@@ -15,7 +15,23 @@ public class NotificationViewModel extends ViewModel {
     private MutableLiveData<String> mutableNotificationMessage;
     private MutableLiveData<ArrayList<Notification>> mutableNotifications;
     ArrayList<Notification> notifications;
+    private int notificationsToRead;
     private NotificationRepository repository;
+
+
+    public NotificationViewModel() {
+        this.notificationsToRead = 0;
+        this.notifications = new ArrayList<Notification>();
+    }
+
+
+    public int getNotificationsToRead() {
+        return notificationsToRead;
+    }
+
+    public void setNotificationsToRead(int notificationsToRead) {
+        this.notificationsToRead = notificationsToRead;
+    }
 
     public LiveData<String> getMutableNotificationMessage() {
         if(mutableNotificationMessage == null)
@@ -52,4 +68,10 @@ public class NotificationViewModel extends ViewModel {
         */
     }
 
+    public void updateNotifications(Notification notificationItem) {
+        if(notificationItem.getRead())
+            this.notificationsToRead++;
+        notifications.add(notificationItem);
+        mutableNotifications.setValue(notifications);
+    }
 }

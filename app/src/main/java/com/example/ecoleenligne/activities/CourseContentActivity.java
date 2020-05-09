@@ -128,11 +128,11 @@ public class CourseContentActivity extends AppCompatActivity {
 
                 Notification notification;
                 if(intPerc >= 100 && (actualMinutes >= timeReadingEstimation -1 ))
-                    notification= new Notification( currentLesson.getTitle(), "full_text", "You've completed this lesson", false);
+                    notification= new Notification( currentLesson.getTitle(), "full_text", "You've completed this lesson", "",false);
                 else if(intPerc < 100)
-                    notification= new Notification( currentLesson.getTitle(), "full_text", "You've read the "+intPerc+"% of the content", false);
+                    notification= new Notification( currentLesson.getTitle(), "full_text", "You've read the "+intPerc+"% of the content", "",false);
                 else
-                    notification= new Notification( currentLesson.getTitle(), "full_text", "You've read too fast this lesson!", false);
+                    notification= new Notification( currentLesson.getTitle(), "full_text", "You've read too fast this lesson!", "",false);
                 observerNotification = getNotificationObserver();
                 notificationViewModel.putNotification(uid, notification);
                 LiveData<String> repo = notificationViewModel.getMutableNotificationMessage();

@@ -88,4 +88,5 @@
     <string name="finish_hint">finish</string>
     <string name="prev_hint">prev</string>
     <string name="next_hint">next</string>
+    <string name="notifications_title_text">Notifications:</string>
 </resources>

@@ -32,7 +32,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 import static android.text.Layout.JUSTIFICATION_MODE_INTER_WORD;
 
@@ -142,12 +147,13 @@ public class CourseFragment extends Fragment {
         //checkNotification(uid);
 
         Notification notification;
+        String datetime = getCurrentLocalDateTimeStamp();
         if(intPerc >= 100 && (actualMinutes >= timeReadingEstimation -1 ))
-            notification= new Notification( currentLesson.getTitle(), "full_text", "You've completed this lesson", false);
+            notification= new Notification( "Geography course: " + currentLesson.getTitle(), "course", "You've completed this lesson", datetime,true);
         else if(intPerc < 100)
-            notification= new Notification( currentLesson.getTitle(), "full_text", "You've read the "+intPerc+"% of the content", false);
+            notification= new Notification( "Geography course: " + currentLesson.getTitle(), "course", "You've read the "+intPerc+"% of the content", datetime,true);
         else
-            notification= new Notification( currentLesson.getTitle(), "full_text", "You've read too fast this lesson!", false);
+            notification= new Notification( "Geography course: " + currentLesson.getTitle(), "course", "You've read too fast this lesson!", datetime,true);
 
         LiveData<String> repo = notificationViewModel.getMutableNotificationMessage();
         notificationViewModel.putNotification(uid, notification);
@@ -155,5 +161,13 @@ public class CourseFragment extends Fragment {
         repo.observe(getActivity(), observerNotification);
     }
 
+
+    public String getCurrentLocalDateTimeStamp() {
+        Date date = new Date(System.currentTimeMillis());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm aa",
+                Locale.ENGLISH);
+        String var = dateFormat.format(date);
+        return var;
+    }
 
 }

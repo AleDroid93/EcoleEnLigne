@@ -24,11 +24,24 @@ public class Notification implements Parcelable{
     @Expose
     private Boolean read;
 
+    @SerializedName("datetime")
+    @Expose
+    private String datetime;
 
-    public Notification(String topic, String scope, String message, Boolean read) {
+
+    public Notification() {
+        this.topic = "";
+        this.scope = "";
+        this.message = "";
+        this.read = true;
+        this.datetime = "";
+    }
+
+    public Notification(String topic, String scope, String message, String datetime, Boolean read) {
         this.topic = topic;
         this.scope = scope;
         this.message = message;
+        this.datetime = datetime;
         this.read = read;
     }
 
@@ -37,6 +50,7 @@ public class Notification implements Parcelable{
         topic = in.readString();
         scope = in.readString();
         message = in.readString();
+        datetime = in.readString();
         byte tmpRead = in.readByte();
         read = tmpRead == 0 ? null : tmpRead == 1;
     }
@@ -78,6 +92,14 @@ public class Notification implements Parcelable{
         this.message = message;
     }
 
+    public String getDatetime() {
+        return datetime;
+    }
+
+    public void setDatetime(String datetime) {
+        this.datetime = datetime;
+    }
+
     public Boolean getRead() {
         return read;
     }
@@ -96,6 +118,7 @@ public class Notification implements Parcelable{
         dest.writeString(topic);
         dest.writeString(scope);
         dest.writeString(message);
+        dest.writeString(datetime);
         dest.writeByte((byte) (read == null ? 0 : read ? 1 : 2));
     }
 }

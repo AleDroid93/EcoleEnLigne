@@ -1,17 +1,25 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+        <!-- Customize your theme here. #1976d2-->
         <item name="colorPrimary">#1976d2</item>
-        <item name="colorPrimaryDark">#2c4059</item>
+        <item name="colorPrimaryDark">#004ba0</item>
         <item name="colorAccent">#29b6f6</item>
-
+        <item name="colorSecondary">#5076d2</item>
+        <item name="android:titleTextAppearance" tools:targetApi="lollipop">@style/ActionBarTextAppearance</item>
+        <item name="android:fontFamily">@font/opensans_regular</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="ActionBarTextAppearance" parent="android:TextAppearance">
+        <item name="android:fontFamily">@font/opensans_bold</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@android:color/white</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

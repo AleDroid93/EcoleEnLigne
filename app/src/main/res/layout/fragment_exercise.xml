@@ -1,16 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
+    android:id="@+id/activity_quiz"
+    android:background="#E4E3E3"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".views.ExerciseFragment">
 
-    <TextView
-        android:id="@+id/exercise_text_view"
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/exercise_pager"
         android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/dots_pager"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/prevBtn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginBottom="8dp"
+        android:background="?actionBarItemBackground"
+        android:text="@string/prev_hint"
+        android:visibility="invisible"
+        android:textColor="@color/colorAccent2"
+        app:backgroundTint="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        style="?android:attr/borderlessButtonStyle"/>
+
+    <Button
+        android:id="@+id/submit_exercise"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_rounded_corners"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp"
+        android:visibility="invisible"
+        android:backgroundTint="@color/colorAccent2"
+        android:text="submit"
+        android:textColor="@color/white"
+        app:cornerRadius="30dp"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/prevBtn">
+
+    </Button>
+
+    <LinearLayout
+        android:id="@+id/dots_pager"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/exercise_pager"
         android:gravity="center_vertical"
-        android:layout_height="match_parent"
-        android:text="Exercise Fragment"
-        android:textSize="30sp" />
-</LinearLayout>
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/nextBtn"
+        app:layout_constraintLeft_toRightOf="@id/prevBtn"
+        app:layout_constraintRight_toLeftOf="@id/nextBtn">
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/nextBtn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginBottom="8dp"
+        android:background="?actionBarItemBackground"
+        android:text="@string/next_hint"
+        android:textColor="@color/colorAccent2"
+        app:backgroundTint="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        style="?android:attr/borderlessButtonStyle"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -164,7 +164,6 @@ public class QuizFragment extends Fragment {
                         quizPager.setAdapter(adapter);
                         addDotsIndicator(0);
                         quizPager.addOnPageChangeListener(pageListener);
-                        //nextQuestion(currentQuiz);
                     }
 
                     @Override

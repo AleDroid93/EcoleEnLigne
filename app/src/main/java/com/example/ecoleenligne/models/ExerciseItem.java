@@ -11,23 +11,17 @@ public class ExerciseItem implements Parcelable {
     @SerializedName("question")
     @Expose
     private String question;
-    @SerializedName("answer")
-    @Expose
-    private String answer;
 
     public ExerciseItem() {
         this.question="";
-        this.answer="";
     }
 
     public ExerciseItem(String question, String answer) {
         this.question = question;
-        this.answer = answer;
     }
 
     protected ExerciseItem(Parcel in) {
         question = in.readString();
-        answer = in.readString();
     }
 
     public static final Creator<ExerciseItem> CREATOR = new Creator<ExerciseItem>() {
@@ -46,17 +40,11 @@ public class ExerciseItem implements Parcelable {
         return question;
     }
 
-    public String getAnswer() {
-        return answer;
-    }
 
     public void setQuestion(String question) {
         this.question = question;
     }
 
-    public void setAnswer(String answer) {
-        this.answer = answer;
-    }
 
 
     @Override
@@ -67,6 +55,5 @@ public class ExerciseItem implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(question);
-        dest.writeString(answer);
     }
 }

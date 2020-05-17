@@ -12,6 +12,7 @@
         android:id="@+id/exercise_pager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintBottom_toTopOf="@+id/dots_pager"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -31,7 +32,7 @@
         style="?android:attr/borderlessButtonStyle"/>
 
     <Button
-        android:id="@+id/submit_exercise"
+        android:id="@+id/btn_submit_exercise"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/button_rounded_corners"

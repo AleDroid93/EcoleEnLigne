@@ -57,7 +57,8 @@
             android:name=".fragments.RegistrationActivity"
             android:label="Sign Up" />
         <activity android:name=".views.HomeActivity"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustPan|adjustResize"/>
         <activity android:name=".activities.LoginActivity">
 
             <!--

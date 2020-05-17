@@ -9,12 +9,13 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 
 public class Exercise implements Parcelable {
+    @SerializedName("exercise")
+    @Expose
+    private ArrayList<ExerciseItem> exercises;
     @SerializedName("title")
     @Expose
     private String title;
-    @SerializedName("questions")
-    @Expose
-    private ArrayList<ExerciseItem> exercises;
+
 
     public Exercise() {
         this.exercises = new ArrayList<>();
@@ -22,13 +23,13 @@ public class Exercise implements Parcelable {
     }
 
     public Exercise(String title, ArrayList<ExerciseItem> exercises) {
-        this.title = title;
         this.exercises = exercises;
+        this.title = title;
     }
 
     protected Exercise(Parcel in) {
-        title = in.readString();
         exercises = in.createTypedArrayList(ExerciseItem.CREATOR);
+        title = in.readString();
     }
 
     public static final Creator<Exercise> CREATOR = new Creator<Exercise>() {
@@ -67,7 +68,7 @@ public class Exercise implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(title);
         dest.writeTypedList(exercises);
+        dest.writeString(title);
     }
 }

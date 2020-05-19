@@ -30,6 +30,7 @@ import com.example.ecoleenligne.fragments.DashboardFragment;
 import com.example.ecoleenligne.fragments.MessagesFragment;
 import com.example.ecoleenligne.fragments.SavedItemsFragment;
 import com.example.ecoleenligne.models.Notification;
+import com.example.ecoleenligne.viewmodels.ExerciseViewModel;
 import com.example.ecoleenligne.viewmodels.NotificationViewModel;
 import com.example.ecoleenligne.models.UserInfo;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -59,9 +60,14 @@ public class HomeActivity extends AppCompatActivity {
     private DatabaseReference notificationsRef;
     private View notificationBadge;
     private BottomNavigationView bottomNavigationView;
+
     private Observer<String> notificationObserver;
+    private Observer<String> exerciseSubmissionObserver;
     private Observer<ArrayList<Notification>> notificationListObserver;
+
     private NotificationViewModel notificationViewModel;
+    private ExerciseViewModel exerciseSubmissionViewModel;
+
     private NavController navController;
 
     private int counter;
@@ -118,14 +124,20 @@ public class HomeActivity extends AppCompatActivity {
         notificationObserver = getNotificationObserver();
         notificationListObserver = getNotificationListObserver();
         notificationViewModel.getMutableNotifications().observe(this, notificationListObserver);
+        exerciseSubmissionObserver = getExerciseSubmissionObserver();
+        exerciseSubmissionViewModel.getMutableExSubmissionMessage().observe(this, exerciseSubmissionObserver);
         if(notificationViewModel.getMutableNotifications().getValue() == null || notificationViewModel.getMutableNotifications().getValue().isEmpty())
             initNotifications(currentUser.getUid());
     }
 
 
+
+
     public NotificationViewModel getNotificationViewModel() {
         return notificationViewModel;
     }
+
+    public ExerciseViewModel getExerciseSubmissionViewModel() { return exerciseSubmissionViewModel; }
 
     public Observer<ArrayList<Notification>> getObserverNotificationsList(){return notificationListObserver;}
 
@@ -259,6 +271,25 @@ public class HomeActivity extends AppCompatActivity {
     }
 
 
+    public Observer<String> getExerciseSubmissionObserver() {
+        exerciseSubmissionViewModel = ViewModelProviders.of(this).get(ExerciseViewModel.class);
+        Observer<String> observerExerciseSubmission = new Observer<String>() {
+            @Override
+            public void onChanged(String submissionMessage) {
+                String msg = submissionMessage;
+                if (msg.equals("success")) {
+                    Log.e(TAG, "exercise submission added");
+                    Toast.makeText(HomeActivity.this, "exercise submitted", Toast.LENGTH_SHORT).show();
+                } else {
+                    Log.e(TAG, "exercise submission Message: " + msg);
+                    Toast.makeText(HomeActivity.this, "exercise submission failed. Retry", Toast.LENGTH_SHORT).show();
+                }
+                navController.popBackStack();
+            }
+        };
+        return observerExerciseSubmission;
+    }
+
 
     public NavController getNavController() {
         return navController;
@@ -303,6 +334,7 @@ public class HomeActivity extends AppCompatActivity {
         }
         return true;
     }
+
 
 
     public void markNotificationAsRead(Notification notification){

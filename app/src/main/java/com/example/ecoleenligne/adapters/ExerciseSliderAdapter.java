@@ -23,6 +23,7 @@ public class ExerciseSliderAdapter extends PagerAdapter {
     LayoutInflater inflater;
     String title;
     ArrayList<ExerciseItem> exercises;
+    ArrayList<String> questions;
     ArrayList<String> answers;
 
     public ExerciseSliderAdapter(Fragment context, String title,ArrayList<ExerciseItem> exercises) {
@@ -30,6 +31,7 @@ public class ExerciseSliderAdapter extends PagerAdapter {
         this.title = title;
         this.exercises = exercises;
         this.answers  = new ArrayList<>(this.exercises.size());
+        this.questions = new ArrayList<>(this.exercises.size());
     }
 
     public ArrayList<ExerciseItem> getExercises() {
@@ -38,6 +40,10 @@ public class ExerciseSliderAdapter extends PagerAdapter {
 
     public ArrayList<String> getAnswers() {
         return answers;
+    }
+
+    public ArrayList<String> getQuestions(){
+        return questions;
     }
 
     @Override
@@ -70,6 +76,7 @@ public class ExerciseSliderAdapter extends PagerAdapter {
         title.setText(this.title);
         ExerciseItem exercise = exercises.get(position);
         tvQuestion.setText(exercise.getQuestion());
+        questions.add(exercise.getQuestion());
         container.addView(view);
         return view;
     }

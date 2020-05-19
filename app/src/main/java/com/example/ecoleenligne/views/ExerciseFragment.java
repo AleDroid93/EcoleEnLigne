@@ -6,6 +6,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.viewpager.widget.ViewPager;
 
 import android.text.Html;
@@ -26,16 +28,22 @@ import com.example.ecoleenligne.models.Class;
 import com.example.ecoleenligne.models.Course;
 import com.example.ecoleenligne.models.Exercise;
 import com.example.ecoleenligne.models.ExerciseItem;
+import com.example.ecoleenligne.models.ExerciseSubmission;
 import com.example.ecoleenligne.models.Lesson;
 import com.example.ecoleenligne.models.UserInfo;
+import com.example.ecoleenligne.repositories.ExerciseRepository;
+import com.example.ecoleenligne.viewmodels.ExerciseViewModel;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
+import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -55,8 +63,17 @@ public class ExerciseFragment extends Fragment {
     private String pathToExercise;
     private int nExercises;
     private int currentQuestion;
+    private String classroomId;
+    private String courseId;
+    private String chapterId;
+    private String lessonId;
+
     private UserInfo currentUser;
     private Exercise currentExercise;
+    private ExerciseViewModel exerciseEvaluationViewModel;
+    private Observer<String> observerExercise;
+
+
 
     public ExerciseFragment() {
         // Required empty public constructor
@@ -77,9 +94,7 @@ public class ExerciseFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         // TODO - ottenere da CourseDetailFragment gli id di class, course,
         //  chapter e lesson per costruirre l'url di inserimento risposte exercise
-        String courseId = "";
-        String chapterId = "";
-        String lessonId = "";
+
 
         if(getArguments().getParcelable("user") != null){
             currentUser = getArguments().getParcelable("user");
@@ -126,8 +141,18 @@ public class ExerciseFragment extends Fragment {
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArrayList<String> answers;
-                //TODO - aggiungere result alle statistiche, insieme a quiz done
+                View view = exercisePager.getFocusedChild();
+                EditText edt = view.findViewById(R.id.edt_exercise_answer);
+                String currentAnswer = edt.getText().toString();
+                adapter.addAnswer(currentAnswer, currentQuestion);
+                exercisePager.setCurrentItem(++currentQuestion);
+                ArrayList<String> questions = adapter.getQuestions();
+                ArrayList<String> answers = adapter.getAnswers();
+                String date = getCurrentLocalDateTimeStamp();
+                ExerciseSubmission submission = new ExerciseSubmission(date, classroomId, courseId, chapterId, lessonId, answers, questions);
+                LiveData<String> repo = exerciseEvaluationViewModel.getMutableExSubmissionMessage();
+                exerciseEvaluationViewModel.postExercise(uid, submission);
+                repo.observe(getActivity(), observerExercise);
             }
         });
 
@@ -136,6 +161,9 @@ public class ExerciseFragment extends Fragment {
 
         exercisePager = view.findViewById(R.id.exercise_pager);
         dotsPager = view.findViewById(R.id.dots_pager);
+        HomeActivity parentActivity = (HomeActivity) getActivity();
+        exerciseEvaluationViewModel = parentActivity.getExerciseSubmissionViewModel();
+        observerExercise = parentActivity.getExerciseSubmissionObserver();
         spawnExercise();
     }
 
@@ -257,5 +285,13 @@ public class ExerciseFragment extends Fragment {
             dots.add(dot);
             dotsPager.addView(dot);
         }
+    }
+
+    public String getCurrentLocalDateTimeStamp() {
+        Date date = new Date(System.currentTimeMillis());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm aa",
+                Locale.ENGLISH);
+        String var = dateFormat.format(date);
+        return var;
     }
 }

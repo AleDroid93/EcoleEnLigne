@@ -28,19 +28,24 @@ public class ExerciseSubmission implements Parcelable {
     @SerializedName("answers")
     @Expose
     private ArrayList<String> answers;
+    @SerializedName("questions")
+    @Expose
+    private ArrayList<String> questions;
+
 
     public ExerciseSubmission() {
     }
 
 
     public ExerciseSubmission(String subdate, String classroom,
-                              String course, String chapter, String lesson, ArrayList<String> answers) {
+                              String course, String chapter, String lesson, ArrayList<String> answers, ArrayList<String> questions) {
         this.subdate = subdate;
         this.classroom = classroom;
         this.course = course;
         this.chapter = chapter;
         this.lesson = lesson;
         this.answers = answers;
+        this.questions = questions;
     }
 
     protected ExerciseSubmission(Parcel in) {
@@ -50,6 +55,7 @@ public class ExerciseSubmission implements Parcelable {
         chapter = in.readString();
         lesson = in.readString();
         answers = in.createStringArrayList();
+        questions = in.createStringArrayList();
     }
 
     public static final Creator<ExerciseSubmission> CREATOR = new Creator<ExerciseSubmission>() {
@@ -113,6 +119,13 @@ public class ExerciseSubmission implements Parcelable {
         this.answers = answers;
     }
 
+    public ArrayList<String> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(ArrayList<String> questions) {
+        this.questions = questions;
+    }
 
     @Override
     public int describeContents() {
@@ -127,5 +140,6 @@ public class ExerciseSubmission implements Parcelable {
         dest.writeString(chapter);
         dest.writeString(lesson);
         dest.writeStringList(answers);
+        dest.writeStringList(questions);
     }
 }

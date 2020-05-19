@@ -2,6 +2,8 @@ package com.example.ecoleenligne.remote;
 
 
 import com.example.ecoleenligne.data.NetworkMessage;
+import com.example.ecoleenligne.models.Exercise;
+import com.example.ecoleenligne.models.ExerciseSubmission;
 import com.example.ecoleenligne.models.Notification;
 import com.example.ecoleenligne.models.UserInfo;
 import com.google.gson.JsonObject;
@@ -28,4 +30,7 @@ public interface FirebaseClient {
 
     @POST("/notifications/{uid}/.json")
     Call<Object> putNotification(@Path("uid") String uid, @Body Notification notification);
+
+    @POST("/exercise-submissions/{uid}/.json")
+    Call<Object> postExercise(@Path("uid") String uid, @Body ExerciseSubmission submission);
 }

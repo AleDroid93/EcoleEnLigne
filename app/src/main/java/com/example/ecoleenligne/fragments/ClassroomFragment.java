@@ -149,7 +149,10 @@ public class ClassroomFragment extends Fragment {
                         Log.d("ClassroomFragment", "course clicked!");
                         Bundle bundle = new Bundle();
                         bundle.putParcelable("user", currentUser);
-                        bundle.putString("course_name",  ((TextView)v.findViewById(R.id.tv_course_name)).getText().toString());
+                        String courseName = ((TextView)v.findViewById(R.id.tv_course_name)).getText().toString();
+                        Course courseClicked = courseViewModel.getCourse(courseName);
+                        bundle.putParcelable("course", courseClicked);
+                        bundle.putString("course_name",  courseName);
                         courseViewModel.clear();
                         mClassroomAdapter = new ClassroomAdapter(new ArrayList<>(), null);
                         mClassroomAdapter.notifyDataSetChanged();

@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.example.ecoleenligne.R;
 import com.example.ecoleenligne.adapters.ChaptersAdapter;
 import com.example.ecoleenligne.models.Chapter;
+import com.example.ecoleenligne.models.Course;
 import com.example.ecoleenligne.models.UserInfo;
 import com.example.ecoleenligne.viewmodels.ChapterViewModel;
 import com.google.firebase.database.ChildEventListener;
@@ -53,6 +54,7 @@ public class CourseDetailFragment extends Fragment {
     private int courseColor;
     private int lightColor;
     private String urlDb;
+    private Course currentCourse;
     private NavController navController;
 
 
@@ -86,6 +88,8 @@ public class CourseDetailFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         navController = Navigation.findNavController(view);
+        if(getArguments().getParcelable("course") != null)
+            currentCourse = getArguments().getParcelable("course");
         String courseName = getArguments().getString("course_name");
         UserInfo currentUser = getArguments().getParcelable("user");
         HomeActivity parentActivity = (HomeActivity) getActivity();
@@ -109,12 +113,12 @@ public class CourseDetailFragment extends Fragment {
 
         if (chaptersViewModel.getChaptersLiveData().getValue() == null) {
             displayChapters(clId, csId);
-            mChaptersAdapter = new ChaptersAdapter(parentActivity, courseColor, lightColor, new ArrayList<>());
+            mChaptersAdapter = new ChaptersAdapter(parentActivity, courseColor, lightColor, currentCourse, new ArrayList<>());
             mChaptersRecyclerView.setAdapter(mChaptersAdapter);
         } else if (chaptersViewModel.getChaptersLiveData().getValue().isEmpty()){
             displayChapters(clId, csId);
         }else{
-            mChaptersAdapter = new ChaptersAdapter(getActivity(), courseColor, lightColor, chaptersViewModel.getChaptersLiveData().getValue());
+            mChaptersAdapter = new ChaptersAdapter(getActivity(), courseColor, lightColor, currentCourse, chaptersViewModel.getChaptersLiveData().getValue());
             mChaptersAdapter.notifyDataSetChanged();
             mChaptersRecyclerView.setAdapter(mChaptersAdapter);
         }
@@ -126,7 +130,7 @@ public class CourseDetailFragment extends Fragment {
         return new Observer<ArrayList<Chapter>>() {
             @Override
             public void onChanged(ArrayList<Chapter> chapters) {
-                mChaptersAdapter = new ChaptersAdapter(getActivity(), courseColor, lightColor, chapters);
+                mChaptersAdapter = new ChaptersAdapter(getActivity(), courseColor, lightColor, currentCourse, chapters);
                 mChaptersAdapter.notifyDataSetChanged();
                 mChaptersRecyclerView.setAdapter(mChaptersAdapter);
             }
@@ -194,7 +198,7 @@ public class CourseDetailFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home: {
-                mChaptersAdapter = new ChaptersAdapter(getActivity(), getResources().getColor(R.color.white), lightColor, new ArrayList<>());
+                mChaptersAdapter = new ChaptersAdapter(getActivity(), getResources().getColor(R.color.white), lightColor, currentCourse,new ArrayList<>());
                 mChaptersAdapter.notifyDataSetChanged();
                 mChaptersRecyclerView.setAdapter(mChaptersAdapter);
                 reference.removeEventListener(listener);

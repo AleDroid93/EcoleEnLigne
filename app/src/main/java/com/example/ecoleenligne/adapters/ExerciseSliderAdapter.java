@@ -32,6 +32,14 @@ public class ExerciseSliderAdapter extends PagerAdapter {
         this.answers  = new ArrayList<>(this.exercises.size());
     }
 
+    public ArrayList<ExerciseItem> getExercises() {
+        return exercises;
+    }
+
+    public ArrayList<String> getAnswers() {
+        return answers;
+    }
+
     @Override
     public int getCount() {
         return exercises.size();
@@ -56,7 +64,6 @@ public class ExerciseSliderAdapter extends PagerAdapter {
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         inflater = (LayoutInflater) context.getActivity().getSystemService(context.getActivity().LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.exercise_slide_layout, container, false);
-        // TODO - inizializzare correttamente tutti i dati nella view all'istruzione qui sopra
         TextView tvQuestion = view.findViewById(R.id.tv_exercise_question);
         TextView title = view.findViewById(R.id.tv_exercise_title);
         EditText edtAnswer = view.findViewById(R.id.edt_exercise_answer);

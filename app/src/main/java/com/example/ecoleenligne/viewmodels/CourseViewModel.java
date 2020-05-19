@@ -33,4 +33,12 @@ public class CourseViewModel extends ViewModel {
         coursesLiveData.setValue(courses);
     }
 
+    public Course getCourse(String courseName){
+        for(Course course : courses){
+            if(course.getName().equals(courseName))
+                return course;
+        }
+        return null;
+    }
+
 }

@@ -20,6 +20,7 @@ import androidx.transition.TransitionManager;
 
 import com.example.ecoleenligne.R;
 import com.example.ecoleenligne.models.Chapter;
+import com.example.ecoleenligne.models.Course;
 import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ import java.util.ArrayList;
 public class ChaptersAdapter extends RecyclerView.Adapter<ChaptersAdapter.ChapterViewHolder>{
     private ArrayList<Chapter> mChapters;
     private int color;
+    private Course currentCourse;
     private int lightColor;
     private Context context;
 
@@ -35,10 +37,11 @@ public class ChaptersAdapter extends RecyclerView.Adapter<ChaptersAdapter.Chapte
         this.mChapters = mChapters;
     }
 
-    public ChaptersAdapter(Context ctx, int color, int lightColor, ArrayList<Chapter> mChapters) {
+    public ChaptersAdapter(Context ctx, int color, int lightColor, Course course, ArrayList<Chapter> mChapters) {
         this.mChapters = mChapters;
         this.color = color;
         this.lightColor = lightColor;
+        this.currentCourse = course;
         this.context = ctx;
     }
 
@@ -78,7 +81,7 @@ public class ChaptersAdapter extends RecyclerView.Adapter<ChaptersAdapter.Chapte
         holder.chNumber.setTextColor(context.getResources().getColor(R.color.text_color));
         holder.chNumber.setText(chapterNumber);
         holder.lessonsRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-        holder.lessonsRecyclerView.setAdapter(new LessonsAdapter(chapter.getLessons(), lightColor, context));
+        holder.lessonsRecyclerView.setAdapter(new LessonsAdapter(chapter.getLessons(), lightColor, currentCourse, chapter,context));
 
     }
 

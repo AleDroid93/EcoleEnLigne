@@ -74,7 +74,7 @@ public class CourseMenu extends AppCompatActivity implements View.OnClickListene
         mLayoutChaptersManager = new LinearLayoutManager(CourseMenu.this);
         mChaptersRecyclerView.setLayoutManager(mLayoutChaptersManager);
 
-        mChaptersAdapter = new ChaptersAdapter(CourseMenu.this, courseColor, lightColor, new ArrayList<>());
+        mChaptersAdapter = new ChaptersAdapter(CourseMenu.this, courseColor, lightColor, null, new ArrayList<>());
         mChaptersRecyclerView.setAdapter(mChaptersAdapter);
         displayChapters(clId, csId);
     }
@@ -83,7 +83,7 @@ public class CourseMenu extends AppCompatActivity implements View.OnClickListene
         return new Observer<ArrayList<Chapter>>() {
             @Override
             public void onChanged(ArrayList<Chapter> chapters) {
-                mChaptersAdapter = new ChaptersAdapter(CourseMenu.this, courseColor, lightColor, chapters);
+                mChaptersAdapter = new ChaptersAdapter(CourseMenu.this, courseColor, lightColor, null,chapters);
                 mChaptersAdapter.notifyDataSetChanged();
                 mChaptersRecyclerView.setAdapter(mChaptersAdapter);
             }
@@ -145,7 +145,7 @@ public class CourseMenu extends AppCompatActivity implements View.OnClickListene
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home: {
-                mChaptersAdapter = new ChaptersAdapter(CourseMenu.this, getResources().getColor(R.color.white), lightColor, new ArrayList<>());
+                mChaptersAdapter = new ChaptersAdapter(CourseMenu.this, getResources().getColor(R.color.white), lightColor, null,new ArrayList<>());
                 mChaptersAdapter.notifyDataSetChanged();
                 mChaptersRecyclerView.setAdapter(mChaptersAdapter);
                 reference.removeEventListener(listener);

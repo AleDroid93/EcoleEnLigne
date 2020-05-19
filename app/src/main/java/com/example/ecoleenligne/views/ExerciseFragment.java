@@ -21,8 +21,13 @@ import android.widget.Toast;
 
 import com.example.ecoleenligne.R;
 import com.example.ecoleenligne.adapters.ExerciseSliderAdapter;
+import com.example.ecoleenligne.models.Chapter;
+import com.example.ecoleenligne.models.Class;
+import com.example.ecoleenligne.models.Course;
 import com.example.ecoleenligne.models.Exercise;
 import com.example.ecoleenligne.models.ExerciseItem;
+import com.example.ecoleenligne.models.Lesson;
+import com.example.ecoleenligne.models.UserInfo;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -47,14 +52,16 @@ public class ExerciseFragment extends Fragment {
     private ExerciseSliderAdapter adapter;
     private ArrayList<TextView> dots;
     private ViewPager.OnPageChangeListener pageListener;
-
+    private String pathToExercise;
     private int nExercises;
     private int currentQuestion;
+    private UserInfo currentUser;
     private Exercise currentExercise;
 
     public ExerciseFragment() {
         // Required empty public constructor
     }
+
 
 
     @Override
@@ -64,9 +71,33 @@ public class ExerciseFragment extends Fragment {
     }
 
 
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        // TODO - ottenere da CourseDetailFragment gli id di class, course,
+        //  chapter e lesson per costruirre l'url di inserimento risposte exercise
+        String courseId = "";
+        String chapterId = "";
+        String lessonId = "";
+
+        if(getArguments().getParcelable("user") != null){
+            currentUser = getArguments().getParcelable("user");
+        }
+        if(getArguments().getParcelable("course") != null){
+            courseId = ((Course) getArguments().getParcelable("course")).getId();
+        }
+        if(getArguments().getParcelable("chapter") != null){
+            chapterId = ((Chapter) getArguments().getParcelable("chapter")).getId();
+        }
+        if(getArguments().getParcelable("lesson") != null){
+            lessonId = ((Lesson) getArguments().getParcelable("lesson")).getId();
+        }
+        String uid = currentUser.getUid();
+        String classroomId= currentUser.getUserClass().getId();
+        pathToExercise = classroomId+"/"+courseId+"/"+chapterId+"/"+lessonId;
+
+
         tvQuestion = view.findViewById(R.id.tv_exercise_question);
         prevBtn = view.findViewById(R.id.prevBtn);
         nextBtn = view.findViewById(R.id.nextBtn);
@@ -75,7 +106,10 @@ public class ExerciseFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getActivity(), "prev clicked", Toast.LENGTH_SHORT).show();
-                exercisePager.setCurrentItem(currentQuestion - 1);
+                EditText edt = view.findViewById(R.id.edt_exercise_answer);
+                String currentAnswer = edt.getText().toString();
+                adapter.addAnswer(currentAnswer, currentQuestion);
+                exercisePager.setCurrentItem(--currentQuestion);
             }
         });
         nextBtn.setOnClickListener(new View.OnClickListener() {
@@ -92,8 +126,7 @@ public class ExerciseFragment extends Fragment {
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                int result = adapter.evaluateExercise();
+                ArrayList<String> answers;
                 //TODO - aggiungere result alle statistiche, insieme a quiz done
             }
         });
@@ -107,8 +140,9 @@ public class ExerciseFragment extends Fragment {
     }
 
 
+
     public void spawnExercise(){
-        String urlExercises = "exercises/cl0/cs0/ch0/ls0";
+        String urlExercises = "exercises/"+pathToExercise;
         DatabaseReference reference = database.getReference(urlExercises);
         reference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -120,23 +154,7 @@ public class ExerciseFragment extends Fragment {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         currentExercise = dataSnapshot.getValue(Exercise.class);
-                        Iterable<DataSnapshot> iterable = dataSnapshot.getChildren();
-                        Iterator<DataSnapshot> it = iterable.iterator();
-                        while(it.hasNext()){
-                            DataSnapshot data = it.next();
-                            Log.e(TAG, data.getValue().toString());
-                            Iterable<DataSnapshot> iter = data.getChildren();
-                            Iterator<DataSnapshot> itQuestions = iter.iterator();
-                            ArrayList<ExerciseItem> questions = new ArrayList<>();
-                            while(itQuestions.hasNext()){
-                                ExerciseItem question = itQuestions.next().getValue(ExerciseItem.class);
-                                questions.add(question);
-                            }
-                            data = it.next();
-                            Log.e(TAG, data.getValue().toString());
-                            String title = data.getValue(String.class);
-                            currentExercise = new Exercise(title, questions);
-                        }
+                        initExerciseFromDb(dataSnapshot);
                         if (currentExercise != null) {
                             adapter = new ExerciseSliderAdapter(ExerciseFragment.this, currentExercise.getTitle(), currentExercise.getExercises());
                         }
@@ -159,6 +177,25 @@ public class ExerciseFragment extends Fragment {
         });
     }
 
+    private void initExerciseFromDb(@NonNull DataSnapshot dataSnapshot) {
+        Iterable<DataSnapshot> iterable = dataSnapshot.getChildren();
+        Iterator<DataSnapshot> it = iterable.iterator();
+        while(it.hasNext()){
+            DataSnapshot data = it.next();
+            Log.e(TAG, data.getValue().toString());
+            Iterable<DataSnapshot> iter = data.getChildren();
+            Iterator<DataSnapshot> itQuestions = iter.iterator();
+            ArrayList<ExerciseItem> questions = new ArrayList<>();
+            while(itQuestions.hasNext()){
+                ExerciseItem question = itQuestions.next().getValue(ExerciseItem.class);
+                questions.add(question);
+            }
+            data = it.next();
+            Log.e(TAG, data.getValue().toString());
+            String title = data.getValue(String.class);
+            currentExercise = new Exercise(title, questions);
+        }
+    }
 
 
     public ViewPager.OnPageChangeListener getPageListener() {

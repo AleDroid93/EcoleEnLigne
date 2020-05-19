@@ -9,12 +9,6 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 
 public class ExerciseSubmission implements Parcelable {
-    @SerializedName("name")
-    @Expose
-    private String name;
-    @SerializedName("surname")
-    @Expose
-    private String surname;
     @SerializedName("submission-date")
     @Expose
     private String subdate;
@@ -39,10 +33,8 @@ public class ExerciseSubmission implements Parcelable {
     }
 
 
-    public ExerciseSubmission(String name, String surname, String subdate, String classroom,
+    public ExerciseSubmission(String subdate, String classroom,
                               String course, String chapter, String lesson, ArrayList<String> answers) {
-        this.name = name;
-        this.surname = surname;
         this.subdate = subdate;
         this.classroom = classroom;
         this.course = course;
@@ -52,8 +44,6 @@ public class ExerciseSubmission implements Parcelable {
     }
 
     protected ExerciseSubmission(Parcel in) {
-        name = in.readString();
-        surname = in.readString();
         subdate = in.readString();
         classroom = in.readString();
         course = in.readString();
@@ -74,21 +64,6 @@ public class ExerciseSubmission implements Parcelable {
         }
     };
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
 
     public String getSubdate() {
         return subdate;
@@ -146,8 +121,6 @@ public class ExerciseSubmission implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(name);
-        dest.writeString(surname);
         dest.writeString(subdate);
         dest.writeString(classroom);
         dest.writeString(course);

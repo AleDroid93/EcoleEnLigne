@@ -3,6 +3,8 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <!-- Customize your theme here. #1976d2-->
+        <item name="android:windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
         <item name="colorPrimary">#1976d2</item>
         <item name="colorPrimaryDark">#004ba0</item>
         <item name="colorAccent">#29b6f6</item>

@@ -2,33 +2,31 @@ package com.example.ecoleenligne.views;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavBackStackEntry;
 import androidx.navigation.NavController;
-import androidx.navigation.NavDestination;
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.appcompat.widget.Toolbar;
 
 import com.example.ecoleenligne.R;
-import com.example.ecoleenligne.adapters.NotificationAdapter;
-import com.example.ecoleenligne.fragments.ChatFragment;
-import com.example.ecoleenligne.fragments.ClassroomFragment;
-import com.example.ecoleenligne.fragments.DashboardFragment;
-import com.example.ecoleenligne.fragments.MessagesFragment;
-import com.example.ecoleenligne.fragments.SavedItemsFragment;
 import com.example.ecoleenligne.models.Notification;
 import com.example.ecoleenligne.viewmodels.ExerciseViewModel;
 import com.example.ecoleenligne.viewmodels.NotificationViewModel;
@@ -40,6 +38,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -54,6 +53,11 @@ import java.util.Map;
 
 public class HomeActivity extends AppCompatActivity {
     private static final String TAG = "HomeActivity";
+
+    private Toolbar mToolbar;
+    private DrawerLayout mDrawerLayout;
+    private NavigationView mNavigationView;
+
     private UserInfo currentUser;
     private FirebaseAuth mAuth;
     private FirebaseDatabase database;
@@ -79,13 +83,49 @@ public class HomeActivity extends AppCompatActivity {
     }
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         Intent intent = getIntent();
+        mToolbar = findViewById(R.id.home_activity_toolbar);
+        mDrawerLayout = findViewById(R.id.drawer_layout);
+        mNavigationView = findViewById(R.id.navigation_view);
+        mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                switch (menuItem.getItemId()) {
+                    case R.id.account_item:
+                        // TODO - handle account fragment
+                        Log.e(TAG, "Account selected");
+                        menuItem.setChecked(true);
+                        break;
+                    case R.id.settings_item:
+                        // TODO - handle settings fragment
+                        Log.e(TAG, "Settings selected");
+                        menuItem.setChecked(true);
+                        break;
+                    case R.id.logout_item:
+                        // TODO - handle logout
+                        Log.e(TAG, "Logout selected");
+                        menuItem.setChecked(true);
+                        break;
+                }
+                mDrawerLayout.closeDrawers();
+                return true;
+            }
+        });
+        setSupportActionBar(mToolbar);
+        /*
+        final ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null){
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
+        }
+
+         */
+
+
         currentUser = intent.getParcelableExtra("user");
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
@@ -96,9 +136,14 @@ public class HomeActivity extends AppCompatActivity {
             bottomNavigationView.getMenu().clear();
             bottomNavigationView.inflateMenu(R.menu.bottom_nav_student);
             NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_stud_fragment);
-
             navController = navHostFragment.getNavController();
+            AppBarConfiguration appBarConfiguration =
+                    new AppBarConfiguration.Builder(R.id.nav_home, R.id.nav_class, R.id.nav_messages, R.id.nav_saved)
+                            .setOpenableLayout(mDrawerLayout).build();
+
             NavigationUI.setupWithNavController(bottomNavigationView, navController);
+            NavigationUI.setupWithNavController(mToolbar, navController, appBarConfiguration);
+
 
         }else{
             bottomNavigationView.getMenu().clear();
@@ -128,6 +173,9 @@ public class HomeActivity extends AppCompatActivity {
         exerciseSubmissionViewModel.getMutableExSubmissionMessage().observe(this, exerciseSubmissionObserver);
         if(notificationViewModel.getMutableNotifications().getValue() == null || notificationViewModel.getMutableNotifications().getValue().isEmpty())
             initNotifications(currentUser.getUid());
+
+
+
     }
 
 
@@ -321,6 +369,7 @@ public class HomeActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home: {
+
                 Log.e(TAG, "back pressed! "+ navController.getCurrentDestination().getLabel().toString());
                 String fragLabel = navController.getCurrentDestination().getLabel().toString();
                 if(fragLabel.equalsIgnoreCase("coursefragment")){
@@ -328,7 +377,13 @@ public class HomeActivity extends AppCompatActivity {
                     CourseFragment courseFragment = (CourseFragment) getForegroundFragment();
                     courseFragment.computeReadingState();
                 }
-                navController.popBackStack();
+                if(!fragLabel.equalsIgnoreCase("nav_home") &&
+                        !fragLabel.equalsIgnoreCase("nav_class") &&
+                        !fragLabel.equalsIgnoreCase("nav_messages") &&
+                        !fragLabel.equalsIgnoreCase("nav_saved"))
+                    navController.popBackStack();
+                else
+                    mDrawerLayout.openDrawer(GravityCompat.START);
                 break;
             }
         }

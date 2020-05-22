@@ -30,9 +30,11 @@ import com.example.ecoleenligne.models.Exercise;
 import com.example.ecoleenligne.models.ExerciseItem;
 import com.example.ecoleenligne.models.ExerciseSubmission;
 import com.example.ecoleenligne.models.Lesson;
+import com.example.ecoleenligne.models.Notification;
 import com.example.ecoleenligne.models.UserInfo;
 import com.example.ecoleenligne.repositories.ExerciseRepository;
 import com.example.ecoleenligne.viewmodels.ExerciseViewModel;
+import com.example.ecoleenligne.viewmodels.NotificationViewModel;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -67,9 +69,15 @@ public class ExerciseFragment extends Fragment {
     private String courseId;
     private String chapterId;
     private String lessonId;
+    private String currentCourseName;
+    private String currentLessonName;
+
+    private NotificationViewModel notificationViewModel;
+    private Observer<String> observerNotification;
 
     private UserInfo currentUser;
     private Exercise currentExercise;
+
     private ExerciseViewModel exerciseEvaluationViewModel;
     private Observer<String> observerExercise;
 
@@ -101,12 +109,14 @@ public class ExerciseFragment extends Fragment {
         }
         if(getArguments().getParcelable("course") != null){
             courseId = ((Course) getArguments().getParcelable("course")).getId();
+            currentCourseName = ((Course) getArguments().getParcelable("course")).getName();
         }
         if(getArguments().getParcelable("chapter") != null){
             chapterId = ((Chapter) getArguments().getParcelable("chapter")).getId();
         }
         if(getArguments().getParcelable("lesson") != null){
             lessonId = ((Lesson) getArguments().getParcelable("lesson")).getId();
+            currentLessonName =  ((Lesson) getArguments().getParcelable("lesson")).getTitle();
         }
         String uid = currentUser.getUid();
         String classroomId= currentUser.getUserClass().getId();
@@ -153,6 +163,7 @@ public class ExerciseFragment extends Fragment {
                 LiveData<String> repo = exerciseEvaluationViewModel.getMutableExSubmissionMessage();
                 exerciseEvaluationViewModel.postExercise(uid, submission);
                 repo.observe(getActivity(), observerExercise);
+                sendNotification(currentUser.getUid());
             }
         });
 
@@ -165,6 +176,9 @@ public class ExerciseFragment extends Fragment {
         exerciseEvaluationViewModel = parentActivity.getExerciseSubmissionViewModel();
         observerExercise = parentActivity.getExerciseSubmissionObserver();
         spawnExercise();
+
+        notificationViewModel = parentActivity.getNotificationViewModel();
+        observerNotification = parentActivity.getNotificationMessageObserver();
     }
 
 
@@ -285,6 +299,18 @@ public class ExerciseFragment extends Fragment {
             dots.add(dot);
             dotsPager.addView(dot);
         }
+    }
+
+    public void sendNotification(String uid) {
+        String datetime = getCurrentLocalDateTimeStamp();
+        // TODO - farsi passare il quiz number, currentLesson e currentCourse
+        Notification notification = new Notification(currentCourseName+" course: " + currentLessonName,
+                "exercise", "You've submitted the exercise " +
+                 currentExercise.getTitle() +
+                 " for evaluation", datetime, true);
+        LiveData<String> repo = notificationViewModel.getMutableNotificationMessage();
+        notificationViewModel.putNotification(uid, notification);
+        repo.observe(getActivity(), observerNotification);
     }
 
     public String getCurrentLocalDateTimeStamp() {

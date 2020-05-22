@@ -27,6 +27,7 @@ import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.ecoleenligne.R;
+import com.example.ecoleenligne.models.Exercise;
 import com.example.ecoleenligne.models.Notification;
 import com.example.ecoleenligne.viewmodels.ExerciseViewModel;
 import com.example.ecoleenligne.viewmodels.NotificationViewModel;
@@ -376,6 +377,14 @@ public class HomeActivity extends AppCompatActivity {
 
                     CourseFragment courseFragment = (CourseFragment) getForegroundFragment();
                     courseFragment.computeReadingState();
+                }else if(fragLabel.equalsIgnoreCase("quizfragment")){
+                    QuizFragment quizFragment = (QuizFragment) getForegroundFragment();
+                    String uid = mAuth.getCurrentUser().getUid();
+                    quizFragment.sendNotification(uid);
+                }else if(fragLabel.equalsIgnoreCase("exercisefragment")){
+                    ExerciseFragment exerciseFragment = (ExerciseFragment) getForegroundFragment();
+                    String uid = mAuth.getCurrentUser().getUid();
+                    exerciseFragment.sendNotification(uid);
                 }
                 if(!fragLabel.equalsIgnoreCase("nav_home") &&
                         !fragLabel.equalsIgnoreCase("nav_class") &&

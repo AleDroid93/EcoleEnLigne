@@ -7,6 +7,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.viewpager.widget.ViewPager;
 
 import android.text.Html;
@@ -21,15 +23,21 @@ import android.widget.Toast;
 import com.example.ecoleenligne.R;
 import com.example.ecoleenligne.activities.QuizActivity;
 import com.example.ecoleenligne.adapters.QuizSliderAdapter;
+import com.example.ecoleenligne.models.Notification;
 import com.example.ecoleenligne.models.Quiz;
+import com.example.ecoleenligne.viewmodels.NotificationViewModel;
 import com.google.android.material.chip.Chip;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -37,6 +45,8 @@ import java.util.ArrayList;
 public class QuizFragment extends Fragment {
 
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private FirebaseAuth mAuth;
+
     private TextView tvQuestion;
     private Chip choice1;
     private Chip choice2;
@@ -49,6 +59,8 @@ public class QuizFragment extends Fragment {
     private QuizSliderAdapter adapter;
     private ArrayList<TextView> dots;
     private ViewPager.OnPageChangeListener pageListener;
+    private NotificationViewModel notificationViewModel;
+    private Observer<String> observerNotification;
 
     private int nQuiz;
     private int currentQuestion;
@@ -71,6 +83,7 @@ public class QuizFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mAuth = FirebaseAuth.getInstance();
         tvQuestion = view.findViewById(R.id.question);
         choice1 = view.findViewById(R.id.chipChoice1);
         choice2 = view.findViewById(R.id.chipChoice2);
@@ -94,6 +107,13 @@ public class QuizFragment extends Fragment {
                     int maxResult = adapter.getCount();
                     //TODO - aggiungere result alle statistiche, insieme a quizdone
                     Toast.makeText(getActivity(), "Quiz result: " + result + "/" + maxResult, Toast.LENGTH_SHORT).show();
+                    String datetime = getCurrentLocalDateTimeStamp();
+                    // TODO - farsi passare il quiz number, currentLesson e currentCourse
+                    Notification notification = new Notification("X course Y title","quiz","You've completed a quiz of the lesson x",datetime, true);
+                    LiveData<String> repo = notificationViewModel.getMutableNotificationMessage();
+                    String uid = mAuth.getCurrentUser().getUid();
+                    notificationViewModel.putNotification(uid, notification);
+                    repo.observe(getActivity(), observerNotification);
                 }else {
                     quizPager.setCurrentItem(currentQuestion + 1);
                 }
@@ -105,6 +125,10 @@ public class QuizFragment extends Fragment {
 
         quizPager = view.findViewById(R.id.quiz_pager);
         dotsPager = view.findViewById(R.id.dots_pager);
+
+        HomeActivity parentActivity = (HomeActivity) getActivity();
+        notificationViewModel = parentActivity.getNotificationViewModel();
+        observerNotification = parentActivity.getNotificationMessageObserver();
     }
 
 
@@ -204,5 +228,22 @@ public class QuizFragment extends Fragment {
 
     public int getCurrentQuestion() {
         return currentQuestion;
+    }
+
+    public void sendNotification(String uid) {
+        String datetime = getCurrentLocalDateTimeStamp();
+        // TODO - farsi passare il quiz number, currentLesson e currentCourse
+        Notification notification = new Notification("X course Y title","quiz","You've completed a quiz of the lesson x",datetime, true);
+        LiveData<String> repo = notificationViewModel.getMutableNotificationMessage();
+        notificationViewModel.putNotification(uid, notification);
+        repo.observe(getActivity(), observerNotification);
+    }
+
+    public String getCurrentLocalDateTimeStamp() {
+        Date date = new Date(System.currentTimeMillis());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm aa",
+                Locale.ENGLISH);
+        String var = dateFormat.format(date);
+        return var;
     }
 }

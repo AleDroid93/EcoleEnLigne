@@ -90,4 +90,18 @@
     <string name="next_hint">next</string>
     <string name="notifications_title_text">Notifications:</string>
     <string name="classroom_title">Your courses:</string>
+    <string name="informations_text">Informations</string>
+
+    <string name="headingSearch">search course</string>
+    <string name="headingStudy">study</string>
+    <string name="headingSave">save</string>
+    <string name="headingVideo">watch lesson videos</string>
+    <string name="headingTest">test yourself</string>
+    <string name="headingMark">get your mark</string>
+    <string name="descSearch">Find and add to your classroom your favorite courses to follow</string>
+    <string name="descStudy">Study the lessons provided for each course</string>
+    <string name="descSave">Save your favorite lessons for study everywhere!</string>
+    <string name="descVideo">Enrich your course knowledge by watching super interesting videos</string>
+    <string name="descTest">Exercize and test yourself through the app quizzes and exercises</string>
+    <string name="descMark">Submit your exercises to get a mark from the app teachers</string>
 </resources>

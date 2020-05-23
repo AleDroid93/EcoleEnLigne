@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_onboarding"
+    android:background="#E4E3E3"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".views.OnboardingFragment">
+
+    <ImageView
+        android:id="@+id/img_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/ic_close_black_24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/onboarding_pager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/prevBtn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="?actionBarItemBackground"
+        android:text="@string/prev_hint"
+        android:visibility="invisible"
+        android:textColor="@color/colorAccent2"
+        app:backgroundTint="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        style="?android:attr/borderlessButtonStyle"/>
+
+    <LinearLayout
+        android:id="@+id/dots_onboarding_pager"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/onboarding_pager"
+        android:layout_marginBottom="16dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/prevBtn"
+        app:layout_constraintRight_toLeftOf="@id/nextBtn"
+        app:layout_constraintTop_toTopOf="@+id/nextBtn">
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/nextBtn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="?actionBarItemBackground"
+        android:text="@string/next_hint"
+        android:textColor="@color/colorAccent2"
+        app:backgroundTint="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        style="?android:attr/borderlessButtonStyle"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

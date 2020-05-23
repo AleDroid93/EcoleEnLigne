@@ -35,6 +35,9 @@
         <action
             android:id="@+id/action_dashboardFragment_to_classroomFragment"
             app:destination="@id/nav_class" />
+        <action
+            android:id="@+id/action_nav_home_to_onboardingFragment"
+            app:destination="@id/onboardingFragment" />
     </fragment>
     <fragment
         android:id="@+id/nav_messages"
@@ -162,5 +165,9 @@
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"/>
     </fragment>
+    <fragment
+        android:id="@+id/onboardingFragment"
+        android:name="com.example.ecoleenligne.views.OnboardingFragment"
+        android:label="OnboardingFragment" />
 
 </navigation>

@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -20,6 +21,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -27,7 +30,6 @@ import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.ecoleenligne.R;
-import com.example.ecoleenligne.models.Exercise;
 import com.example.ecoleenligne.models.Notification;
 import com.example.ecoleenligne.viewmodels.ExerciseViewModel;
 import com.example.ecoleenligne.viewmodels.NotificationViewModel;
@@ -116,6 +118,8 @@ public class HomeActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+
         setSupportActionBar(mToolbar);
         /*
         final ActionBar actionBar = getSupportActionBar();
@@ -174,13 +178,12 @@ public class HomeActivity extends AppCompatActivity {
         exerciseSubmissionViewModel.getMutableExSubmissionMessage().observe(this, exerciseSubmissionObserver);
         if(notificationViewModel.getMutableNotifications().getValue() == null || notificationViewModel.getMutableNotifications().getValue().isEmpty())
             initNotifications(currentUser.getUid());
-
-
-
     }
 
 
-
+    public BottomNavigationView getBottomNavigationView() {
+        return bottomNavigationView;
+    }
 
     public NotificationViewModel getNotificationViewModel() {
         return notificationViewModel;
@@ -367,9 +370,17 @@ public class HomeActivity extends AppCompatActivity {
 
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.toolbar_menu, menu);
+
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home: {
+            case R.id.home:
 
                 Log.e(TAG, "back pressed! "+ navController.getCurrentDestination().getLabel().toString());
                 String fragLabel = navController.getCurrentDestination().getLabel().toString();
@@ -394,7 +405,12 @@ public class HomeActivity extends AppCompatActivity {
                 else
                     mDrawerLayout.openDrawer(GravityCompat.START);
                 break;
-            }
+
+            case R.id.info_app:
+                navController.navigate(R.id.action_nav_home_to_onboardingFragment);
+                Log.e(TAG, "infor pressed!");
+                break;
+
         }
         return true;
     }

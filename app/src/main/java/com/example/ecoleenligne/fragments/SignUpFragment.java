@@ -50,7 +50,6 @@ public class SignUpFragment extends Fragment implements View.OnClickListener{
         super.onViewCreated(view, savedInstanceState);
         navController = Navigation.findNavController(view);
         view.findViewById(R.id.signup_btn).setOnClickListener(SignUpFragment.this);
-        view.findViewById(R.id.back_btn).setOnClickListener(SignUpFragment.this);
         mEdtEmail = view.findViewById(R.id.edtEmail);
         mEdtPassword = view.findViewById(R.id.edtPassword);
         mLoginLink = view.findViewById(R.id.tv_login_now);
@@ -81,13 +80,6 @@ public class SignUpFragment extends Fragment implements View.OnClickListener{
                         bundle.putParcelable("user", user);
                     }
                     navController.navigate(R.id.action_signUpFragment_to_chooseProfileFragment, bundle);
-                    break;
-                case R.id.back_btn:
-                    FragmentActivity activity = getActivity();
-                    if(activity != null)
-                        activity.onBackPressed();
-                    else
-                        Log.w("SignupFragment", "onClick: Attenzione, FragmentActivity null!");
                     break;
                 case R.id.tv_login_now:
                     navController.navigate(R.id.action_signUpFragment_to_signInFragment);

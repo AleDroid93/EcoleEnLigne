@@ -26,13 +26,13 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.ecoleenligne.activities.HomeActivity2;
 import com.example.ecoleenligne.R;
 import com.example.ecoleenligne.data.NetworkMessage;
 import com.example.ecoleenligne.models.Child;
 import com.example.ecoleenligne.models.UserInfo;
 import com.example.ecoleenligne.repositories.UserInfoRepository;
 import com.example.ecoleenligne.viewmodels.UserInfoViewModel;
+import com.example.ecoleenligne.views.HomeActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -152,7 +152,7 @@ public class ParentInfoFragment extends Fragment implements View.OnClickListener
             public void onChanged(@Nullable NetworkMessage creationMessage) {
                 String msg = creationMessage.getMessage();
                 if(msg.equals("success")){
-                    Intent intent = new Intent(getActivity(), HomeActivity2.class);
+                    Intent intent = new Intent(getActivity(), HomeActivity.class);
                     intent.putExtra("user", incomingUser);
                     startActivity(intent);
                 }else{

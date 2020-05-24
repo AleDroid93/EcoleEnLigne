@@ -18,10 +18,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.ecoleenligne.activities.HomeActivity2;
 import com.example.ecoleenligne.R;
 import com.example.ecoleenligne.models.UserInfo;
 import com.example.ecoleenligne.viewmodels.UserInfoViewModel;
+import com.example.ecoleenligne.views.HomeActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -62,7 +62,7 @@ public class VerifyAccountFragment extends Fragment implements View.OnClickListe
         final Observer<UserInfo> observerUserInfo = new Observer<UserInfo>() {
             @Override
             public void onChanged(@Nullable UserInfo userInfo) {
-                Intent intent = new Intent(getActivity(), HomeActivity2.class);
+                Intent intent = new Intent(getActivity(), HomeActivity.class);
                 intent.putExtra("user", userInfo);
                 startActivity(intent);
             }

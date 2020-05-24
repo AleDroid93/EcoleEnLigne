@@ -5,7 +5,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
@@ -21,7 +20,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ecoleenligne.R;
-import com.example.ecoleenligne.activities.QuizActivity;
 import com.example.ecoleenligne.adapters.QuizSliderAdapter;
 import com.example.ecoleenligne.models.Notification;
 import com.example.ecoleenligne.models.Quiz;

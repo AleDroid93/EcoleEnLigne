@@ -13,62 +13,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-
-        <activity android:name=".activities.QuizActivity"
-            android:parentActivityName=".activities.LessonMenuActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
-
-        <activity
-            android:name=".activities.ResumeContentActivity"
-            android:parentActivityName=".activities.LessonMenuActivity"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".activities.VideoContentActivity"
-            android:parentActivityName=".activities.LessonMenuActivity"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".activities.CourseContentActivity"
-            android:parentActivityName=".activities.LessonMenuActivity"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".activities.LessonMenuActivity"
-            android:parentActivityName=".activities.CourseMenu"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".activities.CourseMenu"
-            android:parentActivityName=".activities.HomeActivity2"
-            android:theme="@style/AppTheme" />
-        <activity android:name=".activities.SearchResultsActivity" />
-        <activity
-            android:name=".activities.HomeActivity2"
-            android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.app.searchable"
-                android:resource="@xml/searchable" />
-        </activity>
-        <activity android:name=".activities.RootActivity">
+        <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activities.SearchResultsActivity" />
+        <activity android:name=".activities.RootActivity">
+        </activity>
+
         <activity
             android:name=".fragments.RegistrationActivity"
             android:label="Sign Up" />
-        <activity android:name=".views.HomeActivity"
+        <activity
+            android:name=".views.HomeActivity"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="adjustPan|adjustResize"/>
-        <activity android:name=".activities.LoginActivity">
-
-            <!--
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>!
-            -->
-        </activity>
+            android:windowSoftInputMode="adjustPan|adjustResize" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"

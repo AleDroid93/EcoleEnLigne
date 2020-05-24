@@ -2,7 +2,6 @@ package com.example.ecoleenligne.adapters;
 
 import android.content.Context;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,8 +11,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.ecoleenligne.activities.CourseMenu;
-import com.example.ecoleenligne.activities.LessonMenuActivity;
 import com.example.ecoleenligne.R;
 import com.example.ecoleenligne.models.Chapter;
 import com.example.ecoleenligne.models.Course;

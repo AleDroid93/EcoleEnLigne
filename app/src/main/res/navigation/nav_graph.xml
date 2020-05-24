@@ -2,28 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/entryFragment">
-
-    <fragment
-        android:id="@+id/entryFragment"
-        android:name="com.example.ecoleenligne.fragments.EntryFragment"
-        android:label="EntryFragment" >
-        <action
-            android:id="@+id/action_entryFragment_to_signUpFragment"
-            app:destination="@id/signUpFragment"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left" />
-        <action
-            android:id="@+id/action_entryFragment_to_signInFragment"
-            app:destination="@id/signInFragment"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"/>
-
-    </fragment>
+    app:startDestination="@id/signInFragment">
 
     <fragment
         android:id="@+id/signUpFragment"
@@ -44,8 +23,7 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popUpTo="@id/entryFragment"/>
+            app:exitAnim="@anim/slide_out_left" />
     </fragment>
 
     <fragment
@@ -118,8 +96,7 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popUpTo="@id/entryFragment"/>
+            app:exitAnim="@anim/slide_out_left" />
         <action
             android:id="@+id/action_signInFragment_to_verifyAccountFragment"
             app:destination="@id/verifyAccountFragment"

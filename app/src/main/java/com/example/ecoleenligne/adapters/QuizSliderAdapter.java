@@ -1,6 +1,5 @@
 package com.example.ecoleenligne.adapters;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,11 +9,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.PagerAdapter;
 
 import com.example.ecoleenligne.R;
-import com.example.ecoleenligne.activities.QuizActivity;
 import com.example.ecoleenligne.models.QuizItem;
 import com.example.ecoleenligne.views.QuizFragment;
 import com.google.android.material.chip.Chip;

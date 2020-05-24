@@ -34,12 +34,23 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/imageView">
+
+        <TextView
+            android:id="@+id/tv_registration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Registration"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/edtEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:background="@drawable/edit_text_rounded_corners"
             android:fontFamily="@font/opensans_regular"
             android:hint="@string/edt_email_hint"
@@ -49,7 +60,7 @@
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="@+id/main_layout"
             app:layout_constraintStart_toStartOf="@+id/main_layout"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_registration" />
 
         <EditText
             android:id="@+id/edtPassword"
@@ -73,8 +84,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:background="@drawable/button_rounded_corners"
+            android:backgroundTint="@color/colorAccent2"
+            app:cornerRadius="36dp"
             android:minWidth="0dp"
             android:minHeight="40dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
             android:text="@string/btn_register_text"
             android:textColor="@android:color/white"
             android:textSize="14sp"
@@ -106,18 +121,6 @@
             app:layout_constraintStart_toStartOf="@+id/signup_btn"
             app:layout_constraintTop_toBottomOf="@+id/tv_login_invite" />
 
-
-        <Button
-            android:id="@+id/back_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="back"
-            android:textSize="14sp"
-            app:fontFamily="@font/opensans_bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/signup_btn"
-            app:layout_constraintTop_toBottomOf="@+id/tv_login_now" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

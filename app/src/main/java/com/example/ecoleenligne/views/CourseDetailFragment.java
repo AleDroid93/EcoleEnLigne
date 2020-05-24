@@ -93,6 +93,7 @@ public class CourseDetailFragment extends Fragment {
         String courseName = getArguments().getString("course_name");
         UserInfo currentUser = getArguments().getParcelable("user");
         HomeActivity parentActivity = (HomeActivity) getActivity();
+        parentActivity.changeMenu(R.menu.toolbar_menu);
         parentActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         courseMenuTitle = view.findViewById(R.id.tv_menu_title);

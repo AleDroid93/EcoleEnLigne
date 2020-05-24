@@ -46,6 +46,8 @@ public class DashboardFragment extends Fragment {
         TextView tv = view.findViewById(R.id.welcome_text_view);
         if(currentUser != null)
             tv.setText("Hello\n"+ currentUser.toString());
+        HomeActivity parentActivity = (HomeActivity) getActivity();
+        parentActivity.changeMenu(R.menu.toolbar_menu);
     }
 
 }

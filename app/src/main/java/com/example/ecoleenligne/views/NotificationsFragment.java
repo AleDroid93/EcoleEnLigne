@@ -66,7 +66,7 @@ public class NotificationsFragment extends Fragment {
         notificationFragmentTitle = view.findViewById(R.id.notification_title);
         mNotificationRecyclerView = view.findViewById(R.id.notification_recycler_view);
         String uid = parentActivity.getCurrentUser().getUid();
-
+        parentActivity.changeMenu(R.menu.toolbar_menu);
         mLayoutChaptersManager = new LinearLayoutManager(parentActivity);
         mNotificationRecyclerView.setLayoutManager(mLayoutChaptersManager);
 

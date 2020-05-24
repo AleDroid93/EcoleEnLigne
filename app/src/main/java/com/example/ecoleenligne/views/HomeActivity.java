@@ -4,8 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.view.GravityCompat;
+import androidx.core.view.MenuItemCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
@@ -16,6 +18,9 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import android.app.SearchManager;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,11 +30,14 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
+import androidx.transition.TransitionManager;
 
 import com.example.ecoleenligne.R;
+import com.example.ecoleenligne.activities.SearchResultsActivity;
 import com.example.ecoleenligne.models.Notification;
 import com.example.ecoleenligne.viewmodels.ExerciseViewModel;
 import com.example.ecoleenligne.viewmodels.NotificationViewModel;
@@ -179,6 +187,8 @@ public class HomeActivity extends AppCompatActivity {
         if(notificationViewModel.getMutableNotifications().getValue() == null || notificationViewModel.getMutableNotifications().getValue().isEmpty())
             initNotifications(currentUser.getUid());
     }
+
+
 
 
     public BottomNavigationView getBottomNavigationView() {
@@ -371,11 +381,30 @@ public class HomeActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        Log.e(TAG, "creatione options menu");
         MenuInflater inflater = getMenuInflater();
+        String fragLabel = navController.getCurrentDestination().getLabel().toString();
         inflater.inflate(R.menu.toolbar_menu, menu);
 
         return true;
     }
+
+
+    public void changeMenu(int menuId){
+        Menu menu = mToolbar.getMenu();
+        menu.clear();
+        getMenuInflater().inflate(menuId, menu);
+        if(menuId == R.menu.search_menu){
+            Log.e(TAG,"carico search menu");
+            SearchManager searchManager =
+                    (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+            SearchView searchView =
+                    (SearchView) menu.findItem(R.id.search).getActionView();
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(this, SearchResultsActivity.class)));
+            searchView.setIconifiedByDefault(true);
+        }
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -410,7 +439,8 @@ public class HomeActivity extends AppCompatActivity {
                 navController.navigate(R.id.action_nav_home_to_onboardingFragment);
                 Log.e(TAG, "infor pressed!");
                 break;
-
+            case R.id.search:
+                break;
         }
         return true;
     }

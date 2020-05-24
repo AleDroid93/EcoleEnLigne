@@ -114,6 +114,7 @@ public class CourseFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
 
         HomeActivity parentActivity = (HomeActivity) getActivity();
+
         notificationViewModel = parentActivity.getNotificationViewModel();
         observerNotification = parentActivity.getNotificationMessageObserver();
     }

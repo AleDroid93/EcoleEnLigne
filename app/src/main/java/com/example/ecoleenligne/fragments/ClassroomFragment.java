@@ -85,6 +85,7 @@ public class ClassroomFragment extends Fragment {
         String courseId = "";
         DatabaseReference reference = database.getReference("courses/" + courseId);
         HomeActivity parentActivity = (HomeActivity) getActivity();
+        parentActivity.changeMenu(R.menu.search_menu);
         parentActivity.getCurrentFocus();
         currentUser = parentActivity.getCurrentUser();
         courseViewModel = ViewModelProviders.of(parentActivity).get(CourseViewModel.class);

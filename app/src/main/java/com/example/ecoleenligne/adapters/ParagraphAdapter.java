@@ -93,7 +93,7 @@ public class ParagraphAdapter extends RecyclerView.Adapter<ParagraphAdapter.Para
     }
 
     /**
-     * ViewHolder Inner Class
+     * ViewHolder Inner Classroom
      */
     public static class ParagraphViewHolder extends RecyclerView.ViewHolder {
         public TextView tvParagraphTitle;

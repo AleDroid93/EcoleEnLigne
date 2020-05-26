@@ -24,19 +24,15 @@ import com.example.ecoleenligne.R;
 import com.example.ecoleenligne.adapters.ClassroomAdapter;
 import com.example.ecoleenligne.models.Course;
 import com.example.ecoleenligne.models.UserInfo;
-import com.example.ecoleenligne.viewmodels.ChapterViewModel;
 import com.example.ecoleenligne.viewmodels.CourseViewModel;
 import com.example.ecoleenligne.views.HomeActivity;
-import com.google.android.exoplayer2.C;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 
 /**
@@ -113,7 +109,7 @@ public class ClassroomFragment extends Fragment {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 Course courseItem = dataSnapshot.getValue(Course.class);
-                courseViewModel.addCourses(courseItem);
+                courseViewModel.addCourse(courseItem);
                 //lessonsViewModel.addAll(chapterItem.getLessons());
             }
 

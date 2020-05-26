@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
-public class Class implements Parcelable {
+public class Classroom implements Parcelable {
     @SerializedName("courses")
     @Expose
     private ArrayList<Course> courses;
@@ -19,30 +19,30 @@ public class Class implements Parcelable {
 
 
 
-    public Class() {
+    public Classroom() {
         this.id = "";
         this.courses = new ArrayList<>();
     }
 
-    public Class(String id, ArrayList<Course> courses) {
+    public Classroom(String id, ArrayList<Course> courses) {
         this.id = id;
         this.courses = courses;
     }
 
-    protected Class(Parcel in) {
+    protected Classroom(Parcel in) {
         courses = in.createTypedArrayList(Course.CREATOR);
         id = in.readString();
     }
 
-    public static final Creator<Class> CREATOR = new Creator<Class>() {
+    public static final Creator<Classroom> CREATOR = new Creator<Classroom>() {
         @Override
-        public Class createFromParcel(Parcel in) {
-            return new Class(in);
+        public Classroom createFromParcel(Parcel in) {
+            return new Classroom(in);
         }
 
         @Override
-        public Class[] newArray(int size) {
-            return new Class[size];
+        public Classroom[] newArray(int size) {
+            return new Classroom[size];
         }
     };
 
@@ -73,9 +73,17 @@ public class Class implements Parcelable {
         dest.writeString(id);
     }
 
+    public boolean isPresent(Course course){
+        for(Course c : courses){
+            if(c.getName().equalsIgnoreCase(course.getName()))
+                return true;
+        }
+        return false;
+    }
+
     @Override
     public String toString() {
-        return "Class{" +
+        return "Classroom{" +
                 "id='" + id + '\'' +
                 ", courses=" + courses +
                 '}';

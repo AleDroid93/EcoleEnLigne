@@ -59,7 +59,7 @@ public class LessonsAdapter extends RecyclerView.Adapter<LessonsAdapter.LessonVi
     }
 
     /**
-     * ViewHolder Inner Class
+     * ViewHolder Inner Classroom
      */
     public static class LessonViewHolder extends RecyclerView.ViewHolder {
         public MaterialCardView lessonItem;

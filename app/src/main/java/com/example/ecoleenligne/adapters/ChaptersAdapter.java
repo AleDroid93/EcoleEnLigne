@@ -87,7 +87,7 @@ public class ChaptersAdapter extends RecyclerView.Adapter<ChaptersAdapter.Chapte
 
 
     /**
-     * ViewHolder Inner Class
+     * ViewHolder Inner Classroom
      */
     public static class ChapterViewHolder extends RecyclerView.ViewHolder {
         public LinearLayout chHeader;

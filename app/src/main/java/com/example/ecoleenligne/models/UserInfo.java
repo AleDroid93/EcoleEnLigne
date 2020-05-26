@@ -8,7 +8,6 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 /**
  * Model class for the API response
@@ -38,7 +37,7 @@ public class UserInfo implements Parcelable {
     private String surname;
     @SerializedName("uclass")
     @Expose
-    private Class uclass;
+    private Classroom uclass;
 
     @SerializedName("offlineLearning")
     @Expose
@@ -62,14 +61,14 @@ public class UserInfo implements Parcelable {
         this.name = "";
         this.role = "";
         this.surname = "";
-        this.uclass = new Class();
+        this.uclass = new Classroom();
         this.gender = "";
         this.age = 0;
         this.offlineLearning = false;
         //this.children = new ArrayList<Child>();
     }
 
-    public UserInfo(String email, String password, String name, String role, String surname, Class uclass, String gender, Integer age) {
+    public UserInfo(String email, String password, String name, String role, String surname, Classroom uclass, String gender, Integer age) {
         this.email = email;
         this.password = password;
         this.uid = "";
@@ -91,7 +90,7 @@ public class UserInfo implements Parcelable {
         name = in.readString();
         role = in.readString();
         surname = in.readString();
-        uclass = in.readParcelable(Class.class.getClassLoader());
+        uclass = in.readParcelable(Classroom.class.getClassLoader());
         byte tmpOfflineLearning = in.readByte();
         offlineLearning = tmpOfflineLearning == 0 ? null : tmpOfflineLearning == 1;
         gender = in.readString();
@@ -120,7 +119,7 @@ public class UserInfo implements Parcelable {
     }
 
 
-    public Class getUclass() {
+    public Classroom getUclass() {
         return uclass;
     }
 
@@ -175,7 +174,7 @@ public class UserInfo implements Parcelable {
         return surname;
     }
 
-    public Class getUserClass() {
+    public Classroom getUserClass() {
         return uclass;
     }
 
@@ -195,7 +194,7 @@ public class UserInfo implements Parcelable {
         this.surname = surname;
     }
 
-    public void setUclass(Class uclass) {
+    public void setUclass(Classroom uclass) {
         this.uclass = uclass;
     }
 

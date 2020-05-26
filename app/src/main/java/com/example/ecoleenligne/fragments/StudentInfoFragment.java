@@ -30,7 +30,7 @@ import android.widget.Toast;
 
 import com.example.ecoleenligne.R;
 import com.example.ecoleenligne.data.NetworkMessage;
-import com.example.ecoleenligne.models.Class;
+import com.example.ecoleenligne.models.Classroom;
 import com.example.ecoleenligne.models.Course;
 import com.example.ecoleenligne.models.UserInfo;
 import com.example.ecoleenligne.repositories.UserInfoRepository;
@@ -108,7 +108,7 @@ public class StudentInfoFragment extends Fragment implements AdapterView.OnItemS
             coursesGroup.setVisibility(View.GONE);
             tvChooseCourses.setVisibility(View.GONE);
         }
-        incomingUser.setUclass(new Class(uclass, new ArrayList<Course>()));
+        incomingUser.setUclass(new Classroom(uclass, new ArrayList<Course>()));
     }
 
 

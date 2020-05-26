@@ -191,6 +191,8 @@ public class HomeActivity extends AppCompatActivity {
 
 
 
+
+
     public BottomNavigationView getBottomNavigationView() {
         return bottomNavigationView;
     }
@@ -390,20 +392,43 @@ public class HomeActivity extends AppCompatActivity {
     }
 
 
+
+
     public void changeMenu(int menuId){
         Menu menu = mToolbar.getMenu();
         menu.clear();
         getMenuInflater().inflate(menuId, menu);
         if(menuId == R.menu.search_menu){
             Log.e(TAG,"carico search menu");
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("user", currentUser);
             SearchManager searchManager =
                     (SearchManager) getSystemService(Context.SEARCH_SERVICE);
             SearchView searchView =
                     (SearchView) menu.findItem(R.id.search).getActionView();
             searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(this, SearchResultsActivity.class)));
             searchView.setIconifiedByDefault(true);
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String s) {
+                    Intent intent = new Intent(getApplicationContext(), SearchResultsActivity.class);
+                    intent.putExtra(SearchManager.APP_DATA, currentUser);
+                    intent.putExtra(SearchManager.QUERY, s);
+                    intent.setAction(Intent.ACTION_SEARCH);
+                    startActivity(intent);
+                    return true;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String s) {
+                    return false;
+                }
+            });
         }
     }
+
+
+
 
 
     @Override

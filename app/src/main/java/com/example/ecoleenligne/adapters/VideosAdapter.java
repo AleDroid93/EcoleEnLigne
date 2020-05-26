@@ -78,7 +78,7 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.VideoViewH
     }
 
     /**
-     * ViewHolder Inner Class
+     * ViewHolder Inner Classroom
      */
     public static class VideoViewHolder extends RecyclerView.ViewHolder {
         public ConstraintLayout videoLayoutHeader;

@@ -74,7 +74,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
 
     /**
-     * ViewHolder Inner Class
+     * ViewHolder Inner Classroom
      */
     public static class NotificationViewHolder extends RecyclerView.ViewHolder {
         public ConstraintLayout notificationLayout;

@@ -15,11 +15,15 @@ public class CourseViewModel extends ViewModel {
         this.courses = new ArrayList<>();
     }
 
+    public ArrayList<Course> getCourses() {
+        return courses;
+    }
+
     public MutableLiveData<ArrayList<Course>> getCoursesLiveData() {
         return coursesLiveData;
     }
 
-    public void addCourses(Course course){
+    public void addCourse(Course course){
         courses.add(course);
         coursesLiveData.setValue(courses);
     }

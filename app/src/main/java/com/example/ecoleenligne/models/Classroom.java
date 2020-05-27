@@ -102,4 +102,10 @@ public class Classroom implements Parcelable {
                 ", courses=" + courses +
                 '}';
     }
+
+    public void removeCourse(Course c) {
+        for(Course course : courses)
+            if(course.getName().equalsIgnoreCase(c.getName()))
+                courses.remove(course);
+    }
 }

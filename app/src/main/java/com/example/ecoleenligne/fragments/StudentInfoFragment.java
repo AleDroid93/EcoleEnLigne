@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -58,6 +59,8 @@ import java.util.HashMap;
  */
 public class StudentInfoFragment extends Fragment implements AdapterView.OnItemSelectedListener, View.OnClickListener{
     private Spinner mSpinnerClass;
+    private boolean fromParent;
+    private UserInfo incomingChild;
     private NavController navController;
     private EditText mEdtName;
     private EditText mEdtSurname;
@@ -108,7 +111,10 @@ public class StudentInfoFragment extends Fragment implements AdapterView.OnItemS
             coursesGroup.setVisibility(View.GONE);
             tvChooseCourses.setVisibility(View.GONE);
         }
-        incomingUser.setUclass(new Classroom(uclass, new ArrayList<Course>()));
+        if(fromParent)
+            incomingChild.setUclass(new Classroom(uclass, new ArrayList<Course>()));
+        else
+            incomingUser.setUclass(new Classroom(uclass, new ArrayList<Course>()));
     }
 
 
@@ -124,11 +130,11 @@ public class StudentInfoFragment extends Fragment implements AdapterView.OnItemS
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                HashMap<String, String> courses = (HashMap<String, String>) dataSnapshot.getValue();
+                HashMap<String, HashMap<String,String>> courses = (HashMap<String, HashMap<String, String>>) dataSnapshot.getValue();
                 coursesGroup.removeAllViews();
-                for(String course : courses.values()) {
+                for(HashMap<String,String> course : courses.values()) {
                     Chip chip = (Chip) getLayoutInflater().inflate(R.layout.chip_layout, coursesGroup, false);
-                    chip.setText(course);
+                    chip.setText(course.get("name"));
                     chip.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                         @Override
                         public void onCheckedChanged(CompoundButton view, boolean isChecked) {
@@ -137,10 +143,14 @@ public class StudentInfoFragment extends Fragment implements AdapterView.OnItemS
                                 chip.setChipBackgroundColorResource(R.color.lightColorAccent);
                                 chip.setChipStrokeColorResource(R.color.colorAccent);
                                 chip.setTextColor(getResources().getColor(R.color.colorAccent));
+                                Course c = new Course(course.get("id"), course.get("name"), course.get("color"), course.get("lightColor"));
+                                incomingChild.getUclass().addCourse(c);
                             }else{
                                 chip.setChipBackgroundColorResource(R.color.white);
                                 chip.setTextColor(getResources().getColor(R.color.browser_actions_text_color));
                                 chip.setChipStrokeColorResource(R.color.browser_actions_divider_color);
+                                Course c = new Course(course.get("id"), course.get("name"), course.get("color"), course.get("lightColor"));
+                                incomingChild.getUclass().removeCourse(c);
                             }
                         }
                     });
@@ -166,6 +176,22 @@ public class StudentInfoFragment extends Fragment implements AdapterView.OnItemS
         super.onViewCreated(view, savedInstanceState);
         navController = Navigation.findNavController(view);
         incomingUser = getArguments().getParcelable("user");
+        if(getArguments().getBoolean("fromParent") == true){
+            fromParent = true;
+            incomingChild = new UserInfo();
+            Button button = view.findViewById(R.id.signup_btn);
+            button.setText("confirm");
+            String email = incomingUser.getEmail();
+            String childNumber = String.valueOf(incomingUser.getChildren().size());
+            String emailName = email.split("@")[0] + "."+childNumber;
+            String emailDomain = email.split("@")[1];
+            incomingChild.setEmail(emailName+'@'+emailDomain);
+            incomingChild.setPassword(incomingUser.getPassword());
+        }else{
+            fromParent = false;
+            Button button = view.findViewById(R.id.signup_btn);
+            button.setText(getString(R.string.complete_signup));
+        }
         view.findViewById(R.id.signup_btn).setOnClickListener(StudentInfoFragment.this);
         view.findViewById(R.id.back_btn).setOnClickListener(StudentInfoFragment.this);
         mEdtName = view.findViewById(R.id.edtName);
@@ -185,9 +211,16 @@ public class StudentInfoFragment extends Fragment implements AdapterView.OnItemS
             public void onChanged(@Nullable NetworkMessage creationMessage) {
                 String msg = creationMessage.getMessage();
                 if(msg.equals("success")){
-                    Intent intent = new Intent(getActivity(), HomeActivity.class);
-                    intent.putExtra("user", incomingUser);
-                    startActivity(intent);
+                    if(fromParent == false) {
+                        Intent intent = new Intent(getActivity(), HomeActivity.class);
+                        intent.putExtra("user", incomingUser);
+                        startActivity(intent);
+                    }else{
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelable("user", incomingUser);
+                        bundle.putParcelable("child", incomingChild);
+                        navController.navigate(R.id.action_studentInfoFragment_to_parentInfoFragment, bundle);
+                    }
                 }else{
                     Log.d("ParentInfoFragment", "creationMessage: "+msg);
                 }
@@ -234,7 +267,10 @@ public class StudentInfoFragment extends Fragment implements AdapterView.OnItemS
         if(v != null) {
             if(v instanceof RadioButton){
                 String gender = onRadioButtonClicked(v);
-                incomingUser.setGender(gender);
+                if(fromParent)
+                    incomingChild.setGender(gender);
+                else
+                    incomingUser.setGender(gender);
             }
             switch (v.getId()) {
                 case R.id.signup_btn:
@@ -243,10 +279,18 @@ public class StudentInfoFragment extends Fragment implements AdapterView.OnItemS
                     String surname = mEdtSurname.getText().toString();
 
                     if(!TextUtils.isEmpty(name) && !TextUtils.isEmpty(surname) && !name.equals(surname)) {
-                        incomingUser.setName(name);
-                        incomingUser.setSurname(surname);
+                        if(fromParent){
+                            incomingChild.setName(name);
+                            incomingChild.setSurname(surname);
+                        }else {
+                            incomingUser.setName(name);
+                            incomingUser.setSurname(surname);
+                        }
                     }
-                    createNewUser(incomingUser);
+                    if(fromParent)
+                        createNewUser(incomingChild);
+                    else
+                        createNewUser(incomingUser);
                     break;
                 case R.id.back_btn:
                     FragmentActivity activity = getActivity();
@@ -272,8 +316,8 @@ public class StudentInfoFragment extends Fragment implements AdapterView.OnItemS
                                 Log.d("StudentInfoFragment", "createUserWithEmail:success");
                                 FirebaseUser fuser = mAuth.getCurrentUser();
                                 user.setUid(fuser.getUid());
-                                Bundle bundle = new Bundle();
-                                bundle.putParcelable("user", user);
+                                user.setHasParent(fromParent);
+                                user.setRole("Student");
                                 observerCreationUser = getCreationUserObserver();
                                 model.createUser(user.getUid(), user);
                                 LiveData<NetworkMessage> repo = model.getCreationMessage();

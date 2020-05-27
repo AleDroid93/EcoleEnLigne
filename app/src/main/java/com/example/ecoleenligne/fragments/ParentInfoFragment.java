@@ -46,6 +46,7 @@ import java.util.ArrayList;
  * A simple {@link Fragment} subclass.
  */
 public class ParentInfoFragment extends Fragment implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
+    private static final String TAG = "ParentInfoFragment";
     private NavController navController;
     private EditText mEdtName;
     private EditText mEdtSurname;
@@ -53,7 +54,7 @@ public class ParentInfoFragment extends Fragment implements View.OnClickListener
     private UserInfo incomingUser;
     private Switch switchLearningOffline;
     private FirebaseAuth mAuth;
-    private Child incomingChild;
+    private UserInfo incomingChild;
     private UserInfoRepository userInfoRepository;
     private UserInfoViewModel model;
 
@@ -106,15 +107,12 @@ public class ParentInfoFragment extends Fragment implements View.OnClickListener
         navController = Navigation.findNavController(view);
         incomingUser = getArguments().getParcelable("user");
         incomingChild = getArguments().getParcelable("child");
+
         if(incomingChild != null) {
             // TODO risolvere bug: L'utente arriva con attributi vuoti
-            String email = incomingUser.getEmail();
-            String childNumber = String.valueOf(incomingUser.getChildren().size());
-            String emailName = email.split("@")[0] + "."+childNumber;
-            String emailDomain = email.split("@")[1];
-            incomingChild.setEmail(emailName+'@'+emailDomain);
-            incomingChild.setPassword(incomingUser.getPassword());
-            incomingUser.addChild(incomingChild);
+            Child child = new Child(incomingChild.getUid(), incomingChild.getName(), incomingChild.getSurname(),
+                   incomingChild.getUserClass().getId(), incomingChild.getGender(), incomingChild.getEmail(), incomingChild.getPassword());
+            incomingUser.addChild(child);
             mEdtName = (EditText)view.findViewById(R.id.edtName);
             mEdtName.setText(incomingUser.getName(), TextView.BufferType.EDITABLE);
             mEdtSurname = (EditText)view.findViewById(R.id.edtSurname);
@@ -132,13 +130,15 @@ public class ParentInfoFragment extends Fragment implements View.OnClickListener
             switchLearningOffline = view.findViewById(R.id.switchLearning);
             switchLearningOffline.setChecked(incomingUser.getOfflineLearning());
         }
+        mEdtName = view.findViewById(R.id.edtName);
+        mEdtSurname = view.findViewById(R.id.edtSurname);
+
         view.findViewById(R.id.signup_btn).setOnClickListener(ParentInfoFragment.this);
         view.findViewById(R.id.back_btn).setOnClickListener(ParentInfoFragment.this);
         view.findViewById(R.id.fab_add_child).setOnClickListener(ParentInfoFragment.this);
         switchLearningOffline = view.findViewById(R.id.switchLearning);
         switchLearningOffline.setOnCheckedChangeListener(ParentInfoFragment.this);
-        mEdtName = view.findViewById(R.id.edtName);
-        mEdtSurname = view.findViewById(R.id.edtSurname);
+
         genderButton = null;
         mAuth = FirebaseAuth.getInstance();
 
@@ -214,15 +214,16 @@ public class ParentInfoFragment extends Fragment implements View.OnClickListener
                     break;
                 case R.id.fab_add_child:
                     Bundle bundle = new Bundle();
+                    bundle.putBoolean("fromParent", true);
                     bundle.putParcelable("user", incomingUser);
-                    navController.navigate(R.id.action_parentInfoFragment_to_addChildFragment, bundle);
+                    navController.navigate(R.id.action_parentInfoFragment_to_studentInfoFragment, bundle);
                     break;
             }
         }
     }
 
     private void createNewUser(UserInfo user) {
-        Log.d("ParentInfoFragment", "createAccount:" + user.getEmail());
+        Log.d(TAG, "createAccount:" + user.getEmail());
         //showProgressBar();
         if(mAuth != null) {
             mAuth.createUserWithEmailAndPassword(user.getEmail(), user.getPassword())
@@ -233,23 +234,24 @@ public class ParentInfoFragment extends Fragment implements View.OnClickListener
                                 FirebaseUser fuser = mAuth.getCurrentUser();
                                 user.setUid(fuser.getUid());
                                 ArrayList<Child> children = user.getChildren();
-                                for(Child c : children)
-                                    c.setUid(user.getUid()+children.indexOf(c));
+
 
                                 Bundle bundle = new Bundle();
                                 bundle.putParcelable("user", user);
                                 //userInfoRepository = UserInfoRepository.getInstance();
                                 observerCreationUser = getCreationUserObserver();
                                 observerChildrenCredentials = getChildrenCredentialsObserver();
+
                                 model.sendChildrenCredentials(user.getChildren(), user.getEmail());
                                 LiveData<String> repo = model.getCredentialsEmailMessage();
                                 repo.observe(ParentInfoFragment.this, observerChildrenCredentials);
-                                // TODO create user for each child with Firebase Authentication and Firebase Database and then is OK
-                                //model.createUser(user.getUid(), user);
-                                //LiveData<NetworkMessage> repo = model.getCreationMessage();
-                                //repo.observe(ParentInfoFragment.this, observerCreationUser);
-                                //navController.navigate(R.id.action_parentInfoFragment_to_homeActivity2, bundle);
+
+                                model.createUser(user.getUid(), user);
+                                LiveData<NetworkMessage> repoUserCreation = model.getCreationMessage();
+                                repoUserCreation.observe(ParentInfoFragment.this, observerCreationUser);
+
                             } else {
+
                                 Log.w("ParentInfoFragment", "createUserWithEmail:failure", task.getException());
                                 String message = task.getException().getMessage();
                                 Toast.makeText(getActivity(), "Registration failed. "+ message,
@@ -261,6 +263,7 @@ public class ParentInfoFragment extends Fragment implements View.OnClickListener
                     });
         }
     }
+
 
 
     @Override

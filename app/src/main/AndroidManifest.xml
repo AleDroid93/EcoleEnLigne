@@ -27,7 +27,8 @@
                 android:resource="@xml/searchable"/>
         </activity>
 
-        <activity android:name=".activities.RootActivity">
+        <activity android:name=".activities.RootActivity"
+            android:windowSoftInputMode="adjustPan">
         </activity>
 
         <activity

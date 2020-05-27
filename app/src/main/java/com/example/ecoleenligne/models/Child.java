@@ -13,7 +13,7 @@ public class Child implements Parcelable {
     @SerializedName("surname")
     @Expose
     private String surname;
-    @SerializedName("classroom")
+    @SerializedName("uclass")
     @Expose
     private String classroom;
     @SerializedName("gender")

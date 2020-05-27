@@ -31,6 +31,7 @@ public class Course implements Parcelable {
         this.id = "unkID";
         this.name="unknown";
         this.color="#ffffff";
+        this.chapters = new ArrayList<>();
     }
     public Course(String id, String name, String color, String lightColor) {
         this.id = id;

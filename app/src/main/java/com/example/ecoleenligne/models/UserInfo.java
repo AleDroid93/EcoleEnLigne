@@ -18,11 +18,14 @@ import java.util.Map;
 
 public class UserInfo implements Parcelable {
 
-
-
     @SerializedName("email")
     @Expose
     private String email;
+
+    @SerializedName("children")
+    @Expose
+    private ArrayList<Child> children;
+
     @SerializedName("password")
     @Expose
     private String password;
@@ -49,16 +52,19 @@ public class UserInfo implements Parcelable {
     @SerializedName("gender")
     @Expose
     private String gender;
+
+    @SerializedName("hasParent")
+    @Expose
+    private boolean hasParent;
+
     @SerializedName("age")
     @Expose
     private Integer age;
-    /*
-    @SerializedName("children")
-    @Expose
-    private ArrayList<Child> children;
-    */
+
+
     public UserInfo() {
         this.email = "";
+        this.children = new ArrayList<>();
         this.password = "";
         this.uid = "";
         this.name = "";
@@ -66,13 +72,16 @@ public class UserInfo implements Parcelable {
         this.surname = "";
         this.uclass = new Classroom();
         this.gender = "";
+        this.hasParent = false;
         this.age = 0;
+
         this.offlineLearning = false;
         //this.children = new ArrayList<Child>();
     }
 
     public UserInfo(String email, String password, String name, String role, String surname, Classroom uclass, String gender, Integer age) {
         this.email = email;
+        this.children = new ArrayList<>();
         this.password = password;
         this.uid = "";
         this.name = name;
@@ -81,6 +90,7 @@ public class UserInfo implements Parcelable {
         this.uclass = uclass;
         this.gender = gender;
         this.age = age;
+        this.hasParent = false;
         this.offlineLearning = false;
         //this.children = new ArrayList<Child>();
     }
@@ -88,6 +98,7 @@ public class UserInfo implements Parcelable {
 
     protected UserInfo(Parcel in) {
         email = in.readString();
+        children = in.createTypedArrayList(Child.CREATOR);
         password = in.readString();
         uid = in.readString();
         name = in.readString();
@@ -97,12 +108,12 @@ public class UserInfo implements Parcelable {
         byte tmpOfflineLearning = in.readByte();
         offlineLearning = tmpOfflineLearning == 0 ? null : tmpOfflineLearning == 1;
         gender = in.readString();
+        hasParent = in.readByte() != 0;
         if (in.readByte() == 0) {
             age = null;
         } else {
             age = in.readInt();
         }
-        //children = in.createTypedArrayList(Child.CREATOR);
     }
 
     public static final Creator<UserInfo> CREATOR = new Creator<UserInfo>() {
@@ -117,11 +128,6 @@ public class UserInfo implements Parcelable {
         }
     };
 
-    public void setOfflineLearning(Boolean offlineLearning) {
-        this.offlineLearning = offlineLearning;
-    }
-
-
     public Classroom getUclass() {
         return uclass;
     }
@@ -135,15 +141,13 @@ public class UserInfo implements Parcelable {
     }
 
 
-    public void addChild(Child child){
-        //this.children.add(child);
-        return;
+    public boolean isHasParent() {
+        return hasParent;
     }
-    /*
-    public void removeChild(Child child){
-        this.children.remove(child);
+
+    public void setHasParent(boolean hasParent) {
+        this.hasParent = hasParent;
     }
-     */
 
     public String getEmail() {
         return email;
@@ -219,35 +223,16 @@ public class UserInfo implements Parcelable {
 
 
     public ArrayList<Child> getChildren(){
-        return new ArrayList<>();
+        return children;
     }
 
 
-
-
-    @Override
-    public int describeContents() {
-        return 0;
+    public void addChild(Child newChild){
+        children.add(newChild);
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(email);
-        dest.writeString(password);
-        dest.writeString(uid);
-        dest.writeString(name);
-        dest.writeString(role);
-        dest.writeString(surname);
-        dest.writeParcelable(uclass, flags);
-        dest.writeByte((byte) (offlineLearning == null ? 0 : offlineLearning ? 1 : 2));
-        dest.writeString(gender);
-        if (age == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(age);
-        }
-        //dest.writeTypedList(children);
+    public void removeChild(Child child){
+        this.children.remove(child);
     }
 
     public String findCourseIdByName(String courseName){
@@ -289,5 +274,31 @@ public class UserInfo implements Parcelable {
             if(course.getName().equals(courseName))
                 return Color.parseColor(course.getLightColor());
         return -1;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(email);
+        dest.writeTypedList(children);
+        dest.writeString(password);
+        dest.writeString(uid);
+        dest.writeString(name);
+        dest.writeString(role);
+        dest.writeString(surname);
+        dest.writeParcelable(uclass, flags);
+        dest.writeByte((byte) (offlineLearning == null ? 0 : offlineLearning ? 1 : 2));
+        dest.writeString(gender);
+        dest.writeByte((byte) (hasParent ? 1 : 0));
+        if (age == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(age);
+        }
     }
 }

@@ -37,6 +37,12 @@ public class UserInfoViewModel extends ViewModel {
         }
         userInfoRepository = UserInfoRepository.getInstance();
         mutableCreationMessage = userInfoRepository.createUser(uid, user);
+        if(user.getRole().equalsIgnoreCase("parent")){
+            ArrayList<Child> children = user.getChildren();
+            for(Child child : children){
+
+            }
+        }
     }
 
     public void sendChildrenCredentials(ArrayList<Child> children, String emailDest){

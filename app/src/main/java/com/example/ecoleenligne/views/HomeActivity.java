@@ -161,6 +161,12 @@ public class HomeActivity extends AppCompatActivity {
         }else{
             bottomNavigationView.getMenu().clear();
             bottomNavigationView.inflateMenu(R.menu.bottom_navigation);
+            NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_stud_fragment);
+            navController = navHostFragment.getNavController();
+            navController.setGraph(R.navigation.navigation_parent);
+            NavigationUI.setupWithNavController(bottomNavigationView, navController);
+            //NavigationUI.setupWithNavController(mToolbar, navController, appBarConfiguration);
+
         }
 
         if(!mAuth.getCurrentUser().isEmailVerified()) {
@@ -206,13 +212,7 @@ public class HomeActivity extends AppCompatActivity {
     public Observer<ArrayList<Notification>> getObserverNotificationsList(){return notificationListObserver;}
 
     private void sendEmailVerification() {
-        // Disable button
-        //findViewById(R.id.verifyEmailButton).setEnabled(false);
-
-        // Send verification email
-        // [START send_email_verification]
         final FirebaseUser user = mAuth.getCurrentUser();
-
         user.sendEmailVerification()
                 .addOnCompleteListener(this, new OnCompleteListener<Void>() {
                     @Override

@@ -80,7 +80,7 @@ public class UserInfoRepository {
         firebaseAPI.createUser(uid, user).enqueue(new Callback<NetworkMessage>() {
             @Override
             public void onResponse(Call<NetworkMessage> call, Response<NetworkMessage> response) {
-                Log.d("UserInfoRepository","onCreate call success: ");
+                Log.d(TAG,"createUser call success: ");
                 if (response.isSuccessful())
                     message.setValue(new NetworkMessage("success"));
                 else
@@ -134,7 +134,7 @@ public class UserInfoRepository {
             emailClient.sendChildrenCredentials(json, emailDest).enqueue(new Callback<String>() {
                 @Override
                 public void onResponse(Call<String> call, Response<String> response) {
-                    Log.d("UserInfoRepository", "onCreate call success: ");
+                    Log.e(TAG, "sendChildrenCredentials response message: "+ response.message());
                     if (response.isSuccessful())
                         message.setValue("success");
                     else

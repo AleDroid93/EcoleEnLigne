@@ -27,6 +27,7 @@ import com.example.ecoleenligne.models.Classroom;
 import com.example.ecoleenligne.models.Course;
 import com.example.ecoleenligne.models.UserInfo;
 import com.example.ecoleenligne.repositories.UserInfoRepository;
+import com.example.ecoleenligne.utils.Utils;
 import com.example.ecoleenligne.viewmodels.CourseViewModel;
 import com.example.ecoleenligne.viewmodels.UserInfoViewModel;
 import com.example.ecoleenligne.views.HomeActivity;
@@ -52,7 +53,7 @@ public class SearchResultsActivity extends AppCompatActivity {
     private CourseViewModel courseViewModel;
     private Observer<ArrayList<Course>> courseObserver;
     private ImageView imgClose;
-
+    private String searchQuery;
     private UserInfoViewModel userInfoViewModel;
     private UserInfoRepository userInfoRepository;
     private Observer<String> updateObserver;
@@ -135,7 +136,7 @@ public class SearchResultsActivity extends AppCompatActivity {
     private void handleIntent(Intent intent) {
         Log.e(TAG,"gestisco intent");
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
+            searchQuery = intent.getStringExtra(SearchManager.QUERY);
             currentUser = intent.getParcelableExtra(SearchManager.APP_DATA);
             Log.e(TAG,"intent ricevuto! Far partre la ricerca dei corsi");
             displaySearchResults();
@@ -175,8 +176,13 @@ public class SearchResultsActivity extends AppCompatActivity {
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 Course courseItem = dataSnapshot.getValue(Course.class);
                 Classroom userClassroom = currentUser.getUclass();
-                if(!userClassroom.isPresent(courseItem))
-                    courseViewModel.addCourse(courseItem);
+
+                if(!userClassroom.isPresent(courseItem)){
+                    String beLike = Utils.like(searchQuery, courseItem.getName());
+                    if(!beLike.isEmpty())
+                        courseViewModel.addCourse(courseItem);
+                }
+
             }
 
             @Override

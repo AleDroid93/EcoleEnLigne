@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.ecoleenligne.data.NetworkMessage;
 import com.example.ecoleenligne.models.Child;
+import com.example.ecoleenligne.models.Course;
 import com.example.ecoleenligne.models.UserInfo;
 import com.example.ecoleenligne.repositories.UserInfoRepository;
 
@@ -19,6 +20,7 @@ public class UserInfoViewModel extends ViewModel {
     private MutableLiveData<UserInfo> mutableLiveData;
     private MutableLiveData<NetworkMessage> mutableCreationMessage;
     private MutableLiveData<String> mutableCredentials;
+    private MutableLiveData<String> updateCoursesMessage;
     private UserInfoRepository userInfoRepository;
 
     public void init(String uid){
@@ -44,12 +46,25 @@ public class UserInfoViewModel extends ViewModel {
         mutableCredentials = userInfoRepository.sendChildrenCredentials(children, emailDest);
     }
 
+    public void updateCourses(String uid, ArrayList<Course> courses){
+        userInfoRepository = UserInfoRepository.getInstance();
+        userInfoRepository.updateCourses(uid, courses, updateCoursesMessage);
+    }
+
+
     public LiveData<UserInfo> getUserInfoRepository() {
         return mutableLiveData;
     }
     public LiveData<NetworkMessage> getCreationMessage(){
         return mutableCreationMessage;
     }
+
+    public LiveData<String> getMutableUpdateCoursesMessage() {
+        if(updateCoursesMessage == null)
+            updateCoursesMessage = new MutableLiveData<String>();
+        return updateCoursesMessage;
+    }
+
     public LiveData<String> getCredentialsEmailMessage(){
         return mutableCredentials;
     }

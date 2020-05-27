@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.ecoleenligne.data.NetworkMessage;
 import com.example.ecoleenligne.models.Child;
+import com.example.ecoleenligne.models.Course;
 import com.example.ecoleenligne.models.UserInfo;
 import com.example.ecoleenligne.remote.EmailClient;
 import com.example.ecoleenligne.remote.FirebaseClient;
@@ -32,6 +33,7 @@ import retrofit2.Response;
  */
 public class UserInfoRepository {
 
+    private static final String TAG = "UserInfoRepository";
     private static UserInfoRepository userInfoRepository;
     private FirebaseClient firebaseAPI;
     private EmailClient emailClient;
@@ -93,6 +95,27 @@ public class UserInfoRepository {
             }
         });
         return message;
+    }
+
+
+    public void updateCourses(String uid, ArrayList<Course> newCourses, MutableLiveData<String> message){
+        firebaseAPI.postNewCourses(uid, newCourses).enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                Log.d(TAG,"onResponse call success: ");
+                if (response.isSuccessful())
+                    message.setValue("success");
+                else
+                    message.setValue("not success");
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                String callInfo = call.request().url().toString();
+                Log.d(TAG,"onFailure: Network failure on url "+ callInfo);
+                message.setValue("fail");
+            }
+        });
     }
 
 

@@ -69,4 +69,12 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
         this.ctx = context;
         this.listener = listener;
     }
+
+    public Course getCourseByName(String name){
+        for(Course c : mCourses){
+            if(c.getName().equalsIgnoreCase(name))
+                return c;
+        }
+        return null;
+    }
 }

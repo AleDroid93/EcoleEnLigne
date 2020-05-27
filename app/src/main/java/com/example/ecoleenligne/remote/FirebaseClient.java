@@ -2,11 +2,14 @@ package com.example.ecoleenligne.remote;
 
 
 import com.example.ecoleenligne.data.NetworkMessage;
+import com.example.ecoleenligne.models.Course;
 import com.example.ecoleenligne.models.Exercise;
 import com.example.ecoleenligne.models.ExerciseSubmission;
 import com.example.ecoleenligne.models.Notification;
 import com.example.ecoleenligne.models.UserInfo;
 import com.google.gson.JsonObject;
+
+import java.util.ArrayList;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -33,4 +36,9 @@ public interface FirebaseClient {
 
     @POST("/exercise-submissions/{uid}/.json")
     Call<Object> postExercise(@Path("uid") String uid, @Body ExerciseSubmission submission);
+
+
+    @POST("/users/{uid}/uclass/.json")
+    Call<Object> postNewCourses(@Path("uid") String uid, @Body ArrayList<Course> courses);
+
 }

@@ -382,6 +382,21 @@ public class HomeActivity extends AppCompatActivity {
 
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        Log.e(TAG,"gestisco intent");
+        if (intent.getParcelableExtra("updateUser") != null) {
+            UserInfo updatedUser = intent.getParcelableExtra("updateUser");
+            currentUser = updatedUser;
+            Log.e(TAG,"intent ricevuto! Verificare aggiornamenti");
+            //finish();
+        }else{
+            Log.e(TAG,"non è arrivato l'intent");
+        }
+    }
+
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         Log.e(TAG, "creatione options menu");
         MenuInflater inflater = getMenuInflater();

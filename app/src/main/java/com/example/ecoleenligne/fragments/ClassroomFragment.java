@@ -29,6 +29,7 @@ import com.example.ecoleenligne.views.HomeActivity;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -41,7 +42,7 @@ import java.util.ArrayList;
 public class ClassroomFragment extends Fragment {
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     private RecyclerView classroomRecyclerView;
-    private RecyclerView.Adapter mClassroomAdapter;
+    private ClassroomAdapter mClassroomAdapter;
     private GridLayoutManager layoutClassroomManager;
     private UserInfo currentUser;
     private NavController navController;
@@ -108,7 +109,13 @@ public class ClassroomFragment extends Fragment {
 
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                Course courseItem = dataSnapshot.getValue(Course.class);
+                Course courseItem = new Course();
+                try {
+                    courseItem = dataSnapshot.getValue(Course.class);
+                }catch (DatabaseException dbex){
+                    ArrayList<Course> courses = dataSnapshot.getValue(ArrayList.class);
+                    courseItem = courses.get(courses.size()-1);
+                }
                 courseViewModel.addCourse(courseItem);
                 //lessonsViewModel.addAll(chapterItem.getLessons());
             }
@@ -170,5 +177,12 @@ public class ClassroomFragment extends Fragment {
                 classroomRecyclerView.setAdapter(mClassroomAdapter);
             }
         };
+    }
+
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        //mClassroomAdapter.clear();
     }
 }

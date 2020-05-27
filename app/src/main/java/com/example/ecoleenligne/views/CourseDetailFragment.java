@@ -45,7 +45,7 @@ public class CourseDetailFragment extends Fragment {
     ChildEventListener listener;
     private TextView courseMenuTitle;
     private RecyclerView mChaptersRecyclerView;
-    private RecyclerView.Adapter mChaptersAdapter;
+    private ChaptersAdapter mChaptersAdapter;
     private RecyclerView.Adapter mLessonsAdapter;
     private LinearLayoutManager mLayoutChaptersManager;
     private ChapterViewModel chaptersViewModel;
@@ -179,7 +179,8 @@ public class CourseDetailFragment extends Fragment {
     @Override
     public void onStop() {
         Log.e(TAG, "onStop");
-
+        mChaptersAdapter.clear();
+        mChaptersRecyclerView.setAdapter(mChaptersAdapter);
         super.onStop();
     }
 

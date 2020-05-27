@@ -86,6 +86,10 @@ public class ChaptersAdapter extends RecyclerView.Adapter<ChaptersAdapter.Chapte
     }
 
 
+    public void clear(){
+        mChapters.clear();
+    }
+
     /**
      * ViewHolder Inner Classroom
      */

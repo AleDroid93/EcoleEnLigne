@@ -3,10 +3,13 @@ package com.example.ecoleenligne.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.firebase.database.Exclude;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Classroom implements Parcelable {
     @SerializedName("courses")
@@ -79,6 +82,17 @@ public class Classroom implements Parcelable {
                 return true;
         }
         return false;
+    }
+
+    public void addCourse(Course newCourse){
+        courses.add(newCourse);
+    }
+
+    @Exclude
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("courses", courses);
+        return result;
     }
 
     @Override

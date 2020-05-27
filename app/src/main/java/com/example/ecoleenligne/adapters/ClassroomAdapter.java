@@ -79,5 +79,9 @@ public class ClassroomAdapter extends RecyclerView.Adapter<ClassroomAdapter.Clas
     }
 
 
+    public void clear(){
+        mCourses.clear();
+    }
+
 
 }

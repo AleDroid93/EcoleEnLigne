@@ -4,10 +4,13 @@ import android.graphics.Color;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.firebase.database.Exclude;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Model class for the API response
@@ -218,6 +221,7 @@ public class UserInfo implements Parcelable {
     public ArrayList<Child> getChildren(){
         return new ArrayList<>();
     }
+
 
 
 

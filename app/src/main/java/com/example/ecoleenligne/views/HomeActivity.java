@@ -164,8 +164,12 @@ public class HomeActivity extends AppCompatActivity {
             NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_stud_fragment);
             navController = navHostFragment.getNavController();
             navController.setGraph(R.navigation.navigation_parent);
+            AppBarConfiguration appBarConfiguration =
+                    new AppBarConfiguration.Builder(R.id.nav_home, R.id.nav_messages)
+                            .setOpenableLayout(mDrawerLayout).build();
+
             NavigationUI.setupWithNavController(bottomNavigationView, navController);
-            //NavigationUI.setupWithNavController(mToolbar, navController, appBarConfiguration);
+            NavigationUI.setupWithNavController(mToolbar, navController, appBarConfiguration);
 
         }
 
@@ -323,12 +327,13 @@ public class HomeActivity extends AppCompatActivity {
                     String msg = notificationMessage;
                     if (msg.equals("success")) {
                         Log.d("HomeActivity", "notification added");
-                        int count = notificationViewModel.getNotificationsToRead() +1;
+                        int count = notificationViewModel.getNotificationsToRead();
                         notificationViewModel.setNotificationsToRead(count);
                         setNotificationBadge(2, String.valueOf(count));
                     } else {
                         Log.d("HomeActivity", "creationMessage: " + msg);
                     }
+                    navController.popBackStack();
                 }
             };
 

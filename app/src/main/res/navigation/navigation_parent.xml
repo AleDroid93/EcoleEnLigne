@@ -8,18 +8,18 @@
         android:name="com.example.ecoleenligne.fragments.DashboardFragment"
         android:label="DashboardFragment" >
         <action
-            android:id="@+id/action_nav_home_to_onboardingFragment2"
-            app:destination="@id/onboardingFragment2" />
+            android:id="@+id/action_nav_home_to_onboardingFragment"
+            app:destination="@id/onboardingFragment" />
         <action
             android:id="@+id/action_nav_home_to_notificationsFragment"
             app:destination="@id/nav_messages" />
     </fragment>
     <fragment
-        android:id="@+id/onboardingFragment2"
+        android:id="@+id/onboardingFragment"
         android:name="com.example.ecoleenligne.views.OnboardingFragment"
         android:label="OnboardingFragment" >
         <action
-            android:id="@+id/action_onboardingFragment2_to_nav_home"
+            android:id="@+id/action_onboardingFragment_to_nav_home"
             app:destination="@id/nav_home" />
     </fragment>
     <fragment
@@ -29,5 +29,8 @@
         <action
             android:id="@+id/action_notificationsFragment_to_nav_home"
             app:destination="@id/nav_home" />
+        <action
+            android:id="@+id/action_nav_home_to_onboardingFragment"
+            app:destination="@id/onboardingFragment" />
     </fragment>
 </navigation>

@@ -104,6 +104,12 @@ public class StudentInfoFragment extends Fragment implements AdapterView.OnItemS
         Log.d("StudentInfoFragment", "onItemSelected: hai scelto " +
                 parent.getItemAtPosition(position).toString());
         String uclass = parent.getItemAtPosition(position).toString();
+        if(uclass.equalsIgnoreCase("first"))
+            uclass = "cl0";
+        else if(uclass.equalsIgnoreCase("second"))
+            uclass = "cl1";
+        else
+            uclass = "cl2";
         if(!(position == 0)){
             coursesGroup.setVisibility(View.VISIBLE);
             displayClassCourses(uclass);

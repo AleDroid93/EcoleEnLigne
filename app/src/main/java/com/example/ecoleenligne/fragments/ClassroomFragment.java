@@ -59,18 +59,6 @@ public class ClassroomFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View fragmentLayout = inflater.inflate(R.layout.fragment_class, container, false);
-        classroomRecyclerView = (RecyclerView) fragmentLayout.findViewById(R.id.classroom_recycler_view);
-
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
-        //classroomRecyclerView.setHasFixedSize(true);
-
-        // use a linear layout manager
-        layoutClassroomManager = new GridLayoutManager(getActivity(),2);
-        classroomRecyclerView.setLayoutManager(layoutClassroomManager);
-        View.OnClickListener listener = getOnClickListener();
-        mClassroomAdapter = new ClassroomAdapter(new ArrayList<>(), listener);
-        classroomRecyclerView.setAdapter(mClassroomAdapter);
         return fragmentLayout;
 
     }
@@ -88,6 +76,15 @@ public class ClassroomFragment extends Fragment {
         courseViewModel = ViewModelProviders.of(parentActivity).get(CourseViewModel.class);
         courseObserver = getObserverCourses();
         courseViewModel.getCoursesLiveData().observe(parentActivity, courseObserver);
+
+        classroomRecyclerView = (RecyclerView) view.findViewById(R.id.classroom_recycler_view);
+        layoutClassroomManager = new GridLayoutManager(getActivity(),2);
+        classroomRecyclerView.setLayoutManager(layoutClassroomManager);
+        View.OnClickListener listener = getOnClickListener();
+        /*
+        mClassroomAdapter = new ClassroomAdapter(new ArrayList<>(), listener);
+        classroomRecyclerView.setAdapter(mClassroomAdapter);
+        */
         if (courseViewModel.getCoursesLiveData().getValue() == null){
             displayClassCourses(currentUser.getUid());
         }else if (courseViewModel.isEmpty()) {
@@ -172,9 +169,11 @@ public class ClassroomFragment extends Fragment {
         return new Observer<ArrayList<Course>>() {
             @Override
             public void onChanged(ArrayList<Course> courses) {
-                mClassroomAdapter = new ClassroomAdapter(courses, getOnClickListener());
-                mClassroomAdapter.notifyDataSetChanged();
-                classroomRecyclerView.setAdapter(mClassroomAdapter);
+                if(mClassroomAdapter == null || courses.size() > mClassroomAdapter.getItemCount()) {
+                    mClassroomAdapter = new ClassroomAdapter(courses, getOnClickListener());
+                    mClassroomAdapter.notifyDataSetChanged();
+                    classroomRecyclerView.setAdapter(mClassroomAdapter);
+                }
             }
         };
     }

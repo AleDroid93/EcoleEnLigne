@@ -117,8 +117,9 @@ public class SignInFragment extends Fragment implements View.OnClickListener{
         mRegistrationLink.setOnClickListener(SignInFragment.this);
         mGoogleSignIn.setOnClickListener(SignInFragment.this);
         mFacebookSignIn.setOnClickListener(SignInFragment.this);
-        mAuth = FirebaseAuth.getInstance();
-        mAuth.signOut();
+        if(mAuth == null)
+            mAuth = FirebaseAuth.getInstance();
+        //mAuth.signOut();
         observerUserInfo = getUserInfoObserver();
     }
 
@@ -200,7 +201,10 @@ public class SignInFragment extends Fragment implements View.OnClickListener{
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("SignInFragment", "signInByEmailAndPassword:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            if(user.isEmailVerified()) {
+                            String toVerifyEmail = user.getEmail();
+                            String[] emailComponents = email.split("@");
+                            boolean match =  emailComponents[0].matches(".*\\.[0-9]");
+                            if(user.isEmailVerified() || match) {
                                 String email = user.getEmail();
                                 String name = user.getDisplayName();
                                 Log.i("SignInFragment", "user info: \n{\n \t email: " + email + ",\n \t name: " + name + "}");

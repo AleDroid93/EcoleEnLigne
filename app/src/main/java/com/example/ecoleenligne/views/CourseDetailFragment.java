@@ -113,9 +113,9 @@ public class CourseDetailFragment extends Fragment {
         chaptersViewModel.getChaptersLiveData().observe(parentActivity, observerChapter);
 
         if (chaptersViewModel.getChaptersLiveData().getValue() == null) {
-            displayChapters(clId, csId);
             mChaptersAdapter = new ChaptersAdapter(parentActivity, courseColor, lightColor, currentCourse, new ArrayList<>());
             mChaptersRecyclerView.setAdapter(mChaptersAdapter);
+            displayChapters(clId, csId);
         } else if (chaptersViewModel.getChaptersLiveData().getValue().isEmpty()){
             displayChapters(clId, csId);
         }else{

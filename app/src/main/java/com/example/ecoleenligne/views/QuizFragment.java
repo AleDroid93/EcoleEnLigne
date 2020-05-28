@@ -103,15 +103,14 @@ public class QuizFragment extends Fragment {
                 if(((Button)v).getText().equals(getResources().getString(R.string.finish_hint))) {
                     int result = adapter.evaluateQuiz();
                     int maxResult = adapter.getCount();
-                    //TODO - aggiungere result alle statistiche, insieme a quizdone
                     Toast.makeText(getActivity(), "Quiz result: " + result + "/" + maxResult, Toast.LENGTH_SHORT).show();
                     String datetime = getCurrentLocalDateTimeStamp();
-                    // TODO - farsi passare il quiz number, currentLesson e currentCourse
                     Notification notification = new Notification("X course Y title","quiz","You've completed a quiz of the lesson x",datetime, true);
                     LiveData<String> repo = notificationViewModel.getMutableNotificationMessage();
                     String uid = mAuth.getCurrentUser().getUid();
                     notificationViewModel.putNotification(uid, notification);
                     repo.observe(getActivity(), observerNotification);
+                    //TODO - invocare function javascript per il salvataggio delle statistiche di corso
                 }else {
                     quizPager.setCurrentItem(currentQuestion + 1);
                 }

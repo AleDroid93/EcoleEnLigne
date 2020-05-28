@@ -15,9 +15,5 @@
         android:icon="@drawable/ic_email_black_24dp"
         android:title="Notifications" />
 
-    <item
-        android:id="@+id/nav_saved"
-        android:icon="@drawable/ic_bookmark_24dp"
-        android:title="Saved Items" />
 
 </menu>

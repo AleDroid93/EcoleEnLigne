@@ -10,6 +10,9 @@
         <action
             android:id="@+id/action_nav_home_to_onboardingFragment2"
             app:destination="@id/onboardingFragment2" />
+        <action
+            android:id="@+id/action_nav_home_to_notificationsFragment"
+            app:destination="@id/nav_messages" />
     </fragment>
     <fragment
         android:id="@+id/onboardingFragment2"
@@ -17,6 +20,14 @@
         android:label="OnboardingFragment" >
         <action
             android:id="@+id/action_onboardingFragment2_to_nav_home"
+            app:destination="@id/nav_home" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_messages"
+        android:name="com.example.ecoleenligne.views.NotificationsFragment"
+        android:label="NotificationsFragment" >
+        <action
+            android:id="@+id/action_notificationsFragment_to_nav_home"
             app:destination="@id/nav_home" />
     </fragment>
 </navigation>

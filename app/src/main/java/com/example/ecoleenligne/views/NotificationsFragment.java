@@ -48,6 +48,7 @@ public class NotificationsFragment extends Fragment {
     private String urlDb;
     private NavController navController;
 
+
     public NotificationsFragment() {
         // Required empty public constructor
     }

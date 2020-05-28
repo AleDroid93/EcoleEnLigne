@@ -141,7 +141,7 @@ public class HomeActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
         if(!appToken.isEmpty() && (notificationToken == null || notificationToken.isEmpty())){
-            pushUserToken();
+            pushDeviceToken();
         }
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         // TODO - gestire anche i sottocasi (offline mode e tchat)
@@ -151,7 +151,7 @@ public class HomeActivity extends AppCompatActivity {
             NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_stud_fragment);
             navController = navHostFragment.getNavController();
             AppBarConfiguration appBarConfiguration =
-                    new AppBarConfiguration.Builder(R.id.nav_home, R.id.nav_class, R.id.nav_messages, R.id.nav_saved)
+                    new AppBarConfiguration.Builder(R.id.nav_home, R.id.nav_class, R.id.nav_messages)
                             .setOpenableLayout(mDrawerLayout).build();
 
             NavigationUI.setupWithNavController(bottomNavigationView, navController);
@@ -194,7 +194,7 @@ public class HomeActivity extends AppCompatActivity {
             initNotifications(currentUser.getUid());
     }
 
-    private void pushUserToken() {
+    private void pushDeviceToken() {
         String urlNotificationToken = "users/"+currentUser.getUid();
         DatabaseReference reference = database.getReference(urlNotificationToken);
         String key = "notificationToken";

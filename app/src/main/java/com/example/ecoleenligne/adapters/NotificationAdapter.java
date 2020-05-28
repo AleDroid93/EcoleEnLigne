@@ -65,6 +65,10 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         holder.notification = notification;
         if(notification.getScope().equalsIgnoreCase("course"))
             holder.notificationLogo.setImageResource(R.drawable.ic_study_notification_logo);
+        else if(notification.getScope().equalsIgnoreCase("exercise"))
+            holder.notificationLogo.setImageResource(R.drawable.ic_exercise_result_notification);
+        else if(notification.getScope().equalsIgnoreCase("recommendation"))
+            holder.notificationLogo.setImageResource(R.drawable.ic_study_recommendation);
     }
 
     @Override

@@ -2,12 +2,9 @@ package com.example.ecoleenligne.views;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.view.GravityCompat;
-import androidx.core.view.MenuItemCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
@@ -24,21 +21,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
-import androidx.transition.TransitionManager;
 
 import com.example.ecoleenligne.R;
 import com.example.ecoleenligne.activities.SearchResultsActivity;
 import com.example.ecoleenligne.models.Notification;
+import com.example.ecoleenligne.utils.Utils;
 import com.example.ecoleenligne.viewmodels.ExerciseViewModel;
 import com.example.ecoleenligne.viewmodels.NotificationViewModel;
 import com.example.ecoleenligne.models.UserInfo;
@@ -140,9 +135,14 @@ public class HomeActivity extends AppCompatActivity {
 
 
         currentUser = intent.getParcelableExtra("user");
+        String notificationToken = currentUser.getNotificaionToken();
+        String appToken = Utils.token;
+
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
-
+        if(!appToken.isEmpty() && (notificationToken == null || notificationToken.isEmpty())){
+            pushUserToken();
+        }
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         // TODO - gestire anche i sottocasi (offline mode e tchat)
         if(currentUser.getRole().equalsIgnoreCase("student")){
@@ -194,9 +194,26 @@ public class HomeActivity extends AppCompatActivity {
             initNotifications(currentUser.getUid());
     }
 
-
-
-
+    private void pushUserToken() {
+        String urlNotificationToken = "users/"+currentUser.getUid();
+        DatabaseReference reference = database.getReference(urlNotificationToken);
+        String key = "notificationToken";
+        String newValue = Utils.token;
+        Map<String, Object> childUpdates = new HashMap<>();
+        childUpdates.put("/"+key, newValue);
+        reference.updateChildren(childUpdates).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Toast.makeText(HomeActivity.this, "token refreshed", Toast.LENGTH_SHORT).show();
+                currentUser.setNotificationToken(Utils.token);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(HomeActivity.this, "Error on updating token", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
 
     public BottomNavigationView getBottomNavigationView() {

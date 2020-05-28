@@ -5,8 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 
 import com.example.ecoleenligne.R;
+import com.example.ecoleenligne.utils.Utils;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 public class MainActivity extends AppCompatActivity {
     private static int SPLASH_TIMEOUT = 3000;
@@ -22,5 +27,18 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         }, SPLASH_TIMEOUT);
+
+        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(MainActivity.this, new OnSuccessListener<InstanceIdResult>() {
+            @Override
+            public void onSuccess(InstanceIdResult instanceIdResult) {
+                String token = instanceIdResult.getToken();
+                Log.e("FCM Token", token);
+                Utils.token = token;
+            }
+        });
     }
+
+
+
+
 }

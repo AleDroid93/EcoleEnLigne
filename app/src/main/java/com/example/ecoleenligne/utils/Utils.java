@@ -1,6 +1,8 @@
 package com.example.ecoleenligne.utils;
 
 public class Utils {
+    public static String token = "";
+
 
     public static String like(String query, String str) {
         str = str.toLowerCase();

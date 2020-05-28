@@ -21,6 +21,9 @@ public class UserInfo implements Parcelable {
     @SerializedName("email")
     @Expose
     private String email;
+    @SerializedName("notificationToken")
+    @Expose
+    private String notificaionToken;
 
     @SerializedName("children")
     @Expose
@@ -57,6 +60,12 @@ public class UserInfo implements Parcelable {
     @Expose
     private boolean hasParent;
 
+
+    @SerializedName("parentUid")
+    @Expose
+    private String parentUid;
+
+
     @SerializedName("age")
     @Expose
     private Integer age;
@@ -73,8 +82,9 @@ public class UserInfo implements Parcelable {
         this.uclass = new Classroom();
         this.gender = "";
         this.hasParent = false;
+        this.parentUid = "";
         this.age = 0;
-
+        this.notificaionToken = "";
         this.offlineLearning = false;
         //this.children = new ArrayList<Child>();
     }
@@ -91,15 +101,19 @@ public class UserInfo implements Parcelable {
         this.gender = gender;
         this.age = age;
         this.hasParent = false;
+        this.parentUid = "";
         this.offlineLearning = false;
+        this.notificaionToken = "";
         //this.children = new ArrayList<Child>();
     }
 
 
     protected UserInfo(Parcel in) {
         email = in.readString();
+        notificaionToken = in.readString();
         children = in.createTypedArrayList(Child.CREATOR);
         password = in.readString();
+
         uid = in.readString();
         name = in.readString();
         role = in.readString();
@@ -109,6 +123,7 @@ public class UserInfo implements Parcelable {
         offlineLearning = tmpOfflineLearning == 0 ? null : tmpOfflineLearning == 1;
         gender = in.readString();
         hasParent = in.readByte() != 0;
+        parentUid = in.readString();
         if (in.readByte() == 0) {
             age = null;
         } else {
@@ -140,6 +155,21 @@ public class UserInfo implements Parcelable {
         this.offlineLearning = offlineLearning;
     }
 
+    public String getParentUid() {
+        return parentUid;
+    }
+
+    public void setParentUid(String parentUid) {
+        this.parentUid = parentUid;
+    }
+
+    public String getNotificaionToken() {
+        return notificaionToken;
+    }
+
+    public void setNotificationToken(String notificaionToken) {
+        this.notificaionToken = notificaionToken;
+    }
 
     public boolean isHasParent() {
         return hasParent;
@@ -284,6 +314,7 @@ public class UserInfo implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(email);
+        dest.writeString(notificaionToken);
         dest.writeTypedList(children);
         dest.writeString(password);
         dest.writeString(uid);
@@ -294,6 +325,7 @@ public class UserInfo implements Parcelable {
         dest.writeByte((byte) (offlineLearning == null ? 0 : offlineLearning ? 1 : 2));
         dest.writeString(gender);
         dest.writeByte((byte) (hasParent ? 1 : 0));
+        dest.writeString(parentUid);
         if (age == null) {
             dest.writeByte((byte) 0);
         } else {

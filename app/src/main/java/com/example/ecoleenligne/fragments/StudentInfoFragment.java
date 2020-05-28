@@ -35,6 +35,7 @@ import com.example.ecoleenligne.models.Classroom;
 import com.example.ecoleenligne.models.Course;
 import com.example.ecoleenligne.models.UserInfo;
 import com.example.ecoleenligne.repositories.UserInfoRepository;
+import com.example.ecoleenligne.utils.Utils;
 import com.example.ecoleenligne.viewmodels.UserInfoViewModel;
 import com.example.ecoleenligne.views.HomeActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -317,8 +318,11 @@ public class StudentInfoFragment extends Fragment implements AdapterView.OnItemS
                                 FirebaseUser fuser = mAuth.getCurrentUser();
                                 user.setUid(fuser.getUid());
                                 user.setHasParent(fromParent);
+                                user.setParentUid(incomingUser.getUid());
                                 user.setRole("Student");
                                 observerCreationUser = getCreationUserObserver();
+                                if(!Utils.token.isEmpty())
+                                    user.setNotificationToken(Utils.token);
                                 model.createUser(user.getUid(), user);
                                 LiveData<NetworkMessage> repo = model.getCreationMessage();
                                 repo.observe(StudentInfoFragment.this, observerCreationUser);

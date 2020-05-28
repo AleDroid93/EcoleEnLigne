@@ -32,6 +32,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.example.ecoleenligne.R;
 import com.example.ecoleenligne.activities.SearchResultsActivity;
+import com.example.ecoleenligne.models.Child;
 import com.example.ecoleenligne.models.Notification;
 import com.example.ecoleenligne.utils.Utils;
 import com.example.ecoleenligne.viewmodels.ExerciseViewModel;
@@ -132,19 +133,22 @@ public class HomeActivity extends AppCompatActivity {
         }
 
          */
-
+        database = FirebaseDatabase.getInstance();
+        mAuth = FirebaseAuth.getInstance();
 
         currentUser = intent.getParcelableExtra("user");
+
+        if(!mAuth.getCurrentUser().isEmailVerified())
+            setParentUid();
+
         String notificationToken = currentUser.getNotificaionToken();
         String appToken = Utils.token;
 
-        mAuth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance();
+
         if(!appToken.isEmpty() && (notificationToken == null || notificationToken.isEmpty())){
             pushDeviceToken();
         }
         bottomNavigationView = findViewById(R.id.bottom_navigation);
-        // TODO - gestire anche i sottocasi (offline mode e tchat)
         if(currentUser.getRole().equalsIgnoreCase("student")){
             bottomNavigationView.getMenu().clear();
             bottomNavigationView.inflateMenu(R.menu.bottom_nav_student);
@@ -175,9 +179,8 @@ public class HomeActivity extends AppCompatActivity {
 
         if(!mAuth.getCurrentUser().isEmailVerified()) {
             sendEmailVerification();
-        }else{
-            // TODO gestire attivazione account child
         }
+
         Bundle bundle = new Bundle();
         bundle.putParcelable("user", currentUser);
         counter = 1;
@@ -196,6 +199,30 @@ public class HomeActivity extends AppCompatActivity {
         exerciseSubmissionViewModel.getMutableExSubmissionMessage().observe(this, exerciseSubmissionObserver);
         if(notificationViewModel.getMutableNotifications().getValue() == null || notificationViewModel.getMutableNotifications().getValue().isEmpty())
             initNotifications(currentUser.getUid());
+    }
+
+    private void setParentUid() {
+
+        for(Child child : currentUser.getChildren()){
+            String studetUid = child.getUid();
+            String urlStudentParentUid = "users/"+studetUid;
+            DatabaseReference reference = database.getReference(urlStudentParentUid);
+            String key = "parentUid";
+            String newValue = currentUser.getUid();
+            Map<String, Object> childUpdates = new HashMap<>();
+            childUpdates.put("/"+key, newValue);
+            reference.updateChildren(childUpdates).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Log.e(TAG, "parentUid refreshed");
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.e(TAG, "parentUid error refreshed");
+                }
+            });
+        }
     }
 
     private void pushDeviceToken() {
@@ -329,7 +356,11 @@ public class HomeActivity extends AppCompatActivity {
                         Log.d("HomeActivity", "notification added");
                         int count = notificationViewModel.getNotificationsToRead();
                         notificationViewModel.setNotificationsToRead(count);
-                        setNotificationBadge(2, String.valueOf(count));
+                        if(currentUser.getRole().equalsIgnoreCase("student")) {
+                            setNotificationBadge(2, String.valueOf(count));
+                        }else{
+                            setNotificationBadge(1, String.valueOf(count));
+                        }
                     } else {
                         Log.d("HomeActivity", "creationMessage: " + msg);
                     }
@@ -349,8 +380,12 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onChanged(ArrayList<Notification> notifications) {
                 int count = notificationViewModel.getNotificationsToRead();
-                setNotificationBadge(2, String.valueOf(count));
+                if(currentUser.getRole().equalsIgnoreCase("student")){
+                    setNotificationBadge(2, String.valueOf(count));
 
+                }else{
+                    setNotificationBadge(1, String.valueOf(count));
+                }
             }
         };
         return observer;
@@ -521,7 +556,12 @@ public class HomeActivity extends AppCompatActivity {
                 Toast.makeText(HomeActivity.this, "Marked as read", Toast.LENGTH_SHORT).show();
                 int toRead = notificationViewModel.getNotificationsToRead()-1;
                 notificationViewModel.setNotificationsToRead(toRead);
-                setNotificationBadge(2, String.valueOf(toRead));
+                if(currentUser.getRole().equalsIgnoreCase("student")) {
+                    setNotificationBadge(2, String.valueOf(toRead));
+                }else{
+                    setNotificationBadge(1, String.valueOf(toRead));
+                }
+
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

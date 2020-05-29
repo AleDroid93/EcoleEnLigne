@@ -93,6 +93,10 @@ public class HomeActivity extends AppCompatActivity {
         return currentUser;
     }
 
+    public void updateToolbarTitle(String title){
+        this.mToolbar.setTitle(title);
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +104,7 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         Intent intent = getIntent();
         mToolbar = findViewById(R.id.home_activity_toolbar);
+        mToolbar.setTitle("EcoleEnLigne");
         mDrawerLayout = findViewById(R.id.drawer_layout);
         mNavigationView = findViewById(R.id.navigation_view);
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -479,6 +484,7 @@ public class HomeActivity extends AppCompatActivity {
 
     public void changeMenu(int menuId){
         Menu menu = mToolbar.getMenu();
+        mToolbar.setTitle("EcoleEnLigne");
         menu.clear();
         getMenuInflater().inflate(menuId, menu);
         if(menuId == R.menu.search_menu){

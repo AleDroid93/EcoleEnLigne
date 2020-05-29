@@ -168,6 +168,8 @@ public class ExerciseFragment extends Fragment {
         exercisePager = view.findViewById(R.id.exercise_pager);
         dotsPager = view.findViewById(R.id.dots_pager);
         HomeActivity parentActivity = (HomeActivity) getActivity();
+        parentActivity.updateToolbarTitle("Exercise: "+currentLessonName);
+
         exerciseEvaluationViewModel = parentActivity.getExerciseSubmissionViewModel();
         observerExercise = parentActivity.getExerciseSubmissionObserver();
         spawnExercise();

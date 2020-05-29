@@ -46,7 +46,7 @@ public class VideosFragment extends Fragment {
         parentActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ArrayList<Video> videos = getArguments().getParcelableArrayList("videos");
         videos = filterNonEmptyVideos(videos);
-
+        parentActivity.updateToolbarTitle("Videos");
         mVideoRecyclerView = view.findViewById(R.id.video_recycler_view);
         mVideoRecyclerView.setLayoutManager(new LinearLayoutManager(parentActivity));
         mVideoRecyclerView.setHasFixedSize(true);

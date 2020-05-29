@@ -64,6 +64,8 @@ public class LessonMenuFragment extends Fragment {
         UserInfo currentUser = ((HomeActivity) getActivity()).getCurrentUser();
         ((HomeActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //view.findViewById(R.id.lesson_menu_layout).setBackgroundColor(bgColor);
+        HomeActivity parentActivity = (HomeActivity) getActivity();
+        parentActivity.updateToolbarTitle(currentLesson.getTitle());
 
         instantiateOnClickListener();
 

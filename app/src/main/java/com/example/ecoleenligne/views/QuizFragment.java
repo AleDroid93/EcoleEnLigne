@@ -157,6 +157,8 @@ public class QuizFragment extends Fragment {
         dotsPager = view.findViewById(R.id.dots_pager);
 
         HomeActivity parentActivity = (HomeActivity) getActivity();
+        parentActivity.updateToolbarTitle("Quiz: "+currentLessonName);
+
         notificationViewModel = parentActivity.getNotificationViewModel();
         observerNotification = parentActivity.getNotificationMessageObserver();
     }

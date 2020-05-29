@@ -95,6 +95,7 @@ public class CourseDetailFragment extends Fragment {
         HomeActivity parentActivity = (HomeActivity) getActivity();
         parentActivity.changeMenu(R.menu.toolbar_menu);
         parentActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        parentActivity.updateToolbarTitle(currentCourse.getName() +" menù");
 
         courseMenuTitle = view.findViewById(R.id.tv_menu_title);
         courseMenuTitle.setText(courseName + ":");

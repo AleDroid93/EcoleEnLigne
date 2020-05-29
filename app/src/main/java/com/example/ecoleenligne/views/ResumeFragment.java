@@ -45,6 +45,8 @@ public class ResumeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         tvResumeTitle = view.findViewById(R.id.tv_resume_title);
+        HomeActivity parentActivity = (HomeActivity) getActivity();
+        parentActivity.updateToolbarTitle("Lesson Resume");
 
         String title =getArguments().getString("resumeTitle");
         tvResumeTitle.setText(getResources().getString(R.string.resume_title, title));

@@ -13,6 +13,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.telephony.SmsMessage;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -174,9 +175,20 @@ public class ClassroomFragment extends Fragment {
                     mClassroomAdapter = new ClassroomAdapter(courses, getOnClickListener());
                     mClassroomAdapter.notifyDataSetChanged();
                     classroomRecyclerView.setAdapter(mClassroomAdapter);
+                }else if(mClassroomAdapter.getItemCount() <= courses.size()){
+                    mClassroomAdapter = new ClassroomAdapter(courses, getOnClickListener());
+                    mClassroomAdapter.notifyDataSetChanged();
+                    classroomRecyclerView.setAdapter(mClassroomAdapter);
                 }
             }
         };
+    }
+
+    public void refreshClassroom(ArrayList<Course> courses){
+        mClassroomAdapter.clear();
+        mClassroomAdapter = new ClassroomAdapter(courses, getOnClickListener());
+        mClassroomAdapter.notifyDataSetChanged();
+        classroomRecyclerView.setAdapter(mClassroomAdapter);
     }
 
 

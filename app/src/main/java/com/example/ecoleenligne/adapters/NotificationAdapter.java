@@ -1,11 +1,16 @@
 package com.example.ecoleenligne.adapters;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -116,12 +121,31 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                 public void onClick(View v) {
                     Log.d("NotificationAdapter", "notification clicked");
                     ImageView toRead = v.findViewById(R.id.dot_to_read);
+                    HomeActivity activity = (HomeActivity) ctx;
                     if(toRead.getVisibility() == View.VISIBLE){
-                        // TODO notify viewModel to mark this notification as read
-                        HomeActivity activity = (HomeActivity) ctx;
                         activity.markNotificationAsRead(notification);
                         toReadImg.setVisibility(View.GONE);
                     }
+                    String dialogTitle = notification.getScope();
+                    dialogTitle = dialogTitle.substring(0,1).toUpperCase() + dialogTitle.substring(1);
+                    AlertDialog dialog = new AlertDialog.Builder(activity)
+                            .setTitle(dialogTitle)
+                            .setMessage(notification.getMessage())
+
+                            // Specifying a listener allows you to take an action before dismissing the dialog.
+                            // The dialog is automatically dismissed when a dialog button is clicked.
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // Continue with delete operation
+                                    dialog.cancel();
+                                }
+                            })
+                            .setIcon(android.R.drawable.ic_dialog_info).create();
+                    dialog.show();
+                    final Button positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                    LinearLayout.LayoutParams positiveButtonLL = (LinearLayout.LayoutParams) positiveButton.getLayoutParams();
+                    positiveButtonLL.gravity = Gravity.CENTER;
+                    positiveButton.setLayoutParams(positiveButtonLL);
                 }
             };
         }

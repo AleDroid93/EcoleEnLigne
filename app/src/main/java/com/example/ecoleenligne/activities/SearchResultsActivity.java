@@ -23,6 +23,7 @@ import android.widget.Toolbar;
 
 import com.example.ecoleenligne.R;
 import com.example.ecoleenligne.adapters.SearchResultsAdapter;
+import com.example.ecoleenligne.fragments.ClassroomFragment;
 import com.example.ecoleenligne.models.Classroom;
 import com.example.ecoleenligne.models.Course;
 import com.example.ecoleenligne.models.UserInfo;
@@ -117,6 +118,7 @@ public class SearchResultsActivity extends AppCompatActivity {
                     Intent intent = new Intent(SearchResultsActivity.this, HomeActivity.class);
                     intent.putExtra("updateUser", currentUser);
                     startActivity(intent);
+
                 } else {
                     Log.e(TAG, "update Message: " + msg);
                     Toast.makeText(SearchResultsActivity.this, "update courses failed. Retry", Toast.LENGTH_SHORT).show();

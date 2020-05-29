@@ -150,11 +150,8 @@ public class SignInFragment extends Fragment implements View.OnClickListener{
         final Observer<UserInfo> observerUserInfo = new Observer<UserInfo>() {
             @Override
             public void onChanged(@Nullable UserInfo userInfo) {
-                //Bundle bundle = new Bundle();
-                //bundle.putParcelable("user",userInfo);
                 Intent intent = new Intent(getActivity(), HomeActivity.class);
                 intent.putExtra("user", userInfo);
-                //navController.navigate(R.id.action_signInFragment_to_homeActivity2, bundle);
                 startActivity(intent);
             }
         };

@@ -22,6 +22,8 @@ import com.example.ecoleenligne.R;
 import com.example.ecoleenligne.models.UserInfo;
 import com.example.ecoleenligne.viewmodels.UserInfoViewModel;
 import com.example.ecoleenligne.views.HomeActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -82,13 +84,19 @@ public class VerifyAccountFragment extends Fragment implements View.OnClickListe
             case R.id.confirm_activate_btn:
                 Log.d("VerifyAccountFragment", "onClick: activation done pressed!");
                 mAuth = FirebaseAuth.getInstance();
-                if(mAuth.getCurrentUser().isEmailVerified()) {
-                    FirebaseUser user = mAuth.getCurrentUser();
-                    model.init(user.getUid());
-                    model.getUserInfoRepository().observe(VerifyAccountFragment.this, observerUserInfo);
-                }else {
-                    Toast.makeText(getActivity(), "Account not activated yet", Toast.LENGTH_SHORT).show();
-                }
+                mAuth.getCurrentUser().reload().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(mAuth.getCurrentUser().isEmailVerified()) {
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            model.init(user.getUid());
+                            model.getUserInfoRepository().observe(VerifyAccountFragment.this, observerUserInfo);
+                        }else {
+                            Toast.makeText(getActivity(), "Account not activated yet", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
                 break;
 
         }

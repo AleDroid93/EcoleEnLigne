@@ -3,6 +3,8 @@ package com.example.ecoleenligne.activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,11 +15,13 @@ import com.example.ecoleenligne.fragments.SignInFragment;
 import java.util.List;
 
 public class RootActivity extends AppCompatActivity {
-
+    private NavController navController;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_root);
+        Intent intent = getIntent();
+
     }
 
     @Override

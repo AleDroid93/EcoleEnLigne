@@ -41,6 +41,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/button_rounded_corners"
         android:backgroundTint="#ff4481"
+        app:cornerRadius="36dp"
         android:padding="16dp"
         android:minWidth="0dp"
         android:minHeight="40dp"

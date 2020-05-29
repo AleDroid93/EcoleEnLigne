@@ -8,7 +8,7 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="16dp"
     android:layout_marginBottom="32dp"
-    android:background="@drawable/search_result_item_box"
+    android:background="@drawable/dashboard_item_box"
     android:paddingTop="32dp"
     android:paddingBottom="32dp"
     android:paddingRight="16dp"

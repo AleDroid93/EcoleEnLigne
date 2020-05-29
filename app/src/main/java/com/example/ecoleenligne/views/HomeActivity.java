@@ -31,8 +31,12 @@ import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.ecoleenligne.R;
+import com.example.ecoleenligne.activities.MainActivity;
+import com.example.ecoleenligne.activities.RootActivity;
 import com.example.ecoleenligne.activities.SearchResultsActivity;
+import com.example.ecoleenligne.fragments.ClassroomFragment;
 import com.example.ecoleenligne.models.Child;
+import com.example.ecoleenligne.models.Classroom;
 import com.example.ecoleenligne.models.Notification;
 import com.example.ecoleenligne.utils.Utils;
 import com.example.ecoleenligne.viewmodels.ExerciseViewModel;
@@ -102,20 +106,15 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
-                    case R.id.account_item:
-                        // TODO - handle account fragment
-                        Log.e(TAG, "Account selected");
-                        menuItem.setChecked(true);
-                        break;
-                    case R.id.settings_item:
-                        // TODO - handle settings fragment
-                        Log.e(TAG, "Settings selected");
-                        menuItem.setChecked(true);
-                        break;
                     case R.id.logout_item:
                         // TODO - handle logout
                         Log.e(TAG, "Logout selected");
                         menuItem.setChecked(true);
+                        mAuth.signOut();
+                        Intent intentLogout = new Intent(HomeActivity.this, RootActivity.class);
+                        intentLogout.putExtra("logout", "logout");
+                        startActivity(intentLogout);
+                        finish();
                         break;
                 }
                 mDrawerLayout.closeDrawers();

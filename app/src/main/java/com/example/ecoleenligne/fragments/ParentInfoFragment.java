@@ -114,9 +114,9 @@ public class ParentInfoFragment extends Fragment implements View.OnClickListener
                    incomingChild.getUserClass().getId(), incomingChild.getGender(), incomingChild.getEmail(), incomingChild.getPassword());
             incomingUser.addChild(child);
             mEdtName = (EditText)view.findViewById(R.id.edtName);
-            mEdtName.setText(incomingUser.getName(), TextView.BufferType.EDITABLE);
+            mEdtName.setText(incomingUser.getName());
             mEdtSurname = (EditText)view.findViewById(R.id.edtSurname);
-            mEdtSurname.setText(incomingUser.getSurname(), TextView.BufferType.EDITABLE);
+            mEdtSurname.setText(incomingUser.getSurname());
             String role = incomingUser.getGender();
             RadioButton btn;
             if(role.equalsIgnoreCase("mother")){
@@ -126,6 +126,7 @@ public class ParentInfoFragment extends Fragment implements View.OnClickListener
             }else{
                 btn = view.findViewById(R.id.opt_other);
             }
+
             btn.toggle();
             switchLearningOffline = view.findViewById(R.id.switchLearning);
             switchLearningOffline.setChecked(incomingUser.getOfflineLearning());

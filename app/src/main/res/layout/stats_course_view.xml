@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/stats_course_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="16dp"
+    android:layout_marginBottom="32dp"
+    android:background="@drawable/search_result_item_box"
+    android:paddingTop="32dp"
+    android:paddingBottom="32dp"
+    android:paddingRight="16dp"
+    android:paddingEnd="16dp"
+    android:paddingLeft="16dp"
+    android:paddingStart="16dp">
+
+    <TextView
+        android:id="@+id/tv_stats_course_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="2"
+        android:paddingLeft="16dp"
+        android:fontFamily="@font/opensans_bold"
+        android:text="@string/course"
+        android:textColor="@color/colorPrimary"
+        android:textSize="22sp"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="16dp" />
+
+    <TextView
+        android:id="@+id/tv_stats_avg_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="16dp"
+        android:layout_weight="2"
+        android:fontFamily="@font/opensans_bold"
+        android:padding="4dp"
+        android:text="@string/average_mark_text"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_stats_course_name" />
+
+    <ImageView
+        android:id="@+id/course_result_icon"
+        style="@style/Widget.AppCompat.ActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="16dp"
+        android:layout_weight="0"
+        android:contentDescription="@string/course_content"
+        android:padding="0dp"
+        android:src="@drawable/ic_avg"
+        app:layout_constraintEnd_toStartOf="@+id/tv_stats_avg_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_stats_course_name" />
+
+    <TextView
+        android:id="@+id/tv_mark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="2"
+        android:fontFamily="@font/opensans_regular"
+        android:text="-/-"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimary"
+        android:textSize="72sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_stats_avg_name" />
+
+    <TextView
+        android:id="@+id/tv_stats_numex_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="16dp"
+        android:layout_weight="2"
+        android:fontFamily="@font/opensans_bold"
+        android:padding="4dp"
+        android:text="@string/exercises_done_text"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_mark" />
+
+    <ImageView
+        android:id="@+id/exercise_number_icon"
+        style="@style/Widget.AppCompat.ActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="16dp"
+        android:layout_weight="0"
+        android:contentDescription="@string/course_content"
+        android:padding="0dp"
+        android:src="@drawable/ic_num_exercises"
+        app:layout_constraintEnd_toStartOf="@+id/tv_stats_numex_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_mark" />
+
+    <TextView
+        android:id="@+id/tv_numEx"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="2"
+        android:fontFamily="@font/opensans_regular"
+        android:text="-"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimary"
+        android:textSize="72sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_stats_numex_name" />
+
+
+    <TextView
+        android:id="@+id/tv_stats_numquiz_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="16dp"
+        android:layout_weight="2"
+        android:fontFamily="@font/opensans_bold"
+        android:padding="4dp"
+        android:text="@string/quizzes_done_text"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_numEx" />
+
+    <ImageView
+        android:id="@+id/quiz_number_icon"
+        style="@style/Widget.AppCompat.ActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="16dp"
+        android:layout_weight="0"
+        android:padding="0dp"
+        android:src="@drawable/ic_done_icon"
+        app:layout_constraintEnd_toStartOf="@+id/tv_stats_numquiz_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_numEx" />
+
+    <TextView
+        android:id="@+id/tv_numQuiz"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="2"
+        android:fontFamily="@font/opensans_regular"
+        android:text="-"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimary"
+        android:textSize="72sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_stats_numquiz_name" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

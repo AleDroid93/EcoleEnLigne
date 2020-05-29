@@ -115,7 +115,12 @@ public class LessonMenuFragment extends Fragment {
                         break;
                     case R.id.quiz_card_view_item:
                         message = "QuizItem Item clicked!";
-                        navController.navigate(R.id.action_lessonMenuFragment_to_quizFragment);
+                        HomeActivity activity2 = (HomeActivity) getActivity();
+                        bundle.putParcelable("user", activity2.getCurrentUser());
+                        bundle.putParcelable("course", currentCourse);
+                        bundle.putParcelable("chapter", currentChapter);
+                        bundle.putParcelable("lesson", currentLesson);
+                        navController.navigate(R.id.action_lessonMenuFragment_to_quizFragment, bundle);
                         break;
                     case R.id.exercise_card_view_item:
                         message = "Exercise Item clicked!";

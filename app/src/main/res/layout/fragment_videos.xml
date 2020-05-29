@@ -3,9 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="#e3f2fd"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".activities.VideoContentActivity">
+    tools:context=".views.HomeActivity">
     <TextView
         android:id="@+id/tv_video_content_title"
         android:layout_width="match_parent"

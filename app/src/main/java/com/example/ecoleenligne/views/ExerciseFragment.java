@@ -98,9 +98,6 @@ public class ExerciseFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        // TODO - ottenere da CourseDetailFragment gli id di class, course,
-        //  chapter e lesson per costruirre l'url di inserimento risposte exercise
-
 
         if(getArguments().getParcelable("user") != null){
             currentUser = getArguments().getParcelable("user");

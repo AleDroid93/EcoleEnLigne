@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer;
 import androidx.viewpager.widget.ViewPager;
 
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,8 +22,12 @@ import android.widget.Toast;
 
 import com.example.ecoleenligne.R;
 import com.example.ecoleenligne.adapters.QuizSliderAdapter;
+import com.example.ecoleenligne.models.Chapter;
+import com.example.ecoleenligne.models.Course;
+import com.example.ecoleenligne.models.Lesson;
 import com.example.ecoleenligne.models.Notification;
 import com.example.ecoleenligne.models.Quiz;
+import com.example.ecoleenligne.models.UserInfo;
 import com.example.ecoleenligne.viewmodels.NotificationViewModel;
 import com.google.android.material.chip.Chip;
 import com.google.firebase.auth.FirebaseAuth;
@@ -42,8 +47,18 @@ import java.util.Locale;
  */
 public class QuizFragment extends Fragment {
 
+    private static final String TAG = "QuizFragment";
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     private FirebaseAuth mAuth;
+
+    private UserInfo currentUser;
+    private String currentCourseName;
+    private String chapterId;
+    private Course currentCourse;
+    private String courseId;
+    private Lesson currentLesson;
+    private String currentLessonName;
+    private String lessonId;
 
     private TextView tvQuestion;
     private Chip choice1;
@@ -82,6 +97,24 @@ public class QuizFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mAuth = FirebaseAuth.getInstance();
+
+        if(getArguments().getParcelable("user") != null){
+            currentUser = getArguments().getParcelable("user");
+        }
+        if(getArguments().getParcelable("course") != null){
+            courseId = ((Course) getArguments().getParcelable("course")).getId();
+            currentCourseName = ((Course) getArguments().getParcelable("course")).getName();
+        }
+        if(getArguments().getParcelable("chapter") != null){
+            chapterId = ((Chapter) getArguments().getParcelable("chapter")).getId();
+        }
+        if(getArguments().getParcelable("lesson") != null){
+            lessonId = ((Lesson) getArguments().getParcelable("lesson")).getId();
+            currentLessonName =  ((Lesson) getArguments().getParcelable("lesson")).getTitle();
+        }
+        String uid = currentUser.getUid();
+        String classroomId= currentUser.getUserClass().getId();
+
         tvQuestion = view.findViewById(R.id.question);
         choice1 = view.findViewById(R.id.chipChoice1);
         choice2 = view.findViewById(R.id.chipChoice2);
@@ -105,12 +138,12 @@ public class QuizFragment extends Fragment {
                     int maxResult = adapter.getCount();
                     Toast.makeText(getActivity(), "Quiz result: " + result + "/" + maxResult, Toast.LENGTH_SHORT).show();
                     String datetime = getCurrentLocalDateTimeStamp();
-                    Notification notification = new Notification("X course Y title","quiz","You've completed a quiz of the lesson x",datetime, true);
+                    Notification notification = new Notification(currentCourseName+" course: "+ currentLessonName,"quiz","You've completed a quiz of the lesson "+currentLessonName,datetime, true);
                     LiveData<String> repo = notificationViewModel.getMutableNotificationMessage();
                     String uid = mAuth.getCurrentUser().getUid();
                     notificationViewModel.putNotification(uid, notification);
                     repo.observe(getActivity(), observerNotification);
-                    //TODO - invocare function javascript per il salvataggio delle statistiche di corso
+                    saveQuizStats();
                 }else {
                     quizPager.setCurrentItem(currentQuestion + 1);
                 }
@@ -126,6 +159,41 @@ public class QuizFragment extends Fragment {
         HomeActivity parentActivity = (HomeActivity) getActivity();
         notificationViewModel = parentActivity.getNotificationViewModel();
         observerNotification = parentActivity.getNotificationMessageObserver();
+    }
+
+    private void saveQuizStats() {
+        String url = "statistics/"+currentUser.getUid()+"/"+courseId;
+        DatabaseReference reference = database.getReference(url);
+        reference.child("numQuizzes").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot!=null && dataSnapshot.getChildren()!=null &&
+                        dataSnapshot.getChildren().iterator().hasNext()){
+                    Log.e(TAG,"quiz stat trovata!");
+                    Integer count = dataSnapshot.getValue(Integer.class);
+                    reference.child("numQuizzes").setValue(++count, new DatabaseReference.CompletionListener() {
+                        @Override
+                        public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
+                            Log.e(TAG, "Scrittura quiz stat completa");
+                        }
+                    });
+                }else {
+                    Log.e(TAG, "Nessuna stats per questo corso");
+
+                    reference.child("numQuizzes").setValue(1, new DatabaseReference.CompletionListener() {
+                        @Override
+                        public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
+                            Log.e(TAG, "Scrittura quiz stat completa");
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e(TAG, "There was an error with the database");
+            }
+        });
     }
 
 

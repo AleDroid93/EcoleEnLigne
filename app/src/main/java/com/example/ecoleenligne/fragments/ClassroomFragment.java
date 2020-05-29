@@ -59,6 +59,9 @@ public class ClassroomFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View fragmentLayout = inflater.inflate(R.layout.fragment_class, container, false);
+        classroomRecyclerView = (RecyclerView) fragmentLayout.findViewById(R.id.classroom_recycler_view);
+        layoutClassroomManager = new GridLayoutManager(getActivity(),2);
+        classroomRecyclerView.setLayoutManager(layoutClassroomManager);
         return fragmentLayout;
 
     }
@@ -77,9 +80,7 @@ public class ClassroomFragment extends Fragment {
         courseObserver = getObserverCourses();
         courseViewModel.getCoursesLiveData().observe(parentActivity, courseObserver);
 
-        classroomRecyclerView = (RecyclerView) view.findViewById(R.id.classroom_recycler_view);
-        layoutClassroomManager = new GridLayoutManager(getActivity(),2);
-        classroomRecyclerView.setLayoutManager(layoutClassroomManager);
+
         View.OnClickListener listener = getOnClickListener();
         /*
         mClassroomAdapter = new ClassroomAdapter(new ArrayList<>(), listener);
@@ -169,7 +170,7 @@ public class ClassroomFragment extends Fragment {
         return new Observer<ArrayList<Course>>() {
             @Override
             public void onChanged(ArrayList<Course> courses) {
-                if(mClassroomAdapter == null || courses.size() > mClassroomAdapter.getItemCount()) {
+                if(mClassroomAdapter == null) {
                     mClassroomAdapter = new ClassroomAdapter(courses, getOnClickListener());
                     mClassroomAdapter.notifyDataSetChanged();
                     classroomRecyclerView.setAdapter(mClassroomAdapter);

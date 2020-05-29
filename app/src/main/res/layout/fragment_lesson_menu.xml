@@ -6,8 +6,7 @@
     android:id="@+id/lesson_menu_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
-    android:background="#E4E3E3"
+    android:background="#e3f2fd"
     tools:context=".views.LessonMenuFragment">
 
     <TextView

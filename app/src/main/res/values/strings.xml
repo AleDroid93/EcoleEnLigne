@@ -105,4 +105,7 @@
     <string name="descTest">Exercize and test yourself through the app quizzes and exercises</string>
     <string name="descMark">Submit your exercises to get a mark from the app teachers</string>
     <string name="search_results">Search results:</string>
+    <string name="average_mark_text">Average mark</string>
+    <string name="exercises_done_text">Exercises done</string>
+    <string name="quizzes_done_text">Quizzes done</string>
 </resources>

@@ -73,13 +73,19 @@ public class DashboardFragment extends Fragment {
         if (currentUser == null) {
             currentUser = ((HomeActivity) getActivity()).getCurrentUser();
         }
+        Bundle b = getArguments();
+        int studentChildIndex = 0;
+        if(b != null){
+            studentChildIndex = b.getInt("studentSwap");
+            Log.e(TAG, "indice figlio da caricare "+ String.valueOf(studentChildIndex));
+        }
         TextView tv = view.findViewById(R.id.tv_dashboard_title);
         if (currentUser != null) {
 
             ArrayList<Child> children = currentUser.getChildren();
             if (!children.isEmpty()) {
-                currentChild = children.get(0);
-                tv.setText(children.get(0).getName() + " dashboard:");
+                currentChild = children.get(studentChildIndex);
+                tv.setText(children.get(studentChildIndex).getName() + " dashboard:");
                 getStudentCourses(currentChild.getUid(), currentChild.getName());
             } else {
                 tv.setText("Your Dashboard:");
@@ -97,34 +103,10 @@ public class DashboardFragment extends Fragment {
 
         mViewModel = ViewModelProviders.of(parentActivity).get(StatsViewModel.class);
         observerStats = getObserverStats();
+
         mViewModel.getStatsLiveData().observe(parentActivity, observerStats);
-
-        /*
-        courseColor = currentUser.findCourseColorByName(courseName);
-        lightColor = currentUser.findCourseLightColorByName(courseName);
-
-        String clId = currentUser.getUclass().getId();
-        String csId = currentUser.findCourseIdByName(courseName);
-
-
-
-        chaptersViewModel = ViewModelProviders.of(parentActivity).get(ChapterViewModel.class);
-        observerChapter = getObserverChapter();
-        chaptersViewModel.getChaptersLiveData().observe(parentActivity, observerChapter);
-
-        if (chaptersViewModel.getChaptersLiveData().getValue() == null) {
-            mChaptersAdapter = new ChaptersAdapter(parentActivity, courseColor, lightColor, currentCourse, new ArrayList<>());
-            mChaptersRecyclerView.setAdapter(mChaptersAdapter);
-            displayChapters(clId, csId);
-        } else if (chaptersViewModel.getChaptersLiveData().getValue().isEmpty()){
-            displayChapters(clId, csId);
-        }else{
-            mChaptersAdapter = new ChaptersAdapter(getActivity(), courseColor, lightColor, currentCourse, chaptersViewModel.getChaptersLiveData().getValue());
-            mChaptersAdapter.notifyDataSetChanged();
-            mChaptersRecyclerView.setAdapter(mChaptersAdapter);
-        }
-
-         */
+        if(b!= null)
+            mViewModel.clear();
     }
 
     private void getStudentCourses(String uid, String studName) {

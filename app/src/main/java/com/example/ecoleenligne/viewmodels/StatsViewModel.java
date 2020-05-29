@@ -20,6 +20,11 @@ public class StatsViewModel extends ViewModel {
         return statsLiveData;
     }
 
+    public void clear(){
+        this.statistics.clear();
+        statsLiveData.setValue(statistics);
+    }
+
 
     public void addStats(Statistics stats){
         int isPresent = -1;

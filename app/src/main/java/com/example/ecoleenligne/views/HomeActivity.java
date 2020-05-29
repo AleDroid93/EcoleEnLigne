@@ -105,6 +105,7 @@ public class HomeActivity extends AppCompatActivity {
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+
                 switch (menuItem.getItemId()) {
                     case R.id.logout_item:
                         // TODO - handle logout
@@ -115,6 +116,13 @@ public class HomeActivity extends AppCompatActivity {
                         intentLogout.putExtra("logout", "logout");
                         startActivity(intentLogout);
                         finish();
+                        break;
+
+                    default:
+                        Log.e(TAG, "hai cliccato "+ menuItem.getTitle().toString());
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("studentSwap", (menuItem.getOrder()-1));
+                        navController.navigate(R.id.action_nav_home_self, bundle);
                         break;
                 }
                 mDrawerLayout.closeDrawers();
@@ -173,7 +181,11 @@ public class HomeActivity extends AppCompatActivity {
 
             NavigationUI.setupWithNavController(bottomNavigationView, navController);
             NavigationUI.setupWithNavController(mToolbar, navController, appBarConfiguration);
+            final Menu menu = mNavigationView.getMenu();
+            for(int i = 0; i <currentUser.getChildren().size(); i++){
+                menu.add(Menu.NONE, 100, (i+1), currentUser.getChildren().get(i).getName());
 
+            }
         }
 
         if(!mAuth.getCurrentUser().isEmailVerified()) {

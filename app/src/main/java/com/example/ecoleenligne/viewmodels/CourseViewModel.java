@@ -24,6 +24,11 @@ public class CourseViewModel extends ViewModel {
     }
 
     public void addCourse(Course course){
+        for(Course c : courses){
+            if(c.getName().equals(course.getName())){
+                return;
+            }
+        }
         courses.add(course);
         coursesLiveData.setValue(courses);
     }

@@ -126,13 +126,12 @@ public class StudentInfoFragment extends Fragment implements AdapterView.OnItemS
 
 
     private void displayClassCourses(String uclass){
-        // TODO get classesIds from the database
         HashMap<String,String> classesIds = new HashMap<>();
         classesIds.put("first", "cl0");
         classesIds.put("second","cl1");
         classesIds.put("third","cl2");
         String courseId = classesIds.get(uclass.toLowerCase());
-        DatabaseReference reference = database.getReference("courses/"+courseId);
+        DatabaseReference reference = database.getReference("courses/"+uclass);
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override

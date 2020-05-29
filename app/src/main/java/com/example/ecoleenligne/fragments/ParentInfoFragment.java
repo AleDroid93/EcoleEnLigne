@@ -203,7 +203,6 @@ public class ParentInfoFragment extends Fragment implements View.OnClickListener
                         incomingUser.setName(name);
                         incomingUser.setSurname(surname);
                     }
-                    // TODO - salvare dati su SQLite e su Firebase DB
                     createNewUser(incomingUser);
                     break;
                 case R.id.back_btn:
@@ -214,6 +213,10 @@ public class ParentInfoFragment extends Fragment implements View.OnClickListener
                         Log.w("ParentInfoFragment", "onClick: Attenzione, FragmentActivity null!");
                     break;
                 case R.id.fab_add_child:
+                    String nameProv= mEdtName.getText().toString();
+                    String surnameProv = mEdtSurname.getText().toString();
+                    incomingUser.setName(nameProv);
+                    incomingUser.setSurname(surnameProv);
                     Bundle bundle = new Bundle();
                     bundle.putBoolean("fromParent", true);
                     bundle.putParcelable("user", incomingUser);
